@@ -50,7 +50,6 @@ public class Character : MonoBehaviour
     public int DefendingStamina;
     public int LanePos;
 
-    private int lanePosAtStart;
     private int staminaPointsMax;
     private int strengthPointsMax;
 
@@ -69,7 +68,6 @@ public class Character : MonoBehaviour
 
         strengthPointsMax = StrengthPoints;
         staminaPointsMax = StaminaPoints;
-        lanePosAtStart = LanePos;
 
         AvailableStamina = StaminaPoints;
 

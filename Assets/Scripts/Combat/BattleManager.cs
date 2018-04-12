@@ -7,6 +7,9 @@ public class BattleManager : MonoBehaviour
 {
     private ClickingScript CS;
 
+    private bool playerTurn;
+
+    //Lane data arrays
     public GameObject[] EnemyLanes = new GameObject[6];
     public GameObject[] PlayerLanes = new GameObject[6];
     public GameObject[] EnemyTankLanes = new GameObject[6];
@@ -25,36 +28,33 @@ public class BattleManager : MonoBehaviour
                                                       new Vector3(-3.5f, -2.5f, 0),
                                                       new Vector3(-3.5f, -4,    0) };
 
+    //Lists
+    private List<Action> ActionList = new List<Action>();
+    private List<Action> MovementList = new List<Action>();
+
     //Selection variables
-    public GameObject SelectedCharacter;
-    public GameObject SelectedEnemyCharacter;
-    public int SelectedLanePos;
-    public bool SelectingMove;
-    public bool SelectingAttack;
-    public Text InfoText;
     public bool ChoosingAttack;
     public string ChoosingSkill;
+    public bool SelectingAttack;
+    public bool SelectingMove;
 
-    //UI variables
-    private GameObject canvas;
+    public GameObject SelectedCharacter;
+    public GameObject SelectedEnemyCharacter;
+
+    public int SelectedLanePos;
+
+    public Text InfoText;
+
+    //UI buttons
     private GameObject attackButton;
     private GameObject defendButton;
     private GameObject endTurnButton;
     private GameObject moveButton;
     private GameObject restButton;
+
+    //UI other
+    private GameObject canvas;
     private GameObject infoTextObject;
-
-    private bool victory;
-
-    private bool actionTurn;
-    private bool enemyTurn;
-    private bool movementTurn;
-    private bool playerTurn;
-
-    private List<Action> ActionList = new List<Action>();
-    private List<Action> MovementList = new List<Action>();
-
-    public static System.Random Rnd = new System.Random();
 
     //Unity functions
     void Start()
@@ -64,74 +64,27 @@ public class BattleManager : MonoBehaviour
     }
     void Update()
     {
-        CombatResult();//Sisältää kalliita tarkastuksia joka frameen, pitää keksiä sopiva paikka tarkistaa combatin lopputulos
-
-        if (CS.UnitClicked && !SelectingAttack && !SelectingMove)
-        {
-            if (!SelectedCharacter.GetComponent<Character>().Attacking && SelectedCharacter.GetComponent<Character>().ActionPoints >= 2 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= 10)
-            {
-                attackButton.SetActive(true);
-            }
-            else
-            {
-                attackButton.SetActive(false);
-            }
-
-            if (!SelectedCharacter.GetComponent<Character>().Defending && SelectedCharacter.GetComponent<Character>().ActionPoints >= 2 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= 10)
-            {
-                defendButton.SetActive(true);
-            }
-            else
-            {
-                defendButton.SetActive(false);
-            }
-
-            if (!SelectedCharacter.GetComponent<Character>().Moving && SelectedCharacter.GetComponent<Character>().ActionPoints >= 1 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= StaminaCostMovement(1, SelectedCharacter))
-            {
-                moveButton.SetActive(true);
-            }
-            else
-            {
-                moveButton.SetActive(false);
-            }
-
-            if (!SelectedCharacter.GetComponent<Character>().Resting && SelectedCharacter.GetComponent<Character>().ActionPoints >= 3)
-            {
-                restButton.SetActive(true);
-            }
-            else
-            {
-                moveButton.SetActive(false);
-            }
-        }
-        else
-        {
-            attackButton.SetActive(false);
-            defendButton.SetActive(false);
-            moveButton.SetActive(false);
-            restButton.SetActive(false);
-        }
-
+        CheckCombatResult();
+        displayActionButtons();
     }
 
     //Character functions, should consider moving these to Character.cs except for ChooseCharacter()
     private void Attack(GameObject attacker, GameObject target, string Skill)
     {
+        float damageOutput;
         float damageToStamina;
         float damageToStrength;
-        float defendedAmount;
-        float defendedTrueAmount;
-        float defendingStaminaOverkill;
+        float defendedBySpeed;
+        float defendedByStamina;
+        float defendedTotalAmount;
         float distanceFactor;
-        float totalDamage;
-        float speedDamageOffset;
         float staminaOverkill;
         float strengthPortion;
 
-        //Damage = (Attacker strenght / 2) * Distance factor * (1 + (Attacker speed / 100))
+        //Attacker damgage output = (Attacker strenght / 2) * Distance factor * (1 + (Attacker speed / 100))
         //Distance factor = 100% if same lanes, 50% if 1 lane away, 25% if 2 or 3 lane away, 12.5% if 4 or 5 lanes away
 
-        //Factoring distance and attacker speed
+        //Distance factor
         if (Mathf.Abs(target.GetComponent<Character>().LanePos - attacker.GetComponent<Character>().LanePos) == 0)
         {
             //Distance between lanes is 0
@@ -153,59 +106,63 @@ public class BattleManager : MonoBehaviour
             distanceFactor = 0.125f;
         }
 
-        totalDamage = ((float)attacker.GetComponent<Character>().StrengthPoints / 2) * distanceFactor * (1 + (attacker.GetComponent<Character>().Speed / 100));
+        //Attacker damage output
+        damageOutput = ((float)attacker.GetComponent<Character>().StrengthPoints / 2) * distanceFactor * (1 + (attacker.GetComponent<Character>().Speed / 100));
 
         //Factoring critical hit
-        //Attack deals double the damage by a random factor, Critical chance = Dexterity / 100
-        if (Rnd.Next(0, 101) < attacker.GetComponent<Character>().Dexterity)
+        //Attack deals double the damage by a random factor, critical chance-% = Dexterity / 100
+        if (Random.Range(0, 100) < attacker.GetComponent<Character>().Dexterity)
         {
-            totalDamage = totalDamage * 2;
+            damageOutput = damageOutput * 2;
 
             Debug.Log("CRITICAL HIT PERFORMED BY: " + attacker);
         }
 
         //Damage is dealt to strenght and stamina points by a random factor affected by attackers dexterity
-        //Damage to strength = Damage * Random number between 0 and 25 * Attacker Dexterity / 100
-        //Rest from damage to stamina
-        strengthPortion = ((float)Rnd.Next(0, 26) + attacker.GetComponent<Character>().Dexterity) / 100;
+        //Damage to strength = Damage output * Random number between 0 and 25 * Attacker Dexterity / 100
+        //Rest from damage output is dealt to stamina
+        strengthPortion = (Random.Range(0, 25) + attacker.GetComponent<Character>().Dexterity) / 100;
         if (strengthPortion > 1)
         {
             strengthPortion = 1;
         }
-        damageToStrength = totalDamage * strengthPortion;
-        damageToStamina = totalDamage * (1 - strengthPortion);
+        damageToStrength = damageOutput * strengthPortion;
+        damageToStamina = damageOutput * (1 - strengthPortion);
 
-
-        //Damage portion is offset if target is defending or resting
-        //Damage to strength is offset by the amount that the character has invested in defending (10 at max) and the invensted points are reduced by strength damage avoided 
+        //Damage portion is offset more if target is defending or resting
         if (target.GetComponent<Character>().Defending)
         {
+            //Damage to strength is offset by the amount that the character has invested in defending (10 at max) and the invensted points are reduced by strength damage avoided 
             //Damage defended = Defending stamina + (random number between 1 and defenders speed)/10
-            defendedAmount = target.GetComponent<Character>().DefendingStamina;
-            speedDamageOffset = (Rnd.Next(1, target.GetComponent<Character>().Speed)) / 10;
-            defendedTrueAmount = defendedAmount + speedDamageOffset;
+            defendedByStamina = target.GetComponent<Character>().DefendingStamina;
+            defendedBySpeed = (Random.Range(1, target.GetComponent<Character>().Speed)) / 10;
+            defendedTotalAmount = defendedByStamina + defendedBySpeed;
 
-            if (defendedAmount >= damageToStrength)
+            //If defending staminapoints remain
+            if (defendedTotalAmount >= damageToStrength)
             {
+                //Remaining defending stamina points are reduced and damage to strength is dealt to stamina points instead
                 target.GetComponent<Character>().DefendingStamina -= (int)(damageToStrength);
+                damageToStamina += damageToStrength - defendedBySpeed;
                 damageToStrength = 0;
-                damageToStamina += damageToStrength;
             }
+            //If defending staminapoints deplete
             else
             {
+                //Defending staminapoints equal 0, only the amount that was remaining is dealt to stamina points instead of strength
+                damageToStrength -= defendedTotalAmount;
+                damageToStamina += defendedTotalAmount - defendedBySpeed;
                 target.GetComponent<Character>().DefendingStamina = 0;
-                defendingStaminaOverkill = -(defendedTrueAmount - damageToStrength);
-                damageToStamina += defendedTrueAmount;
-                damageToStrength = defendingStaminaOverkill;
             }
         }
         else if (target.GetComponent<Character>().Resting)
         {
-            speedDamageOffset = (Rnd.Next(1, target.GetComponent<Character>().Speed)) / 10;
+            defendedBySpeed = (Random.Range(1, target.GetComponent<Character>().Speed)) / 10;
 
-            damageToStrength -= speedDamageOffset;
-            damageToStamina += speedDamageOffset;
+            damageToStrength -= defendedBySpeed;
+            damageToStamina += defendedBySpeed;
         }
+        //Attacking damage can't be negative
         if (damageToStrength < 0) damageToStrength = 0;
         if (damageToStamina < 0) damageToStamina = 0;
 
@@ -213,22 +170,22 @@ public class BattleManager : MonoBehaviour
         if (Skill == "TankSkill")
         {
 
-        target.GetComponent<Character>().StrengthPoints -= (int)damageToStrength * 2;
-        if ((float)target.GetComponent<Character>().StaminaPoints - damageToStamina * 2 >= 0)
-        {
-            target.GetComponent<Character>().StaminaPoints -= (int)damageToStamina * 2;
+            target.GetComponent<Character>().StrengthPoints -= (int)damageToStrength * 2;
+            if ((float)target.GetComponent<Character>().StaminaPoints - damageToStamina * 2 >= 0)
+            {
+                target.GetComponent<Character>().StaminaPoints -= (int)damageToStamina * 2;
 
-            InstantiateDamageNumber((int)damageToStrength * 2, (int)damageToStamina * 2, target.transform);
-        }
-        else
-        {
-            staminaOverkill = -(target.GetComponent<Character>().StaminaPoints - damageToStamina * 2);
+                InstantiateDamageNumber((int)damageToStrength * 2, (int)damageToStamina * 2, target.transform);
+            }
+            else
+            {
+                staminaOverkill = -(target.GetComponent<Character>().StaminaPoints - damageToStamina * 2);
 
-            target.GetComponent<Character>().StaminaPoints = 0;
-            target.GetComponent<Character>().StrengthPoints -= (int)staminaOverkill;
+                target.GetComponent<Character>().StaminaPoints = 0;
+                target.GetComponent<Character>().StrengthPoints -= (int)staminaOverkill;
 
-            InstantiateDamageNumber((int)(damageToStrength * 2 + staminaOverkill), (int)(Mathf.Abs(damageToStamina - staminaOverkill * 2)), target.transform);
-        }
+                InstantiateDamageNumber((int)(damageToStrength * 2 + staminaOverkill), (int)(Mathf.Abs(damageToStamina - staminaOverkill * 2)), target.transform);
+            }
 
             if (target.GetComponent<Character>().LanePos != 0)
             {
@@ -278,7 +235,7 @@ public class BattleManager : MonoBehaviour
             }
 
 
-             
+
         }
         else if (PlayerTankLanes[target.GetComponent<Character>().LanePos] != null) //Tank is Protecting the Target and is hit instead
         {
@@ -353,8 +310,8 @@ public class BattleManager : MonoBehaviour
 
             if (Tanking)
             {
-               Debug.Log("Selected: " + PlayerTankLanes[laneIndex]);
-               SelectedCharacter = PlayerTankLanes[laneIndex];
+                Debug.Log("Selected: " + PlayerTankLanes[laneIndex]);
+                SelectedCharacter = PlayerTankLanes[laneIndex];
             }
 
             else
@@ -465,10 +422,10 @@ public class BattleManager : MonoBehaviour
 
             else//If the character game object needs to switch to a empty index
             {
-                    PlayerLanes[targetIndex] = PlayerLanes[startIndex];
-                    PlayerLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                    PlayerLanes[startIndex] = null;
-                    PlayerLanes[targetIndex].transform.position = PlayerLanePos[targetIndex];
+                PlayerLanes[targetIndex] = PlayerLanes[startIndex];
+                PlayerLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
+                PlayerLanes[startIndex] = null;
+                PlayerLanes[targetIndex].transform.position = PlayerLanePos[targetIndex];
 
             }
         }
@@ -500,17 +457,15 @@ public class BattleManager : MonoBehaviour
     }
 
     //Combat functions
-    private void CombatResult()
+    private void CheckCombatResult()
     {
         if (EnemyLanes[0] == null && EnemyLanes[1] == null && EnemyLanes[2] == null && EnemyLanes[3] == null && EnemyLanes[4] == null && EnemyLanes[5] == null)
         {
-            victory = true;
             Debug.Log("VICTORY!");
             endTurnButton.SetActive(false);
         }
         if (PlayerLanes[0] == null && PlayerLanes[1] == null && PlayerLanes[2] == null && PlayerLanes[3] == null && PlayerLanes[4] == null && PlayerLanes[5] == null)
         {
-            victory = false;
             Debug.Log("DEFEAT!");
             endTurnButton.SetActive(false);
         }
@@ -519,7 +474,7 @@ public class BattleManager : MonoBehaviour
     {
         SelectingAttack = true;
         ChoosingSkill = skill;
-        InfoText.text = "Choose Enemy";
+        InfoText.text = "Choose a target!";
     }
     public void ChooseDefend()
     {
@@ -533,9 +488,8 @@ public class BattleManager : MonoBehaviour
     public void ChooseMove()
     {
         SelectingMove = true;
-        InfoText.text = "Choose Lane";
+        InfoText.text = "Choose a lane!";
     }
-
     public void ChooseRest()
     {
         //Sets character to rest, reduces action points, resets selection
@@ -543,7 +497,6 @@ public class BattleManager : MonoBehaviour
         SelectedCharacter.GetComponent<Character>().ActionPoints -= 3;
         CS.ResetSelection();
     }
-
     public void EndTurn()
     {
         EnemyTurn();
@@ -552,6 +505,7 @@ public class BattleManager : MonoBehaviour
     //List functions
     public void AddAttack()
     {
+        //Creates a new action and adds it to the action list
         Action attack = new Action();
         attack.Agent = SelectedCharacter;
         attack.Target = SelectedEnemyCharacter;
@@ -560,10 +514,23 @@ public class BattleManager : MonoBehaviour
         attack.StaminaCost = StaminaCostAttack();
         attack.Agent.GetComponent<Character>().AvailableStamina -= attack.StaminaCost;
 
-        if (attack.Agent.GetComponent<Character>().StaminaPoints >= attack.StaminaCost)//Could be arbituary, check later date
-        {
-            ActionList.Add(attack);
-        }
+        ActionList.Add(attack);
+
+        CS.ResetSelection();
+    }
+    public void AddMove()
+    {
+        Action move = new Action();
+        move.Agent = SelectedCharacter;
+        move.TargetIndex = SelectedLanePos;
+        move.IsPlayer = true;
+        move.IsTanking = SelectedCharacter.GetComponent<Character>().IsTanking;
+        move.Class = SelectedCharacter.GetComponent<Character>().Class;
+
+        move.StaminaCost = StaminaCostMovement(move.TargetIndex - move.Agent.GetComponent<Character>().LanePos, move.Agent);
+        move.Agent.GetComponent<Character>().AvailableStamina -= move.StaminaCost;
+
+            MovementList.Add(move);
 
         CS.ResetSelection();
     }
@@ -585,13 +552,15 @@ public class BattleManager : MonoBehaviour
             ActionList.Add(attack);
         }
     }
+
     private void AddAttack(GameObject enemyAgent)
     {
+        //Creates a new action and adds it to the action list
         Action attack = new Action();
         attack.Agent = enemyAgent;
         while (attack.Target == null)//Possible crash at game over, if player ends turn after defeat!
         {
-            attack.Target = PlayerLanes[Rnd.Next(6)];
+            attack.Target = PlayerLanes[Random.Range(0, 5)];
         }
 
         attack.ActionSpeed = enemyAgent.GetComponent<Character>().Speed;
@@ -603,30 +572,11 @@ public class BattleManager : MonoBehaviour
             ActionList.Add(attack);
         }
     }
-    public void AddMove()
-    {
-        Action move = new Action();
-        move.Agent = SelectedCharacter;
-        move.TargetIndex = SelectedLanePos;
-        move.IsPlayer = true;
-        move.IsTanking = SelectedCharacter.GetComponent<Character>().IsTanking;
-        move.Class = SelectedCharacter.GetComponent<Character>().Class;
-
-        move.StaminaCost = StaminaCostMovement(move.TargetIndex - move.Agent.GetComponent<Character>().LanePos, move.Agent);
-        move.Agent.GetComponent<Character>().AvailableStamina -= move.StaminaCost;
-
-        if (move.Agent.GetComponent<Character>().StaminaPoints >= move.StaminaCost)//Could be arbituary, check later date
-        {
-            MovementList.Add(move);
-        }
-
-        CS.ResetSelection();
-    }
     private void AddMove(GameObject enemyAgent)
     {
         Action move = new Action();
         move.Agent = enemyAgent;
-        move.TargetIndex = Rnd.Next(6);
+        move.TargetIndex = Random.Range(0, 5);
 
         move.StaminaCost = StaminaCostMovement(move.TargetIndex - move.Agent.GetComponent<Character>().LanePos, move.Agent);
         move.Agent.GetComponent<Character>().AvailableStamina -= move.StaminaCost;
@@ -661,10 +611,11 @@ public class BattleManager : MonoBehaviour
         infoTextObject = GameObject.Find("InfoText");
         InfoText = infoTextObject.GetComponent<Text>();
         InfoText.text = "";
-        attackButton.SetActive(false);//Settings buttons inactive at start in code seems arbitrary
+        attackButton.SetActive(false);//Setting buttons inactive at start in code seems arbitrary
         defendButton.SetActive(false);
         moveButton.SetActive(false);
         restButton.SetActive(false);
+        playerTurn = true;
 
         //Initialize enemy lanes
         for (int i = 0; i < EnemyLanes.Length; ++i)
@@ -741,18 +692,12 @@ public class BattleManager : MonoBehaviour
         InitializeRound();
         CS.ResetSelection();
         playerTurn = true;
-        enemyTurn = false;
-        movementTurn = false;
-        actionTurn = false;
 
         //Pelaaja saa kotrollit, valitsee toiminnot ja päättää vuoron.
     }
     private void EnemyTurn()
     {
         playerTurn = false;
-        enemyTurn = true;
-        movementTurn = false;
-        actionTurn = false;
 
         for (int i = 0; i < EnemyLanes.Length; ++i)
         {
@@ -762,7 +707,6 @@ public class BattleManager : MonoBehaviour
                 AddMove(EnemyLanes[i]);
                 AddAttack(EnemyLanes[i]);
             }
-            else continue;
         }
 
         MovementTurn();
@@ -770,9 +714,6 @@ public class BattleManager : MonoBehaviour
     private void MovementTurn()
     {
         playerTurn = false;
-        enemyTurn = false;
-        movementTurn = true;
-        actionTurn = false;
 
         //Suorittaa move listin toiminnot
         for (int i = 0; i < MovementList.Count; ++i)
@@ -790,13 +731,10 @@ public class BattleManager : MonoBehaviour
     }
     private void ActionTurn()
     {
-        playerTurn = true;
-        enemyTurn = false;
-        movementTurn = false;
-        actionTurn = false;
+        playerTurn = false;
 
         //Sorts action list accronding to the action speed and executes the action list's actions
-        ActionList.Sort((x, y) => -1 * x.ActionSpeed.CompareTo(y.ActionSpeed));//Sorts actions int DESC order by action's speed, which is equal to the action's agent's chracter speed
+        ActionList.Sort((x, y) => -1 * x.ActionSpeed.CompareTo(y.ActionSpeed));//Sorts actions int DESC order by action's speed
 
         for (int i = 0; i < ActionList.Count; ++i)
         {
@@ -813,34 +751,99 @@ public class BattleManager : MonoBehaviour
         PlayerTurn();
     }
 
-    //Debug
-    public void InstantiateDamageNumber(int dmgToStr, int dmgToSta, Transform location)
+    //UI functions
+    private void displayActionButtons()
     {
-        DamageNumber DN;
-        Text T;
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(location.position);
-
-        DN = Resources.Load<DamageNumber>("Prefabs/Combat/DamageNumber");
-        DamageNumber instance = Instantiate(DN);
-        instance.transform.SetParent(canvas.transform, false);
-        instance.transform.position = screenPosition;
-
-        T = DN.GetComponent<Text>();
-
-        if(dmgToStr < 1)
+        //Enabling and disabling character action buttons
+        //Player character is clicked
+        if (CS.CharacterClicked && !SelectingAttack && !SelectingMove)
         {
-            T.text = "-" + dmgToSta;
-            T.color = Color.yellow;
-        }
-        else if (dmgToSta < 1)
-        {
-            T.text = "-" + dmgToStr;
-            T.color = Color.red;
+            //Display attack button
+            //True if character is not already attacking, has enough action points and has enough unused stamina points
+            if (!SelectedCharacter.GetComponent<Character>().Attacking && SelectedCharacter.GetComponent<Character>().ActionPoints >= 2 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= 10)
+            {
+                attackButton.SetActive(true);
+            }
+            else
+            {
+                attackButton.SetActive(false);
+            }
+
+            //Display defend button
+            //True if character is not already defending, has enough action points and has enough unsued stamina points
+            if (!SelectedCharacter.GetComponent<Character>().Defending && SelectedCharacter.GetComponent<Character>().ActionPoints >= 2 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= 10)
+            {
+                defendButton.SetActive(true);
+            }
+            else
+            {
+                defendButton.SetActive(false);
+            }
+
+            //Display move button
+            //True if character is not already moving, has enough action points and has enough unused stamina to atleast move a single lane factoring in the characters speed stat
+            if (!SelectedCharacter.GetComponent<Character>().Moving && SelectedCharacter.GetComponent<Character>().ActionPoints >= 1 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= StaminaCostMovement(1, SelectedCharacter))
+            {
+                moveButton.SetActive(true);
+            }
+            else
+            {
+                moveButton.SetActive(false);
+            }
+
+            //Display rest button
+            //True if character is not already resting and has enough action points
+            if (!SelectedCharacter.GetComponent<Character>().Resting && SelectedCharacter.GetComponent<Character>().ActionPoints >= 3)
+            {
+                restButton.SetActive(true);
+            }
+            else
+            {
+                moveButton.SetActive(false);
+            }
         }
         else
         {
-            T.text = "-" + dmgToStr + "(" + dmgToSta + ")";
-            T.color = new Vector4(1, 0.5f, 0, 1);
+            attackButton.SetActive(false);
+            defendButton.SetActive(false);
+            moveButton.SetActive(false);
+            restButton.SetActive(false);
+        }
+    }
+
+    //Debug
+    public void InstantiateDamageNumber(int dmgToStr, int dmgToSta, Transform targetLocation)
+    {
+        DamageNumber dN;
+        DamageNumber dNInstance;
+
+        Text t;
+
+        Vector2 screenPosition;
+
+        dN = Resources.Load<DamageNumber>("Prefabs/Combat/DamageNumber");
+        screenPosition = Camera.main.WorldToScreenPoint(targetLocation.position);
+
+        dNInstance = Instantiate(dN);
+        dNInstance.transform.SetParent(canvas.transform, false);
+        dNInstance.transform.position = screenPosition;
+
+        t = dNInstance.GetComponent<Text>();
+
+        if (dmgToStr < 1)
+        {
+            t.text = "-" + dmgToSta;
+            t.color = Color.yellow;
+        }
+        else if (dmgToSta < 1)
+        {
+            t.text = "-" + dmgToStr;
+            t.color = Color.red;
+        }
+        else
+        {
+            t.text = "-" + dmgToStr + "(" + dmgToSta + ")";
+            t.color = new Vector4(1, 0.5f, 0, 1);
         }
     }
     public void ResetTurn()
