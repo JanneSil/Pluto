@@ -15,13 +15,13 @@ public class BattleManager : MonoBehaviour
     public GameObject[] EnemyTankLanes = new GameObject[6];
     public GameObject[] PlayerTankLanes = new GameObject[6];
 
-    private Vector3[] EnemyLanePos = new Vector3[] { new Vector3(3.5f,  3.5f, 0),
+    public Vector3[] EnemyLanePos = new Vector3[] { new Vector3(3.5f,  3.5f, 0),
                                                      new Vector3(3.5f,  2,    0),
                                                      new Vector3(3.5f,  0.5f, 0),
                                                      new Vector3(3.5f, -1,    0),
                                                      new Vector3(3.5f, -2.5f, 0),
                                                      new Vector3(3.5f, -4,    0) };
-    private Vector3[] PlayerLanePos = new Vector3[] { new Vector3(-3.5f,  3.5f, 0),
+    public Vector3[] PlayerLanePos = new Vector3[] { new Vector3(-3.5f,  3.5f, 0),
                                                       new Vector3(-3.5f,  2,    0),
                                                       new Vector3(-3.5f,  0.5f, 0),
                                                       new Vector3(-3.5f, -1,    0),
@@ -69,240 +69,6 @@ public class BattleManager : MonoBehaviour
     }
 
     //Character functions, should consider moving these to Character.cs except for ChooseCharacter()
-    private void Attack(GameObject attacker, GameObject target, string Skill)
-    {
-        float damageOutput;
-        float damageToStamina;
-        float damageToStrength;
-        float defendedBySpeed;
-        float defendedByStamina;
-        float defendedTotalAmount;
-        float distanceFactor;
-        float staminaOverkill;
-        float strengthPortion;
-
-        //Attacker damgage output = (Attacker strenght / 2) * Distance factor * (1 + (Attacker speed / 100))
-        //Distance factor = 100% if same lanes, 50% if 1 lane away, 25% if 2 or 3 lane away, 12.5% if 4 or 5 lanes away
-
-        //Distance factor
-        if (Mathf.Abs(target.GetComponent<Character>().LanePos - attacker.GetComponent<Character>().LanePos) == 0)
-        {
-            //Distance between lanes is 0
-            distanceFactor = 1;
-        }
-        else if (Mathf.Abs(target.GetComponent<Character>().LanePos - attacker.GetComponent<Character>().LanePos) == 1)
-        {
-            //Distance between lanes is 1
-            distanceFactor = 0.5f;
-        }
-        else if (Mathf.Abs(target.GetComponent<Character>().LanePos - attacker.GetComponent<Character>().LanePos) == 2 || Mathf.Abs(target.GetComponent<Character>().LanePos - attacker.GetComponent<Character>().LanePos) == 3)
-        {
-            //Distance between lanes is 2 or 3
-            distanceFactor = 0.25f;
-        }
-        else
-        {
-            //Distance between lanes is 4 or larger
-            distanceFactor = 0.125f;
-        }
-
-        //Attacker damage output
-        damageOutput = ((float)attacker.GetComponent<Character>().StrengthPoints / 2) * distanceFactor * (1 + (attacker.GetComponent<Character>().Speed / 100));
-
-        //Factoring critical hit
-        //Attack deals double the damage by a random factor, critical chance-% = Dexterity / 100
-        if (Random.Range(0, 100) < attacker.GetComponent<Character>().Dexterity)
-        {
-            damageOutput = damageOutput * 2;
-
-            Debug.Log("CRITICAL HIT PERFORMED BY: " + attacker);
-        }
-
-        //Damage is dealt to strenght and stamina points by a random factor affected by attackers dexterity
-        //Damage to strength = Damage output * Random number between 0 and 25 * Attacker Dexterity / 100
-        //Rest from damage output is dealt to stamina
-        strengthPortion = (Random.Range(0, 25) + attacker.GetComponent<Character>().Dexterity) / 100;
-        if (strengthPortion > 1)
-        {
-            strengthPortion = 1;
-        }
-        damageToStrength = damageOutput * strengthPortion;
-        damageToStamina = damageOutput * (1 - strengthPortion);
-
-        //Damage portion is offset more if target is defending or resting
-        if (target.GetComponent<Character>().Defending)
-        {
-            //Damage to strength is offset by the amount that the character has invested in defending (10 at max) and the invensted points are reduced by strength damage avoided 
-            //Damage defended = Defending stamina + (random number between 1 and defenders speed)/10
-            defendedByStamina = target.GetComponent<Character>().DefendingStamina;
-            defendedBySpeed = (Random.Range(1, target.GetComponent<Character>().Speed)) / 10;
-            defendedTotalAmount = defendedByStamina + defendedBySpeed;
-
-            //If defending staminapoints remain
-            if (defendedTotalAmount >= damageToStrength)
-            {
-                //Remaining defending stamina points are reduced and damage to strength is dealt to stamina points instead
-                target.GetComponent<Character>().DefendingStamina -= (int)(damageToStrength);
-                damageToStamina += damageToStrength - defendedBySpeed;
-                damageToStrength = 0;
-            }
-            //If defending staminapoints deplete
-            else
-            {
-                //Defending staminapoints equal 0, only the amount that was remaining is dealt to stamina points instead of strength
-                damageToStrength -= defendedTotalAmount;
-                damageToStamina += defendedTotalAmount - defendedBySpeed;
-                target.GetComponent<Character>().DefendingStamina = 0;
-            }
-        }
-        else if (target.GetComponent<Character>().Resting)
-        {
-            defendedBySpeed = (Random.Range(1, target.GetComponent<Character>().Speed)) / 10;
-
-            damageToStrength -= defendedBySpeed;
-            damageToStamina += defendedBySpeed;
-        }
-        //Attacking damage can't be negative
-        if (damageToStrength < 0) damageToStrength = 0;
-        if (damageToStamina < 0) damageToStamina = 0;
-
-        //Damage dealt accordingly, if stamina goes negative remaining damage is dealt to strength instead, also instatiates damgage number
-        if (Skill == "TankSkill")
-        {
-
-            target.GetComponent<Character>().StrengthPoints -= (int)damageToStrength * 2;
-            if ((float)target.GetComponent<Character>().StaminaPoints - damageToStamina * 2 >= 0)
-            {
-                target.GetComponent<Character>().StaminaPoints -= (int)damageToStamina * 2;
-
-                InstantiateDamageNumber((int)damageToStrength * 2, (int)damageToStamina * 2, target.transform);
-            }
-            else
-            {
-                staminaOverkill = -(target.GetComponent<Character>().StaminaPoints - damageToStamina * 2);
-
-                target.GetComponent<Character>().StaminaPoints = 0;
-                target.GetComponent<Character>().StrengthPoints -= (int)staminaOverkill;
-
-                InstantiateDamageNumber((int)(damageToStrength * 2 + staminaOverkill), (int)(Mathf.Abs(damageToStamina - staminaOverkill * 2)), target.transform);
-            }
-
-            if (target.GetComponent<Character>().LanePos != 0)
-            {
-                if (EnemyLanes[target.GetComponent<Character>().LanePos - 1] != null)
-                {
-                    target.GetComponent<Character>().StrengthPoints -= (int)damageToStrength;
-                    if ((float)EnemyLanes[target.GetComponent<Character>().LanePos - 1].GetComponent<Character>().StaminaPoints - damageToStamina >= 0)
-                    {
-                        EnemyLanes[target.GetComponent<Character>().LanePos - 1].GetComponent<Character>().StaminaPoints -= (int)damageToStamina;
-
-                        InstantiateDamageNumber((int)damageToStrength, (int)damageToStamina, EnemyLanes[target.GetComponent<Character>().LanePos - 1].GetComponent<Character>().transform);
-                    }
-                    else
-                    {
-                        staminaOverkill = -(EnemyLanes[target.GetComponent<Character>().LanePos - 1].GetComponent<Character>().StaminaPoints - damageToStamina);
-
-                        EnemyLanes[target.GetComponent<Character>().LanePos - 1].GetComponent<Character>().StaminaPoints = 0;
-                        EnemyLanes[target.GetComponent<Character>().LanePos - 1].GetComponent<Character>().StrengthPoints -= (int)staminaOverkill;
-
-                        InstantiateDamageNumber((int)(damageToStrength + staminaOverkill), (int)(Mathf.Abs(damageToStamina - staminaOverkill)), EnemyLanes[target.GetComponent<Character>().LanePos - 1].transform);
-                    }
-
-                }
-            }
-
-            if (target.GetComponent<Character>().LanePos != 5)
-            {
-                if (EnemyLanes[target.GetComponent<Character>().LanePos + 1] != null)
-                {
-                    EnemyLanes[target.GetComponent<Character>().LanePos + 1].GetComponent<Character>().StrengthPoints -= (int)damageToStrength;
-                    if ((float)EnemyLanes[target.GetComponent<Character>().LanePos + 1].GetComponent<Character>().StaminaPoints - damageToStamina >= 0)
-                    {
-                        EnemyLanes[target.GetComponent<Character>().LanePos + 1].GetComponent<Character>().StaminaPoints -= (int)damageToStamina;
-
-                        InstantiateDamageNumber((int)damageToStrength, (int)damageToStamina, EnemyLanes[target.GetComponent<Character>().LanePos + 1].transform);
-                    }
-                    else
-                    {
-                        staminaOverkill = -(EnemyLanes[target.GetComponent<Character>().LanePos + 1].GetComponent<Character>().StaminaPoints - damageToStamina);
-
-                        EnemyLanes[target.GetComponent<Character>().LanePos + 1].GetComponent<Character>().StaminaPoints = 0;
-                        EnemyLanes[target.GetComponent<Character>().LanePos + 1].GetComponent<Character>().StrengthPoints -= (int)staminaOverkill;
-
-                        InstantiateDamageNumber((int)(damageToStrength + staminaOverkill), (int)(Mathf.Abs(damageToStamina - staminaOverkill)), EnemyLanes[target.GetComponent<Character>().LanePos + 1].transform);
-                    }
-                }
-            }
-
-
-
-        }
-        else if (PlayerTankLanes[target.GetComponent<Character>().LanePos] != null) //Tank is Protecting the Target and is hit instead
-        {
-            PlayerTankLanes[target.GetComponent<Character>().LanePos].GetComponent<Character>().StrengthPoints -= (int)damageToStrength;
-
-            if ((float)PlayerTankLanes[target.GetComponent<Character>().LanePos].GetComponent<Character>().StaminaPoints - damageToStamina >= 0)
-            {
-                PlayerTankLanes[target.GetComponent<Character>().LanePos].GetComponent<Character>().StaminaPoints -= (int)damageToStamina;
-
-                InstantiateDamageNumber((int)damageToStrength, (int)damageToStamina, PlayerTankLanes[target.GetComponent<Character>().LanePos].transform);
-            }
-            else
-            {
-                staminaOverkill = -(PlayerTankLanes[target.GetComponent<Character>().LanePos].GetComponent<Character>().StaminaPoints - damageToStamina);
-
-                PlayerTankLanes[target.GetComponent<Character>().LanePos].GetComponent<Character>().StaminaPoints = 0;
-                PlayerTankLanes[target.GetComponent<Character>().LanePos].GetComponent<Character>().StrengthPoints -= (int)staminaOverkill;
-
-                InstantiateDamageNumber((int)(damageToStrength + staminaOverkill), (int)(Mathf.Abs(damageToStamina - staminaOverkill)), PlayerTankLanes[target.GetComponent<Character>().LanePos].transform);
-            }
-
-            return;
-        }
-        else if (attacker.GetComponent<Character>().IsTanking) //The attacker is Tanking so damage dealt is halved
-        {
-            target.GetComponent<Character>().StrengthPoints -= (int)(damageToStrength / 2);
-
-            if ((float)target.GetComponent<Character>().StaminaPoints - (damageToStamina / 2) >= 0)
-            {
-                target.GetComponent<Character>().StaminaPoints -= (int)damageToStamina / 2;
-
-                InstantiateDamageNumber((int)(damageToStrength / 2), (int)(damageToStamina / 2), target.transform);
-            }
-            else
-            {
-                staminaOverkill = -(target.GetComponent<Character>().StaminaPoints - damageToStamina);
-
-                target.GetComponent<Character>().StaminaPoints = 0;
-                target.GetComponent<Character>().StrengthPoints -= (int)staminaOverkill;
-
-                InstantiateDamageNumber((int)(damageToStrength + staminaOverkill), (int)(Mathf.Abs(damageToStamina - staminaOverkill)), target.transform);
-            }
-            return;
-        }
-        else
-        {
-            //Normal Damage
-            target.GetComponent<Character>().StrengthPoints -= (int)damageToStrength;
-
-            if ((float)target.GetComponent<Character>().StaminaPoints - damageToStamina >= 0)
-            {
-                target.GetComponent<Character>().StaminaPoints -= (int)damageToStamina;
-
-                InstantiateDamageNumber((int)damageToStrength, (int)damageToStamina, target.transform);
-            }
-            else
-            {
-                staminaOverkill = -(target.GetComponent<Character>().StaminaPoints - damageToStamina);
-
-                target.GetComponent<Character>().StaminaPoints = 0;
-                target.GetComponent<Character>().StrengthPoints -= (int)staminaOverkill;
-
-                InstantiateDamageNumber((int)(damageToStrength + staminaOverkill), (int)(Mathf.Abs(damageToStamina - staminaOverkill)), target.transform);
-            }
-        }
-
-    }
     public void ChooseCharacter(int laneIndex, bool player, bool Tanking)
     {
         if (player)
@@ -327,133 +93,6 @@ public class BattleManager : MonoBehaviour
             SelectedEnemyCharacter = EnemyLanes[laneIndex];
         }
 
-    }
-    public void SwitchPlaces(int startIndex, int targetIndex, bool isPlayer, bool Tanking, string Class)
-    {
-        //Switches two character game objects index and position.
-        if (isPlayer)
-        {
-            if (Class == "Tank" && Tanking) //Moving in the tanking lanes
-            {
-                if (PlayerLanes[targetIndex] != null && PlayerTankLanes[targetIndex] == null)
-                {
-                    PlayerTankLanes[targetIndex] = PlayerTankLanes[startIndex];
-                    PlayerTankLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                    PlayerTankLanes[targetIndex].GetComponent<Character>().IsTanking = true;
-                    PlayerTankLanes[startIndex] = null;
-
-                    PlayerTankLanes[targetIndex].transform.position = PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
-                }
-                else if (PlayerLanes[targetIndex] != null && PlayerTankLanes[targetIndex] != null)
-                {
-                    GameObject startGO = PlayerTankLanes[startIndex];
-                    GameObject targetGO = PlayerTankLanes[targetIndex];
-
-                    PlayerTankLanes[targetIndex] = startGO;
-                    PlayerTankLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                    PlayerTankLanes[startIndex] = targetGO;
-                    PlayerTankLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
-
-
-                    PlayerTankLanes[startIndex].transform.position = PlayerLanePos[startIndex] + new Vector3(1.5f, 0, 0);
-                    PlayerTankLanes[targetIndex].transform.position = PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
-                }
-                else
-                {
-                    PlayerLanes[targetIndex] = PlayerTankLanes[startIndex];
-                    PlayerLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                    PlayerLanes[targetIndex].GetComponent<Character>().IsTanking = false;
-                    PlayerTankLanes[startIndex] = null;
-
-                    PlayerLanes[targetIndex].transform.position = PlayerLanePos[targetIndex];
-                }
-            }
-            else if (Class == "Tank" && !Tanking)
-            {
-
-                if (PlayerLanes[targetIndex] != null && PlayerTankLanes[targetIndex] == null)
-                {
-                    PlayerTankLanes[targetIndex] = PlayerLanes[startIndex];
-                    PlayerTankLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                    PlayerTankLanes[targetIndex].GetComponent<Character>().IsTanking = true;
-                    PlayerLanes[startIndex] = null;
-
-                    PlayerTankLanes[targetIndex].transform.position = PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
-                }
-                else if (PlayerLanes[targetIndex] != null && PlayerTankLanes[targetIndex] != null)
-                {
-                    GameObject startGO = PlayerLanes[startIndex];
-                    GameObject targetGO = PlayerTankLanes[targetIndex];
-
-                    PlayerTankLanes[targetIndex] = startGO;
-                    PlayerTankLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                    PlayerLanes[startIndex] = targetGO;
-                    PlayerLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
-
-
-                    PlayerLanes[startIndex].transform.position = PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
-                    PlayerTankLanes[targetIndex].transform.position = PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
-                }
-                else
-                {
-                    PlayerLanes[targetIndex] = PlayerLanes[startIndex];
-                    PlayerLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                    PlayerLanes[targetIndex].GetComponent<Character>().IsTanking = false;
-                    PlayerLanes[startIndex] = null;
-
-                    PlayerLanes[targetIndex].transform.position = PlayerLanePos[targetIndex];
-                }
-
-            }
-            else if (PlayerLanes[targetIndex] != null)//If two character game objects need to switch places
-            {
-                GameObject startGO = PlayerLanes[startIndex];
-                GameObject targetGO = PlayerLanes[targetIndex];
-
-                PlayerLanes[targetIndex] = startGO;
-                PlayerLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                PlayerLanes[startIndex] = targetGO;
-                PlayerLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
-
-
-                PlayerLanes[startIndex].transform.position = PlayerLanePos[startIndex];
-                PlayerLanes[targetIndex].transform.position = PlayerLanePos[targetIndex];
-            }
-
-            else//If the character game object needs to switch to a empty index
-            {
-                PlayerLanes[targetIndex] = PlayerLanes[startIndex];
-                PlayerLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                PlayerLanes[startIndex] = null;
-                PlayerLanes[targetIndex].transform.position = PlayerLanePos[targetIndex];
-
-            }
-        }
-        else
-        {
-            if (EnemyLanes[targetIndex] != null)
-            {
-                GameObject startGO = EnemyLanes[startIndex];
-                GameObject targetGO = EnemyLanes[targetIndex];
-
-                EnemyLanes[targetIndex] = startGO;
-                EnemyLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                EnemyLanes[startIndex] = targetGO;
-                EnemyLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
-
-
-                EnemyLanes[startIndex].transform.position = EnemyLanePos[startIndex];
-                EnemyLanes[targetIndex].transform.position = EnemyLanePos[targetIndex];
-            }
-            else
-            {
-                EnemyLanes[targetIndex] = EnemyLanes[startIndex];
-                EnemyLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
-                EnemyLanes[startIndex] = null;
-
-                EnemyLanes[targetIndex].transform.position = EnemyLanePos[targetIndex];
-            }
-        }
     }
 
     //Combat functions
@@ -520,6 +159,10 @@ public class BattleManager : MonoBehaviour
     }
     public void AddMove()
     {
+        if (SelectedCharacter.GetComponent<Character>().LanePos == SelectedLanePos)
+        {
+            return;
+        }
         Action move = new Action();
         move.Agent = SelectedCharacter;
         move.TargetIndex = SelectedLanePos;
@@ -598,6 +241,68 @@ public class BattleManager : MonoBehaviour
         return 5 * Mathf.Abs(numberOfLanesMoved) * (1 - (agent.GetComponent<Character>().Speed / 100));
     }
 
+    //Check lane to remove Tank after depleting all stamina
+    private void CheckLane(int number)
+    {
+        if (PlayerLanes[number].GetComponent<Character>().LanePos == 5)
+        {
+            for (int i = 1; i < 5; ++i)
+            {
+                if (PlayerLanes[number - i] == null)
+                {
+                    PlayerLanes[number - i] = PlayerTankLanes[number];
+                    PlayerLanes[number - i].GetComponent<Character>().LanePos = number - i;
+                    PlayerTankLanes[number] = null;
+                    PlayerLanes[number - i].GetComponent<Character>().IsTanking = false;
+                    PlayerLanes[number - i].transform.position = PlayerLanePos[number - i];
+                    return;
+                }
+            }
+
+        }
+        else if (PlayerLanes[number].GetComponent<Character>().LanePos == 0)
+        {
+            for (int i = 1; i < 5; ++i)
+            {
+                if (PlayerLanes[number + i] == null)
+                {
+                    PlayerLanes[number + i] = PlayerTankLanes[number];
+                    PlayerLanes[number + i].GetComponent<Character>().LanePos = number + i;
+                    PlayerTankLanes[number] = null;
+                    PlayerLanes[number + i].GetComponent<Character>().IsTanking = false;
+                    PlayerLanes[number + i].transform.position = PlayerLanePos[number + i];
+                    return;
+                }
+            }
+
+        }
+
+        else if (PlayerLanes[number].GetComponent<Character>().LanePos != 5 && PlayerLanes[number].GetComponent<Character>().LanePos != 0)
+        {
+            for (int i = 1; i < 5; ++i)
+            {
+                if (PlayerLanes[number + i] == null)
+                {
+                    PlayerLanes[number + i] = PlayerTankLanes[number];
+                    PlayerLanes[number + i].GetComponent<Character>().LanePos = number + i;
+                    PlayerTankLanes[number] = null;
+                    PlayerLanes[number + i].GetComponent<Character>().IsTanking = false;
+                    PlayerLanes[number + i].transform.position = PlayerLanePos[number + i];
+                    return;
+                }
+                else if (PlayerLanes[number - i] == null)
+                {
+                    PlayerLanes[number - i] = PlayerTankLanes[number];
+                    PlayerLanes[number - i].GetComponent<Character>().LanePos = number - i;
+                    PlayerTankLanes[number] = null;
+                    PlayerLanes[number - i].GetComponent<Character>().IsTanking = false;
+                    PlayerLanes[number - i].transform.position = PlayerLanePos[number - i];
+                    return;
+                }
+            }
+
+        }
+    }
     //Turns functions
     private void InitializeCombat()
     {
@@ -665,6 +370,46 @@ public class BattleManager : MonoBehaviour
                 PlayerLanes[i].GetComponent<Character>().AvailableStamina = PlayerLanes[i].GetComponent<Character>().StaminaPoints;
             }
         }
+
+        for (int i = 0; i < PlayerTankLanes.Length; ++i)
+        {
+            if (PlayerTankLanes[i] != null)
+            {
+                if (PlayerTankLanes[i].GetComponent<Character>().Resting)
+                {
+                    PlayerTankLanes[i].GetComponent<Character>().StaminaPoints += 20;
+                }
+                else if (PlayerTankLanes[i].GetComponent<Character>().Defending)
+                {
+                    PlayerTankLanes[i].GetComponent<Character>().StaminaPoints -= PlayerTankLanes[i].GetComponent<Character>().DefendingStamina;
+                }
+
+                PlayerTankLanes[i].GetComponent<Character>().ActionPoints = 4;
+                PlayerTankLanes[i].GetComponent<Character>().Attacking = false;
+                PlayerTankLanes[i].GetComponent<Character>().Defending = false;
+                PlayerTankLanes[i].GetComponent<Character>().Moving = false;
+                PlayerTankLanes[i].GetComponent<Character>().Resting = false;
+
+                PlayerTankLanes[i].GetComponent<Character>().AvailableStamina = PlayerTankLanes[i].GetComponent<Character>().StaminaPoints;
+
+                if (PlayerTankLanes[i].GetComponent<Character>().AvailableStamina <= 0)
+                {
+                    if (PlayerLanes[i] == null)
+                    {
+                        PlayerLanes[i] = PlayerTankLanes[i];
+                        PlayerLanes[i].GetComponent<Character>().LanePos = i;
+                        PlayerTankLanes[i] = null;
+                        PlayerLanes[i].GetComponent<Character>().IsTanking = false;
+                        PlayerLanes[i].transform.position = PlayerLanePos[i];
+                    }
+                    else 
+                    {
+                        CheckLane(i);
+                    }
+                }
+            }
+        }
+
         for (int i = 0; i < EnemyLanes.Length; ++i)
         {
             if (EnemyLanes[i] != null)
@@ -719,7 +464,7 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < MovementList.Count; ++i)
         {
             //Liikekomennon "omistajan" paikka ja liikekomennon kohde vaihtavat paikkaa
-            SwitchPlaces(MovementList[i].Agent.GetComponent<Character>().LanePos, MovementList[i].TargetIndex, MovementList[i].IsPlayer, MovementList[i].IsTanking, MovementList[i].Class);
+            MovementList[i].Agent.GetComponent<Character>().SwitchPlaces(MovementList[i].Agent.GetComponent<Character>().LanePos, MovementList[i].TargetIndex); 
 
             //Debug
             MovementList[i].Agent.GetComponent<Character>().StaminaPoints -= MovementList[i].StaminaCost;
@@ -740,7 +485,7 @@ public class BattleManager : MonoBehaviour
         {
             if (ActionList[i].Agent.GetComponent<Character>().Alive && ActionList[i].StaminaCost <= ActionList[i].Agent.GetComponent<Character>().StaminaPoints)//Dead characters actions are not performed, also if character has no stamina at this point
             {
-                Attack(ActionList[i].Agent, ActionList[i].Target, ActionList[i].Skill);
+                ActionList[i].Agent.GetComponent<Character>().Attack(ActionList[i].Target, ActionList[i].Skill);
 
                 ActionList[i].Agent.GetComponent<Character>().StaminaPoints -= ActionList[i].StaminaCost;
             }
