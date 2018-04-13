@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
     private BattleManager BM;
-    //private ClickingScript CS;
     private SpriteRenderer sprite;
 
     private GameObject staminaBar;
@@ -67,7 +66,6 @@ public class Character : MonoBehaviour
     void Start()
     {
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
-        //CS = GameObject.Find("BattleManager").GetComponent<ClickingScript>();
         sprite = GetComponent<SpriteRenderer>();
 
         //Debug
@@ -433,6 +431,23 @@ public class Character : MonoBehaviour
         CalculateDamage(target);
 
         //Damage dealt accordingly, if stamina goes negative remaining damage is dealt to strength instead, also instatiates damgage number
+        //}
+        if (BM.PlayerTankLanes[target.GetComponent<Character>().LanePos] != null) //Tank is Protecting the Target and is hit instead
+        {
+
+            DealDamage(BM.PlayerTankLanes[target.GetComponent<Character>().LanePos], 1);
+
+            return;
+        }
+        else
+        {
+            //Normal Damage
+            DealDamage(target, 1);
+        }
+
+    }
+    public void PerformSkill(GameObject target, string Skill)
+    {
         if (Skill == "TankSkill")
         {
             DealDamage(target, 2);
@@ -453,33 +468,11 @@ public class Character : MonoBehaviour
                 }
             }
 
-            return;
-
         }
-        else if (BM.PlayerTankLanes[target.GetComponent<Character>().LanePos] != null) //Tank is Protecting the Target and is hit instead
+
+        else if (Skill == "")
         {
 
-            DealDamage(BM.PlayerTankLanes[target.GetComponent<Character>().LanePos], 1);
-
-            return;
         }
-        else
-        {
-            //Normal Damage
-            DealDamage(target, 1);
-        }
-
     }
-
-    
-
-    //Debug
-    //private void OnMouseDown()
-    //{
-    //    if (Player)
-    //    {
-    //        BM.ChooseCharacter(LanePos);
-    //        unitChosen = true;
-    //    }
-    //}
 }

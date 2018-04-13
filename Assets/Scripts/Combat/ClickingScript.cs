@@ -55,7 +55,7 @@ public class ClickingScript : MonoBehaviour {
                     BM.SelectedLanePos = hit.collider.GetComponent<LaneInfo>().LanePos;
                     BM.SelectedCharacter.GetComponent<Character>().ActionPoints -= 1;
                     BM.SelectedCharacter.GetComponent<Character>().Moving = true;
-                    Debug.Log("Lane Pos: " + BM.SelectedLanePos);
+                    //Debug.Log("Lane Pos: " + BM.SelectedLanePos);
                     BM.AddMove();
                     BM.InfoText.text = "";
                     ResetSelection();
@@ -81,7 +81,7 @@ public class ClickingScript : MonoBehaviour {
 
                     CharacterClicked = true;
                     tempUnitHolder = hit.collider.gameObject;
-                    Debug.Log("Character clicked");
+                    //Debug.Log("Character clicked");
                     hit.collider.GetComponent<Character>().CharacterClick();
                 }
 
@@ -98,11 +98,11 @@ public class ClickingScript : MonoBehaviour {
 
                     EnemyCharacterClicked = true;
                     tempEnemyUnitHolder = hit.collider.gameObject;
-                    Debug.Log("Enemy clicked");
+                    //Debug.Log("Enemy clicked");
                     hit.collider.GetComponent<Character>().CharacterClick();
                     if (BM.ChoosingSkill.Length > 0)
                     {
-                        BM.AddSkill();
+                        //BM.AddSkill();
                     }
                     else
                     {
@@ -121,7 +121,7 @@ public class ClickingScript : MonoBehaviour {
             else
             {
                 ResetSelection();
-                Debug.Log("Nothing Clicked ");
+                //Debug.Log("Nothing Clicked ");
             }
         }
 
@@ -130,6 +130,8 @@ public class ClickingScript : MonoBehaviour {
     public void ResetSelection()
     {
         ObjectClicked = false;
+        BM.SelectingAttack = false;
+        BM.SelectingMove = false;
         CharacterClicked = false;
         EnemyCharacterClicked = false;
         BM.InfoText.text = "";

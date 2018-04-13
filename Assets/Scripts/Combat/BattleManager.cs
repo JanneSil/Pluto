@@ -179,20 +179,20 @@ public class BattleManager : MonoBehaviour
     }
     public void AddSkill()
     {
-        Action attack = new Action();
-        attack.Agent = SelectedCharacter;
-        attack.Target = SelectedEnemyCharacter;
-        attack.Skill = ChoosingSkill;
+        Action skill = new Action();
+        skill.Agent = SelectedCharacter;
+        skill.Target = SelectedEnemyCharacter;
+        skill.Skill = ChoosingSkill;
         ChoosingSkill = "";
 
         CS.ResetSelection();
 
-        //Debug
-        attack.ActionSpeed = SelectedCharacter.GetComponent<Character>().Speed;
-        attack.StaminaCost = StaminaCostAttack();
-        if (attack.Agent.GetComponent<Character>().StaminaPoints >= attack.StaminaCost)
+        skill.ActionSpeed = SelectedCharacter.GetComponent<Character>().Speed;
+        skill.StaminaCost = StaminaCostAttack();
+
+        if (skill.Agent.GetComponent<Character>().StaminaPoints >= skill.StaminaCost)
         {
-            ActionList.Add(attack);
+            ActionList.Add(skill);
         }
     }
 
