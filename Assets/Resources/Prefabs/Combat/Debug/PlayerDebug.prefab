@@ -37,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 1486413874490734}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -49,10 +49,10 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1486413874490734}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.16, y: 0.16, z: 0.2}
+  m_Size: {x: 2, y: 3, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114782408158404666
 MonoBehaviour:
@@ -66,17 +66,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UnitChosen: 0
+  IsTanking: 0
+  Class: 
+  ActionPoints: 4
   StrengthPoints: 100
   StaminaPoints: 100
+  Alive: 0
+  Attacking: 0
+  Defending: 0
+  Moving: 0
+  Resting: 0
   Strength: 50
   Stamina: 50
   Speed: 50
   Dexterity: 50
   Player: 0
+  AvailableStamina: 0
+  DefendingStamina: 0
   LanePos: 0
-  Alive: 0
-  HealthBar: {fileID: 0}
-  StaminaBar: {fileID: 0}
 --- !u!212 &212745482603664282
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -106,11 +113,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1875247211
+  m_SortingLayer: 12
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 0.9724138, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: ae13f7b35f8b6fb4e850be7f759d1008, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

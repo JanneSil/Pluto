@@ -259,7 +259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4681849928138154}
   m_Layer: 0
-  m_Name: Combat_Background_Forest
+  m_Name: CombatBackgroundForest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -339,7 +339,7 @@ GameObject:
   - component: {fileID: 4000286278336712}
   - component: {fileID: 212088184763199074}
   m_Layer: 0
-  m_Name: Forest_Background
+  m_Name: ForestBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -550,7 +550,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4849823523480954}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4187341466699724
 Transform:
@@ -603,6 +603,7 @@ Transform:
   m_Children:
   - {fileID: 4108567718108400}
   - {fileID: 4743815968346334}
+  - {fileID: 4574385805575028}
   m_Father: {fileID: 4681849928138154}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -693,7 +694,7 @@ Transform:
   m_LocalScale: {x: 0.72343147, y: 0.7234314, z: 0.7234314}
   m_Children: []
   m_Father: {fileID: 4849823523480954}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4458896888595222
 Transform:
@@ -718,8 +719,8 @@ Transform:
   m_LocalPosition: {x: 6.04, y: 0.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4849823523480954}
-  m_RootOrder: 8
+  m_Father: {fileID: 4291128706058066}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4611489457220750
 Transform:
@@ -788,7 +789,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4849823523480954}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4743815968346334
 Transform:
@@ -860,7 +861,6 @@ Transform:
   - {fileID: 4424970528217130}
   - {fileID: 4825736767048800}
   - {fileID: 4764394830425996}
-  - {fileID: 4574385805575028}
   - {fileID: 4129239476333910}
   - {fileID: 4722072195576668}
   - {fileID: 4436390964940622}
