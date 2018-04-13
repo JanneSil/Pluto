@@ -3247,14 +3247,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  ChoosingAttack: 0
+  ChoosingSkill: 
+  SelectingAttack: 0
+  SelectingMove: 0
   SelectedCharacter: {fileID: 0}
   SelectedEnemyCharacter: {fileID: 0}
   SelectedLanePos: 0
-  SelectingMove: 0
-  SelectingAttack: 0
   InfoText: {fileID: 0}
-  ChoosingAttack: 0
-  ChoosingSkill: 
 --- !u!4 &515580478
 Transform:
   m_ObjectHideFlags: 0
@@ -3280,8 +3280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectClicked: 0
-  UnitClicked: 0
-  EnemyUnitClicked: 0
+  CharacterClicked: 0
+  EnemyCharacterClicked: 0
 --- !u!1 &536541992
 GameObject:
   m_ObjectHideFlags: 0

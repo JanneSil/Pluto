@@ -15,18 +15,18 @@ public class BattleManager : MonoBehaviour
     public GameObject[] EnemyTankLanes = new GameObject[6];
     public GameObject[] PlayerTankLanes = new GameObject[6];
 
-    private Vector3[] enemyLanePos = new Vector3[] { new Vector3(   3,  0.5f, 0),
-                                                     new Vector3(3.4f, -0.3f, 0),
-                                                     new Vector3(3.8f, -1.1f, 0),
-                                                     new Vector3(4.2f, -1.9f, 0),
-                                                     new Vector3(4.6f, -2.7f, 0),
-                                                     new Vector3(   5, -3.5f, 0) };
-    private Vector3[] playerLanePos = new Vector3[] { new Vector3(   -3,  0.5f, 0),
-                                                      new Vector3(-3.4f, -0.3f, 0),
-                                                      new Vector3(-3.8f, -1.1f, 0),
-                                                      new Vector3(-4.2f, -1.9f, 0),
-                                                      new Vector3(-4.6f, -2.7f, 0),
-                                                      new Vector3(   -5, -3.5f, 0) };
+    private Vector3[] enemyLanePos = new Vector3[] { new Vector3(   3,  0.5f,  0),
+                                                     new Vector3(3.4f, -0.3f, -1),
+                                                     new Vector3(3.8f, -1.1f, -2),
+                                                     new Vector3(4.2f, -1.9f, -3),
+                                                     new Vector3(4.6f, -2.7f, -4),
+                                                     new Vector3(   5, -3.5f, -5) };
+    private Vector3[] playerLanePos = new Vector3[] { new Vector3(   -3,  0.5f,  0),
+                                                      new Vector3(-3.4f, -0.3f, -1),
+                                                      new Vector3(-3.8f, -1.1f, -2),
+                                                      new Vector3(-4.2f, -1.9f, -3),
+                                                      new Vector3(-4.6f, -2.7f, -4),
+                                                      new Vector3(   -5, -3.5f, -5) };
 
     //Lists
     private List<Action> ActionList = new List<Action>();
@@ -64,6 +64,9 @@ public class BattleManager : MonoBehaviour
     }
     private void Update()
     {
+        Debug.Log(StaminaCostMovement(1, SelectedCharacter));
+        Debug.Log(SelectedCharacter.GetComponent<Character>().AvailableStamina);
+        Debug.Log(SelectedCharacter.GetComponent<Character>().ActionPoints);
         CheckCombatResult();
         displayActionButtons();
     }

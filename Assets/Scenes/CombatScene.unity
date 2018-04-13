@@ -1222,7 +1222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3167,12 +3167,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   PlayerLanes:
-  - {fileID: 0}
-  - {fileID: 0}
   - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
   - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
+  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
+  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
+  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
   EnemyTankLanes:
   - {fileID: 0}
   - {fileID: 0}
@@ -6189,6 +6189,10 @@ Prefab:
     - target: {fileID: 4681849928138154, guid: fdc5d56e5b2d3c6409d25edcadf2f4fa, type: 2}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562192852131178, guid: fdc5d56e5b2d3c6409d25edcadf2f4fa, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fdc5d56e5b2d3c6409d25edcadf2f4fa, type: 2}
