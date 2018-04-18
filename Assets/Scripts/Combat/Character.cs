@@ -446,25 +446,32 @@ public class Character : MonoBehaviour
         }
 
     }
-    public void PerformSkill(GameObject target, string Skill)
+    public void PerformSkill(GameObject agent, string Skill)
     {
         if (Skill == "TankSkill")
         {
-            DealDamage(target, 2);
-
-            if (target.GetComponent<Character>().LanePos != 0)
+            if (BM.EnemyLanes[agent.GetComponent<Character>().LanePos] == null)
             {
-                if (BM.EnemyLanes[target.GetComponent<Character>().LanePos - 1] != null)
+                return;
+            }
+
+            CalculateDamage(BM.EnemyLanes[agent.GetComponent<Character>().LanePos]);
+
+            DealDamage(BM.EnemyLanes[agent.GetComponent<Character>().LanePos], 2);
+
+            if (BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos != 0)
+            {
+                if (BM.EnemyLanes[BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos - 1] != null)
                 {
-                    DealDamage(BM.EnemyLanes[target.GetComponent<Character>().LanePos - 1], 1);
+                    DealDamage(BM.EnemyLanes[BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos - 1], 1);
                 }
             }
 
-            if (target.GetComponent<Character>().LanePos != 5)
+            if (BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos != 5)
             {
-                if (BM.EnemyLanes[target.GetComponent<Character>().LanePos + 1] != null)
+                if (BM.EnemyLanes[BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos + 1] != null)
                 {
-                    DealDamage(BM.EnemyLanes[target.GetComponent<Character>().LanePos + 1], 1);
+                    DealDamage(BM.EnemyLanes[BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos + 1], 1);
                 }
             }
 

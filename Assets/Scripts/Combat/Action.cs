@@ -6,6 +6,7 @@ public class Action
 {
     public bool IsPlayer;
     public bool IsTanking;
+    public bool SkillInUse;
 
     public string Class;
     public string Skill;
