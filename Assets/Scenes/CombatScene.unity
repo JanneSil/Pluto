@@ -3162,18 +3162,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyLanes:
   - {fileID: 1261597061264674, guid: 4fdf3c0ca7232584b86d142526487761, type: 2}
-  - {fileID: 0}
   - {fileID: 1261597061264674, guid: 4fdf3c0ca7232584b86d142526487761, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   PlayerLanes:
   - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
-  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
-  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
-  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
   - {fileID: 1370551114335072, guid: 848fa363c4e05ee409985f96449f3769, type: 2}
-  - {fileID: 1370551114335072, guid: 848fa363c4e05ee409985f96449f3769, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   EnemyTankLanes:
   - {fileID: 0}
   - {fileID: 0}
@@ -3189,19 +3189,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   EnemyLanePos:
-  - {x: 3.5, y: 3.5, z: 0}
-  - {x: 3.5, y: 2, z: 0}
-  - {x: 3.5, y: 0.5, z: 0}
-  - {x: 3.5, y: -1, z: 0}
-  - {x: 3.5, y: -2.5, z: 0}
-  - {x: 3.5, y: -4, z: 0}
+  - {x: 3, y: 0.5, z: 0}
+  - {x: 3.4, y: -0.3, z: -1}
+  - {x: 3.8, y: -1.1, z: -2}
+  - {x: 4.2, y: -1.9, z: -3}
+  - {x: 4.6, y: -2.7, z: -4}
+  - {x: 5, y: -3.5, z: -5}
   PlayerLanePos:
-  - {x: -3.5, y: 3.5, z: 0}
-  - {x: -3.5, y: 2, z: 0}
-  - {x: -3.5, y: 0.5, z: 0}
-  - {x: -3.5, y: -1, z: 0}
-  - {x: -3.5, y: -2.5, z: 0}
-  - {x: -3.5, y: -4, z: 0}
+  - {x: -3, y: 0.5, z: 0}
+  - {x: -3.4, y: -0.3, z: -1}
+  - {x: -3.8, y: -1.1, z: -2}
+  - {x: -4.2, y: -1.9, z: -3}
+  - {x: -4.6, y: -2.7, z: -4}
+  - {x: -5, y: -3.5, z: -5}
   ChoosingAttack: 0
   ChoosingSkill: 
   SelectingAttack: 0
@@ -3209,7 +3209,8 @@ MonoBehaviour:
   SelectedCharacter: {fileID: 0}
   SelectedEnemyCharacter: {fileID: 0}
   SelectedLanePos: 0
-  InfoText: {fileID: 0}
+  InfoText: {fileID: 226215058}
+  ActionDelay: 1
 --- !u!4 &515580478
 Transform:
   m_ObjectHideFlags: 0

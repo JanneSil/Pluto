@@ -7,6 +7,7 @@ public class BattleManager : MonoBehaviour
 {
     private ClickingScript CS;
 
+    private bool actionTurn;
     private bool playerTurn;
 
     //Lane data arrays
@@ -15,31 +16,18 @@ public class BattleManager : MonoBehaviour
     public GameObject[] EnemyTankLanes = new GameObject[6];
     public GameObject[] PlayerTankLanes = new GameObject[6];
 
-    private Vector3[] enemyLanePos = new Vector3[] { new Vector3(   3,  0.5f,  0),
+    public Vector3[] EnemyLanePos = new Vector3[] { new Vector3(   3,  0.5f,  0),
                                                      new Vector3(3.4f, -0.3f, -1),
                                                      new Vector3(3.8f, -1.1f, -2),
                                                      new Vector3(4.2f, -1.9f, -3),
                                                      new Vector3(4.6f, -2.7f, -4),
                                                      new Vector3(   5, -3.5f, -5) };
-    private Vector3[] playerLanePos = new Vector3[] { new Vector3(   -3,  0.5f,  0),
+    public Vector3[] PlayerLanePos = new Vector3[] { new Vector3(   -3,  0.5f,  0),
                                                       new Vector3(-3.4f, -0.3f, -1),
                                                       new Vector3(-3.8f, -1.1f, -2),
                                                       new Vector3(-4.2f, -1.9f, -3),
                                                       new Vector3(-4.6f, -2.7f, -4),
                                                       new Vector3(   -5, -3.5f, -5) };
-
-    public Vector3[] EnemyLanePos = new Vector3[] { new Vector3(3.5f,  3.5f, 0),
-                                                     new Vector3(3.5f,  2,    0),
-                                                     new Vector3(3.5f,  0.5f, 0),
-                                                     new Vector3(3.5f, -1,    0),
-                                                     new Vector3(3.5f, -2.5f, 0),
-                                                     new Vector3(3.5f, -4,    0) };
-    public Vector3[] PlayerLanePos = new Vector3[] { new Vector3(-3.5f,  3.5f, 0),
-                                                      new Vector3(-3.5f,  2,    0),
-                                                      new Vector3(-3.5f,  0.5f, 0),
-                                                      new Vector3(-3.5f, -1,    0),
-                                                      new Vector3(-3.5f, -2.5f, 0),
-                                                      new Vector3(-3.5f, -4,    0) };
 
     //Lists
     private List<Action> ActionList = new List<Action>();
@@ -58,11 +46,16 @@ public class BattleManager : MonoBehaviour
 
     public Text InfoText;
 
+    //Turn variables
+    private int actionsDone;
+    private int nextActionIndex;
+
     //UI buttons
     private GameObject attackButton;
     private GameObject defendButton;
     private GameObject endTurnButton;
     private GameObject moveButton;
+    private GameObject resetButton;
     private GameObject restButton;
     private GameObject tankSkillButton;
 
@@ -80,6 +73,39 @@ public class BattleManager : MonoBehaviour
     {
         CheckCombatResult();
         displayActionButtons();
+
+        //Debug
+        if (actionTurn)
+        {
+            //Action is performed if delay has passed and its index is not out of bounds
+            if (actionDelayRemaining <= 0 && nextActionIndex < ActionList.Count)
+            {
+                //Dead characters actions are not performed, also if character has no stamina at this point
+                if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Alive && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
+                {
+                    ActionList[nextActionIndex].Agent.GetComponent<Character>().Attack(ActionList[nextActionIndex].Target);
+                    ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Target, ActionList[nextActionIndex].Skill);
+
+                    ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
+                }
+                actionsDone += 1;
+                nextActionIndex += 1;
+                actionDelayRemaining = ActionDelay;
+            }
+            else
+            {
+                actionDelayRemaining -= Time.deltaTime;
+            }
+
+            if (actionsDone == ActionList.Count)
+            {
+                actionDelayRemaining = 0;
+
+                ActionList.Clear();
+
+                PlayerTurn();
+            }
+        }
     }
 
     //Character functions, should consider moving these to Character.cs except for ChooseCharacter()
@@ -337,6 +363,7 @@ public class BattleManager : MonoBehaviour
         defendButton = GameObject.Find("DefendButton");
         endTurnButton = GameObject.Find("EndTurnButton");
         moveButton = GameObject.Find("MoveButton");
+        resetButton = GameObject.Find("ResetButton");
         restButton = GameObject.Find("RestButton");
         infoTextObject = GameObject.Find("InfoText");
         tankSkillButton = GameObject.Find("TankSkillButton");
@@ -344,7 +371,9 @@ public class BattleManager : MonoBehaviour
         InfoText.text = "";
         attackButton.SetActive(false);//Setting buttons inactive at start in code seems arbitrary
         defendButton.SetActive(false);
+        endTurnButton.SetActive(false);
         moveButton.SetActive(false);
+        resetButton.SetActive(false);
         restButton.SetActive(false);
         tankSkillButton.SetActive(false);
         playerTurn = true;
@@ -354,7 +383,7 @@ public class BattleManager : MonoBehaviour
         {
             if (EnemyLanes[i] != null)
             {
-                EnemyLanes[i] = Instantiate(EnemyLanes[i], enemyLanePos[i], transform.rotation) as GameObject;
+                EnemyLanes[i] = Instantiate(EnemyLanes[i], EnemyLanePos[i], transform.rotation) as GameObject;
                 EnemyLanes[i].GetComponent<Character>().LanePos = i;
                 EnemyLanes[i].GetComponent<Character>().Player = false;
             }
@@ -365,7 +394,7 @@ public class BattleManager : MonoBehaviour
         {
             if (PlayerLanes[i] != null)
             {
-                PlayerLanes[i] = Instantiate(PlayerLanes[i], playerLanePos[i], transform.rotation) as GameObject;
+                PlayerLanes[i] = Instantiate(PlayerLanes[i], PlayerLanePos[i], transform.rotation) as GameObject;
                 PlayerLanes[i].GetComponent<Character>().LanePos = i;
                 PlayerLanes[i].GetComponent<Character>().Player = true;
             }
@@ -429,7 +458,7 @@ public class BattleManager : MonoBehaviour
                         PlayerLanes[i].GetComponent<Character>().IsTanking = false;
                         PlayerLanes[i].transform.position = PlayerLanePos[i];
                     }
-                    else 
+                    else
                     {
                         CheckLane(i);
                     }
@@ -463,6 +492,7 @@ public class BattleManager : MonoBehaviour
     {
         InitializeRound();
         CS.ResetSelection();
+        actionTurn = false;
         playerTurn = true;
 
         //Pelaaja saa kotrollit, valitsee toiminnot ja päättää vuoron.
@@ -470,6 +500,7 @@ public class BattleManager : MonoBehaviour
     private void EnemyTurn()
     {
         playerTurn = false;
+        actionTurn = false;
 
         for (int i = 0; i < EnemyLanes.Length; ++i)
         {
@@ -485,13 +516,14 @@ public class BattleManager : MonoBehaviour
     }
     private void MovementTurn()
     {
+        actionTurn = false;
         playerTurn = false;
 
         //Suorittaa move listin toiminnot
         for (int i = 0; i < MovementList.Count; ++i)
         {
             //Liikekomennon "omistajan" paikka ja liikekomennon kohde vaihtavat paikkaa
-            MovementList[i].Agent.GetComponent<Character>().SwitchPlaces(MovementList[i].Agent.GetComponent<Character>().LanePos, MovementList[i].TargetIndex); 
+            MovementList[i].Agent.GetComponent<Character>().SwitchPlaces(MovementList[i].Agent.GetComponent<Character>().LanePos, MovementList[i].TargetIndex);
 
             //Debug
             MovementList[i].Agent.GetComponent<Character>().StaminaPoints -= MovementList[i].StaminaCost;
@@ -503,25 +535,16 @@ public class BattleManager : MonoBehaviour
     }
     private void ActionTurn()
     {
+        actionTurn = true;
         playerTurn = false;
+
+        actionsDone = 0;
+        nextActionIndex = 0;
 
         //Sorts action list accronding to the action speed and executes the action list's actions
         ActionList.Sort((x, y) => -1 * x.ActionSpeed.CompareTo(y.ActionSpeed));//Sorts actions int DESC order by action's speed
 
-        for (int i = 0; i < ActionList.Count; ++i)
-        {
-            if (ActionList[i].Agent.GetComponent<Character>().Alive && ActionList[i].StaminaCost <= ActionList[i].Agent.GetComponent<Character>().StaminaPoints)//Dead characters actions are not performed, also if character has no stamina at this point
-            {
-                ActionList[i].Agent.GetComponent<Character>().Attack(ActionList[i].Target);
-                ActionList[i].Agent.GetComponent<Character>().PerformSkill(ActionList[i].Target, ActionList[i].Skill);
-
-                ActionList[i].Agent.GetComponent<Character>().StaminaPoints -= ActionList[i].StaminaCost;
-            }
-        }
-
-        ActionList.Clear();
-
-        PlayerTurn();
+        //See Update() for action turn debug functionality
     }
 
     //UI functions
@@ -592,9 +615,23 @@ public class BattleManager : MonoBehaviour
             restButton.SetActive(false);
             tankSkillButton.SetActive(false);
         }
+
+        //Display reset and end turn button
+        if (playerTurn)
+        {
+            endTurnButton.SetActive(true);
+            resetButton.SetActive(true);
+        }
+        else
+        {
+            endTurnButton.SetActive(false);
+            resetButton.SetActive(false);
+        }
     }
 
     //Debug
+    public float ActionDelay;
+    private float actionDelayRemaining;
     public void InstantiateDamageNumber(int dmgToStr, int dmgToSta, Transform targetLocation)
     {
         DamageNumber dN;
