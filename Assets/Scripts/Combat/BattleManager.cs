@@ -8,6 +8,7 @@ public class BattleManager : MonoBehaviour
     private ClickingScript CS;
 
     private bool actionTurn;
+    private bool movementTurn;
     private bool playerTurn;
 
     //Lane data arrays
@@ -74,38 +75,8 @@ public class BattleManager : MonoBehaviour
         CheckCombatResult();
         displayActionButtons();
 
-        //Debug
-        if (actionTurn)
-        {
-            //Action is performed if delay has passed and its index is not out of bounds
-            if (actionDelayRemaining <= 0 && nextActionIndex < ActionList.Count)
-            {
-                //Dead characters actions are not performed, also if character has no stamina at this point
-                if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Alive && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
-                {
-                    ActionList[nextActionIndex].Agent.GetComponent<Character>().Attack(ActionList[nextActionIndex].Target);
-                    ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Target, ActionList[nextActionIndex].Skill);
-
-                    ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
-                }
-                actionsDone += 1;
-                nextActionIndex += 1;
-                actionDelayRemaining = ActionDelay;
-            }
-            else
-            {
-                actionDelayRemaining -= Time.deltaTime;
-            }
-
-            if (actionsDone == ActionList.Count)
-            {
-                actionDelayRemaining = 0;
-
-                ActionList.Clear();
-
-                PlayerTurn();
-            }
-        }
+        ActionTurnUpdate();
+        MovementTurnUpdate();
     }
 
     //Character functions, should consider moving these to Character.cs except for ChooseCharacter()
@@ -354,6 +325,7 @@ public class BattleManager : MonoBehaviour
 
         }
     }
+
     //Turns functions
     private void InitializeCombat()
     {
@@ -376,6 +348,8 @@ public class BattleManager : MonoBehaviour
         resetButton.SetActive(false);
         restButton.SetActive(false);
         tankSkillButton.SetActive(false);
+        actionTurn = false;
+        movementTurn = false;
         playerTurn = true;
 
         //Initialize enemy lanes
@@ -493,6 +467,7 @@ public class BattleManager : MonoBehaviour
         InitializeRound();
         CS.ResetSelection();
         actionTurn = false;
+        movementTurn = false;
         playerTurn = true;
 
         //Pelaaja saa kotrollit, valitsee toiminnot ja päättää vuoron.
@@ -500,6 +475,7 @@ public class BattleManager : MonoBehaviour
     private void EnemyTurn()
     {
         playerTurn = false;
+        movementTurn = false;
         actionTurn = false;
 
         for (int i = 0; i < EnemyLanes.Length; ++i)
@@ -517,25 +493,46 @@ public class BattleManager : MonoBehaviour
     private void MovementTurn()
     {
         actionTurn = false;
+        movementTurn = true;
         playerTurn = false;
 
-        //Suorittaa move listin toiminnot
-        for (int i = 0; i < MovementList.Count; ++i)
+        actionsDone = 0;
+        nextActionIndex = 0;
+    }
+    private void MovementTurnUpdate()
+    {
+        if (movementTurn)
         {
-            //Liikekomennon "omistajan" paikka ja liikekomennon kohde vaihtavat paikkaa
-            MovementList[i].Agent.GetComponent<Character>().SwitchPlaces(MovementList[i].Agent.GetComponent<Character>().LanePos, MovementList[i].TargetIndex);
+            //Movement is performed if delay has passed and its index is not out of bounds
+            if (actionDelayRemaining <= 0 && nextActionIndex < MovementList.Count)
+            {
+                MovementList[nextActionIndex].Agent.GetComponent<Character>().SwitchPlaces(MovementList[nextActionIndex].Agent.GetComponent<Character>().LanePos, MovementList[nextActionIndex].TargetIndex);
 
-            //Debug
-            MovementList[i].Agent.GetComponent<Character>().StaminaPoints -= MovementList[i].StaminaCost;
+                MovementList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= MovementList[nextActionIndex].StaminaCost;
+
+                actionsDone += 1;
+                nextActionIndex += 1;
+                actionDelayRemaining = ActionDelay;
+            }
+            else
+            {
+                actionDelayRemaining -= Time.deltaTime;
+            }
+
+            if (actionsDone == MovementList.Count)
+            {
+                actionDelayRemaining = 0;
+
+                MovementList.Clear();
+
+                ActionTurn();
+            }
         }
-
-        MovementList.Clear();
-
-        ActionTurn();
     }
     private void ActionTurn()
     {
         actionTurn = true;
+        movementTurn = false;
         playerTurn = false;
 
         actionsDone = 0;
@@ -543,8 +540,40 @@ public class BattleManager : MonoBehaviour
 
         //Sorts action list accronding to the action speed and executes the action list's actions
         ActionList.Sort((x, y) => -1 * x.ActionSpeed.CompareTo(y.ActionSpeed));//Sorts actions int DESC order by action's speed
+    }
+    private void ActionTurnUpdate()
+    {
+        if (actionTurn)
+        {
+            //Action is performed if delay has passed and its index is not out of bounds
+            if (actionDelayRemaining <= 0 && nextActionIndex < ActionList.Count)
+            {
+                //Dead characters actions are not performed, also if character has no stamina at this point action is not performed
+                if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Alive && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
+                {
+                    ActionList[nextActionIndex].Agent.GetComponent<Character>().Attack(ActionList[nextActionIndex].Target);
+                    ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Target, ActionList[nextActionIndex].Skill);
 
-        //See Update() for action turn debug functionality
+                    ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
+                }
+                actionsDone += 1;
+                nextActionIndex += 1;
+                actionDelayRemaining = ActionDelay;
+            }
+            else
+            {
+                actionDelayRemaining -= Time.deltaTime;
+            }
+
+            if (actionsDone == ActionList.Count)
+            {
+                actionDelayRemaining = 0;
+
+                ActionList.Clear();
+
+                PlayerTurn();
+            }
+        }
     }
 
     //UI functions
