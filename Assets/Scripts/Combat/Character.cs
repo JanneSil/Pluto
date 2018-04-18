@@ -426,7 +426,7 @@ public class Character : MonoBehaviour
             }
         }
     }
-    public void Attack(GameObject target, string Skill)
+    public void Attack(GameObject target)
     {
         CalculateDamage(target);
 
@@ -472,7 +472,7 @@ public class Character : MonoBehaviour
 
         else if (Skill == "")
         {
-
+            return;
         }
     }
 }

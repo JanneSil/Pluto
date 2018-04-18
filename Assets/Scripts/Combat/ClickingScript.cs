@@ -102,7 +102,7 @@ public class ClickingScript : MonoBehaviour {
                     hit.collider.GetComponent<Character>().CharacterClick();
                     if (BM.ChoosingSkill.Length > 0)
                     {
-                        //BM.AddSkill();
+                        BM.AddSkill();
                     }
                     else
                     {

@@ -51,6 +51,7 @@ public class BattleManager : MonoBehaviour
     private GameObject endTurnButton;
     private GameObject moveButton;
     private GameObject restButton;
+    private GameObject tankSkillButton;
 
     //UI other
     private GameObject canvas;
@@ -183,12 +184,12 @@ public class BattleManager : MonoBehaviour
         skill.Agent = SelectedCharacter;
         skill.Target = SelectedEnemyCharacter;
         skill.Skill = ChoosingSkill;
-        ChoosingSkill = "";
 
         CS.ResetSelection();
 
         skill.ActionSpeed = SelectedCharacter.GetComponent<Character>().Speed;
-        skill.StaminaCost = StaminaCostAttack();
+        skill.StaminaCost = StaminaCostSkill(ChoosingSkill);
+        ChoosingSkill = "";
 
         if (skill.Agent.GetComponent<Character>().StaminaPoints >= skill.StaminaCost)
         {
@@ -234,6 +235,17 @@ public class BattleManager : MonoBehaviour
     private int StaminaCostAttack()
     {
         return 10;
+    }
+    private int StaminaCostSkill(string skill)
+    {
+        if (skill == "TankSkill")
+        {
+            return 15;
+        }
+        else
+        {
+            return 0;
+        }
     }
     private int StaminaCostMovement(int numberOfLanesMoved, GameObject agent)
     {
@@ -314,12 +326,14 @@ public class BattleManager : MonoBehaviour
         moveButton = GameObject.Find("MoveButton");
         restButton = GameObject.Find("RestButton");
         infoTextObject = GameObject.Find("InfoText");
+        tankSkillButton = GameObject.Find("TankSkillButton");
         InfoText = infoTextObject.GetComponent<Text>();
         InfoText.text = "";
         attackButton.SetActive(false);//Setting buttons inactive at start in code seems arbitrary
         defendButton.SetActive(false);
         moveButton.SetActive(false);
         restButton.SetActive(false);
+        tankSkillButton.SetActive(false);
         playerTurn = true;
 
         //Initialize enemy lanes
@@ -485,7 +499,8 @@ public class BattleManager : MonoBehaviour
         {
             if (ActionList[i].Agent.GetComponent<Character>().Alive && ActionList[i].StaminaCost <= ActionList[i].Agent.GetComponent<Character>().StaminaPoints)//Dead characters actions are not performed, also if character has no stamina at this point
             {
-                ActionList[i].Agent.GetComponent<Character>().Attack(ActionList[i].Target, ActionList[i].Skill);
+                ActionList[i].Agent.GetComponent<Character>().Attack(ActionList[i].Target);
+                ActionList[i].Agent.GetComponent<Character>().PerformSkill(ActionList[i].Target, ActionList[i].Skill);
 
                 ActionList[i].Agent.GetComponent<Character>().StaminaPoints -= ActionList[i].StaminaCost;
             }
@@ -512,6 +527,15 @@ public class BattleManager : MonoBehaviour
             else
             {
                 attackButton.SetActive(false);
+            }
+
+            if (!SelectedCharacter.GetComponent<Character>().Attacking && SelectedCharacter.GetComponent<Character>().ActionPoints >= 2 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= 10 && SelectedCharacter.GetComponent<Character>().Class == "Tank")
+            {
+                tankSkillButton.SetActive(true);
+            }
+            else
+            {
+                tankSkillButton.SetActive(false);
             }
 
             //Display defend button
@@ -553,6 +577,7 @@ public class BattleManager : MonoBehaviour
             defendButton.SetActive(false);
             moveButton.SetActive(false);
             restButton.SetActive(false);
+            tankSkillButton.SetActive(false);
         }
     }
 
