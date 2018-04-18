@@ -548,8 +548,8 @@ public class BattleManager : MonoBehaviour
             //Action is performed if delay has passed and its index is not out of bounds
             if (actionDelayRemaining <= 0 && nextActionIndex < ActionList.Count)
             {
-                //Dead characters actions are not performed, also if character has no stamina at this point action is not performed
-                if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Alive && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
+                //Dead characters actions are not performed, also if character has no stamina at this point action is not performed. FOR NOW DEAD TARGETS ARE NOT ATTACKED!
+                if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].Target != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
                 {
                     ActionList[nextActionIndex].Agent.GetComponent<Character>().Attack(ActionList[nextActionIndex].Target);
                     ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Target, ActionList[nextActionIndex].Skill);
