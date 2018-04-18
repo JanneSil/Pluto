@@ -64,9 +64,6 @@ public class BattleManager : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log(StaminaCostMovement(1, SelectedCharacter));
-        Debug.Log(SelectedCharacter.GetComponent<Character>().AvailableStamina);
-        Debug.Log(SelectedCharacter.GetComponent<Character>().ActionPoints);
         CheckCombatResult();
         displayActionButtons();
     }
@@ -802,7 +799,7 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                moveButton.SetActive(false);
+                restButton.SetActive(false);
             }
         }
         else
