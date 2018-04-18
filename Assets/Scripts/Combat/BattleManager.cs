@@ -125,7 +125,7 @@ public class BattleManager : MonoBehaviour
     }
     public void ChooseAttack(string skill)
     {
-        if (SelectedCharacter.GetComponent<Character>().Attacking)
+        if (SelectedCharacter.GetComponent<Character>().Attacking || SelectedCharacter.GetComponent<Character>().UsingSkill)
         {
             for (int i = 0; i < ActionList.Count; ++i)
             {
@@ -138,8 +138,10 @@ public class BattleManager : MonoBehaviour
             }
 
             SelectedCharacter.GetComponent<Character>().Attacking = false;
+            SelectedCharacter.GetComponent<Character>().UsingSkill = false;
             return;
         }
+
         SelectingAttack = true;
         ChoosingSkill = skill;
         InfoText.text = "Choose a target!";
@@ -269,6 +271,7 @@ public class BattleManager : MonoBehaviour
 
         skill.ActionSpeed = SelectedCharacter.GetComponent<Character>().Speed;
         skill.StaminaCost = StaminaCostSkill(ChoosingSkill);
+        SelectedCharacter.GetComponent<Character>().UsingSkill = true;
         ChoosingSkill = "";
 
         if (skill.Agent.GetComponent<Character>().StaminaPoints >= skill.StaminaCost)
@@ -616,23 +619,22 @@ public class BattleManager : MonoBehaviour
 
             if (UI.SelectAttack && !UI.SelectSkill)
             {
+                attackButton.SetActive(true);
                 selectSkillButton.SetActive(true);
                 moveButton.SetActive(false);
                 restButton.SetActive(false);
-                attackButton.SetActive(true);
-                defendButton.SetActive(true);
+                defendButton.SetActive(false);
             }
             else if (UI.SelectAttack && UI.SelectSkill)
             {
                 attackButton.SetActive(false);
-                defendButton.SetActive(false);
             }
             else
             {
                 attackButton.SetActive(false);
-                defendButton.SetActive(false);
                 selectSkillButton.SetActive(false);
                 UI.SelectSkill = false;
+                defendButton.SetActive(true);
                 moveButton.SetActive(true);
                 restButton.SetActive(true);
             }
@@ -643,19 +645,15 @@ public class BattleManager : MonoBehaviour
                 //attackButton.SetActive(true);
                 attackButton.GetComponent<Image>().color = Color.green;
             }
-            else if(SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack) 
+            else if(SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack && SelectedCharacter.GetComponent<Character>().UsingSkill == false) 
             {
                 //attackButton.SetActive(true);
                 attackButton.GetComponent<Image>().color = Color.black;
             }
 
-            if (SelectedCharacter.GetComponent<Character>().ActionPoints >= 2 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= 10 && UI.SelectSkill)
+           //if (SelectedCharacter.GetComponent<Character>().ActionPoints >= 2 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= 10 && UI.SelectSkill)
+            if (UI.SelectSkill)
             {
-                if (SelectedCharacter.GetComponent<Character>().Class == "Tank")
-                {
-
-                }
-
                 skillButtons.SetActive(true);
             }
             else
@@ -663,17 +661,33 @@ public class BattleManager : MonoBehaviour
                 skillButtons.SetActive(false);
             }
 
+            if (SelectedCharacter.GetComponent<Character>().UsingSkill)
+            {
+                selectSkillButton.GetComponent<Image>().color = Color.black;
+            }
+            else
+            {
+                selectSkillButton.GetComponent<Image>().color = Color.green;
+            }
+
+            if (SelectedCharacter.GetComponent<Character>().Attacking)
+            {
+                selectAttackButton.GetComponent<Image>().color = Color.black;
+            }
+            else
+            {
+                selectAttackButton.GetComponent<Image>().color = Color.yellow;
+            }
+
             //Display defend button
             //True if character is not already defending, has enough action points and has enough unsued stamina points
-            if (!SelectedCharacter.GetComponent<Character>().Defending && UI.SelectAttack)
+            if (!SelectedCharacter.GetComponent<Character>().Defending)
             {
-                //defendButton.SetActive(true);
                 defendButton.GetComponent<Image>().color = Color.green;
             }
 
-            else if (SelectedCharacter.GetComponent<Character>().Defending && UI.SelectAttack)
+            else if (SelectedCharacter.GetComponent<Character>().Defending)
             {
-                //defendButton.SetActive(true);
                 defendButton.GetComponent<Image>().color = Color.black;
             }
 

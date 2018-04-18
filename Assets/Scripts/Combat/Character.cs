@@ -30,6 +30,7 @@ public class Character : MonoBehaviour
     public bool Defending;
     public bool Moving;
     public bool Resting;
+    public bool UsingSkill;
 
     [Header("Stats:")]
     [Range(1, 100)]
