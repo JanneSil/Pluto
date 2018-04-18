@@ -15,18 +15,18 @@ public class BattleManager : MonoBehaviour
     public GameObject[] EnemyTankLanes = new GameObject[6];
     public GameObject[] PlayerTankLanes = new GameObject[6];
 
-    private Vector3[] EnemyLanePos = new Vector3[] { new Vector3(3.5f,  3.5f, 0),
-                                                     new Vector3(3.5f,  2,    0),
-                                                     new Vector3(3.5f,  0.5f, 0),
-                                                     new Vector3(3.5f, -1,    0),
-                                                     new Vector3(3.5f, -2.5f, 0),
-                                                     new Vector3(3.5f, -4,    0) };
-    private Vector3[] PlayerLanePos = new Vector3[] { new Vector3(-3.5f,  3.5f, 0),
-                                                      new Vector3(-3.5f,  2,    0),
-                                                      new Vector3(-3.5f,  0.5f, 0),
-                                                      new Vector3(-3.5f, -1,    0),
-                                                      new Vector3(-3.5f, -2.5f, 0),
-                                                      new Vector3(-3.5f, -4,    0) };
+    private Vector3[] enemyLanePos = new Vector3[] { new Vector3(   3,  0.5f,  0),
+                                                     new Vector3(3.4f, -0.3f, -1),
+                                                     new Vector3(3.8f, -1.1f, -2),
+                                                     new Vector3(4.2f, -1.9f, -3),
+                                                     new Vector3(4.6f, -2.7f, -4),
+                                                     new Vector3(   5, -3.5f, -5) };
+    private Vector3[] playerLanePos = new Vector3[] { new Vector3(   -3,  0.5f,  0),
+                                                      new Vector3(-3.4f, -0.3f, -1),
+                                                      new Vector3(-3.8f, -1.1f, -2),
+                                                      new Vector3(-4.2f, -1.9f, -3),
+                                                      new Vector3(-4.6f, -2.7f, -4),
+                                                      new Vector3(   -5, -3.5f, -5) };
 
     //Lists
     private List<Action> ActionList = new List<Action>();
@@ -57,12 +57,12 @@ public class BattleManager : MonoBehaviour
     private GameObject infoTextObject;
 
     //Unity functions
-    void Start()
+    private void Start()
     {
         InitializeCombat();
         playerTurn = true;
     }
-    void Update()
+    private void Update()
     {
         CheckCombatResult();
         displayActionButtons();
@@ -342,7 +342,7 @@ public class BattleManager : MonoBehaviour
                     PlayerTankLanes[targetIndex].GetComponent<Character>().IsTanking = true;
                     PlayerTankLanes[startIndex] = null;
 
-                    PlayerTankLanes[targetIndex].transform.position = PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    PlayerTankLanes[targetIndex].transform.position = playerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
                 }
                 else if (PlayerLanes[targetIndex] != null && PlayerTankLanes[targetIndex] != null)
                 {
@@ -355,8 +355,8 @@ public class BattleManager : MonoBehaviour
                     PlayerTankLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
 
 
-                    PlayerTankLanes[startIndex].transform.position = PlayerLanePos[startIndex] + new Vector3(1.5f, 0, 0);
-                    PlayerTankLanes[targetIndex].transform.position = PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    PlayerTankLanes[startIndex].transform.position = playerLanePos[startIndex] + new Vector3(1.5f, 0, 0);
+                    PlayerTankLanes[targetIndex].transform.position = playerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
                 }
                 else
                 {
@@ -365,7 +365,7 @@ public class BattleManager : MonoBehaviour
                     PlayerLanes[targetIndex].GetComponent<Character>().IsTanking = false;
                     PlayerTankLanes[startIndex] = null;
 
-                    PlayerLanes[targetIndex].transform.position = PlayerLanePos[targetIndex];
+                    PlayerLanes[targetIndex].transform.position = playerLanePos[targetIndex];
                 }
             }
             else if (Class == "Tank" && !Tanking)
@@ -378,7 +378,7 @@ public class BattleManager : MonoBehaviour
                     PlayerTankLanes[targetIndex].GetComponent<Character>().IsTanking = true;
                     PlayerLanes[startIndex] = null;
 
-                    PlayerTankLanes[targetIndex].transform.position = PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    PlayerTankLanes[targetIndex].transform.position = playerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
                 }
                 else if (PlayerLanes[targetIndex] != null && PlayerTankLanes[targetIndex] != null)
                 {
@@ -391,8 +391,8 @@ public class BattleManager : MonoBehaviour
                     PlayerLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
 
 
-                    PlayerLanes[startIndex].transform.position = PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
-                    PlayerTankLanes[targetIndex].transform.position = PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    PlayerLanes[startIndex].transform.position = playerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    PlayerTankLanes[targetIndex].transform.position = playerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
                 }
                 else
                 {
@@ -401,7 +401,7 @@ public class BattleManager : MonoBehaviour
                     PlayerLanes[targetIndex].GetComponent<Character>().IsTanking = false;
                     PlayerLanes[startIndex] = null;
 
-                    PlayerLanes[targetIndex].transform.position = PlayerLanePos[targetIndex];
+                    PlayerLanes[targetIndex].transform.position = playerLanePos[targetIndex];
                 }
 
             }
@@ -416,8 +416,8 @@ public class BattleManager : MonoBehaviour
                 PlayerLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
 
 
-                PlayerLanes[startIndex].transform.position = PlayerLanePos[startIndex];
-                PlayerLanes[targetIndex].transform.position = PlayerLanePos[targetIndex];
+                PlayerLanes[startIndex].transform.position = playerLanePos[startIndex];
+                PlayerLanes[targetIndex].transform.position = playerLanePos[targetIndex];
             }
 
             else//If the character game object needs to switch to a empty index
@@ -425,7 +425,7 @@ public class BattleManager : MonoBehaviour
                 PlayerLanes[targetIndex] = PlayerLanes[startIndex];
                 PlayerLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
                 PlayerLanes[startIndex] = null;
-                PlayerLanes[targetIndex].transform.position = PlayerLanePos[targetIndex];
+                PlayerLanes[targetIndex].transform.position = playerLanePos[targetIndex];
 
             }
         }
@@ -442,8 +442,8 @@ public class BattleManager : MonoBehaviour
                 EnemyLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
 
 
-                EnemyLanes[startIndex].transform.position = EnemyLanePos[startIndex];
-                EnemyLanes[targetIndex].transform.position = EnemyLanePos[targetIndex];
+                EnemyLanes[startIndex].transform.position = enemyLanePos[startIndex];
+                EnemyLanes[targetIndex].transform.position = enemyLanePos[targetIndex];
             }
             else
             {
@@ -451,7 +451,7 @@ public class BattleManager : MonoBehaviour
                 EnemyLanes[targetIndex].GetComponent<Character>().LanePos = targetIndex;
                 EnemyLanes[startIndex] = null;
 
-                EnemyLanes[targetIndex].transform.position = EnemyLanePos[targetIndex];
+                EnemyLanes[targetIndex].transform.position = enemyLanePos[targetIndex];
             }
         }
     }
@@ -530,7 +530,7 @@ public class BattleManager : MonoBehaviour
         move.StaminaCost = StaminaCostMovement(move.TargetIndex - move.Agent.GetComponent<Character>().LanePos, move.Agent);
         move.Agent.GetComponent<Character>().AvailableStamina -= move.StaminaCost;
 
-            MovementList.Add(move);
+        MovementList.Add(move);
 
         CS.ResetSelection();
     }
@@ -622,7 +622,7 @@ public class BattleManager : MonoBehaviour
         {
             if (EnemyLanes[i] != null)
             {
-                EnemyLanes[i] = Instantiate(EnemyLanes[i], EnemyLanePos[i], transform.rotation) as GameObject;
+                EnemyLanes[i] = Instantiate(EnemyLanes[i], enemyLanePos[i], transform.rotation) as GameObject;
                 EnemyLanes[i].GetComponent<Character>().LanePos = i;
                 EnemyLanes[i].GetComponent<Character>().Player = false;
             }
@@ -633,7 +633,7 @@ public class BattleManager : MonoBehaviour
         {
             if (PlayerLanes[i] != null)
             {
-                PlayerLanes[i] = Instantiate(PlayerLanes[i], PlayerLanePos[i], transform.rotation) as GameObject;
+                PlayerLanes[i] = Instantiate(PlayerLanes[i], playerLanePos[i], transform.rotation) as GameObject;
                 PlayerLanes[i].GetComponent<Character>().LanePos = i;
                 PlayerLanes[i].GetComponent<Character>().Player = true;
             }
@@ -799,7 +799,7 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                moveButton.SetActive(false);
+                restButton.SetActive(false);
             }
         }
         else
