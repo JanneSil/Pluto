@@ -7,9 +7,7 @@ public class BattleManager : MonoBehaviour
 {
     private ClickingScript CS;
 
-    private bool actionTurn;
-    private bool movementTurn;
-    private bool playerTurn;
+    private bool gameOver = false;
 
     //Lane data arrays
     public GameObject[] EnemyLanes = new GameObject[6];
@@ -48,6 +46,10 @@ public class BattleManager : MonoBehaviour
     public Text InfoText;
 
     //Turn variables
+    private bool actionTurn;
+    private bool movementTurn;
+    private bool playerTurn;
+
     private int actionsDone;
     private int nextActionIndex;
 
@@ -111,12 +113,14 @@ public class BattleManager : MonoBehaviour
     {
         if (EnemyLanes[0] == null && EnemyLanes[1] == null && EnemyLanes[2] == null && EnemyLanes[3] == null && EnemyLanes[4] == null && EnemyLanes[5] == null)
         {
-            Debug.Log("VICTORY!");
+            gameOver = true;
+            InfoText.text = "You Win!";
             endTurnButton.SetActive(false);
         }
         if (PlayerLanes[0] == null && PlayerLanes[1] == null && PlayerLanes[2] == null && PlayerLanes[3] == null && PlayerLanes[4] == null && PlayerLanes[5] == null)
         {
-            Debug.Log("DEFEAT!");
+            gameOver = true;
+            InfoText.text = "You Lose!";
             endTurnButton.SetActive(false);
         }
     }
@@ -646,7 +650,7 @@ public class BattleManager : MonoBehaviour
         }
 
         //Display reset and end turn button
-        if (playerTurn)
+        if (playerTurn && !gameOver)
         {
             endTurnButton.SetActive(true);
             resetButton.SetActive(true);
