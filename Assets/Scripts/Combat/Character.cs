@@ -48,7 +48,7 @@ public class Character : MonoBehaviour
     private float defendedBySpeed;
     private float defendedByStamina;
     private float defendedTotalAmount;
-    private float distanceFactor;
+    private float distanceReduction;
     private float staminaOverkill;
     private float strengthPortion;
 
@@ -120,11 +120,11 @@ public class Character : MonoBehaviour
         {
             staminaBar.GetComponent<Slider>().value = ((float)StaminaPoints / (float)staminaPointsMax);
         }
-        if(healthText != null)
+        if (healthText != null)
         {
             healthText.text = StrengthPoints + "/" + strengthPointsMax;
         }
-        if(staminaText != null)
+        if (staminaText != null)
         {
             staminaText.text = StaminaPoints + "/" + staminaPointsMax;
         }
@@ -182,33 +182,33 @@ public class Character : MonoBehaviour
     private void CalculateDamage(GameObject target)
     {
 
-        //Attacker damgage output = (Attacker strenght / 2) * Distance factor * (1 + (Attacker speed / 100))
+        //Attacker damgage output = (Attacker strenght / 2) * (1 - Distance reduction * (1 - Attacker speed / 100))
         //Distance factor = 100% if same lanes, 50% if 1 lane away, 25% if 2 or 3 lane away, 12.5% if 4 or 5 lanes away
 
         //Distance factor
         if (Mathf.Abs(target.GetComponent<Character>().LanePos - LanePos) == 0)
         {
             //Distance between lanes is 0
-            distanceFactor = 1;
+            distanceReduction = 0;
         }
         else if (Mathf.Abs(target.GetComponent<Character>().LanePos - LanePos) == 1)
         {
             //Distance between lanes is 1
-            distanceFactor = 0.5f;
+            distanceReduction = 0.5f;
         }
         else if (Mathf.Abs(target.GetComponent<Character>().LanePos - LanePos) == 2 || Mathf.Abs(target.GetComponent<Character>().LanePos - LanePos) == 3)
         {
             //Distance between lanes is 2 or 3
-            distanceFactor = 0.25f;
+            distanceReduction = 0.75f;
         }
         else
         {
             //Distance between lanes is 4 or larger
-            distanceFactor = 0.125f;
+            distanceReduction = 0.875f;
         }
 
         //Attacker damage output
-        damageOutput = ((float)StrengthPoints / 2) * distanceFactor * (1 + (Speed / 100));
+        damageOutput = ((float)StrengthPoints / 2) * (1 - distanceReduction * (1 - (float)Speed / 100));
 
         //Factoring critical hit
         //Attack deals double the damage by a random factor, critical chance-% = Dexterity / 100
