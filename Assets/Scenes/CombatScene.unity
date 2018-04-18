@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 95179612}
   - component: {fileID: 95179611}
   m_Layer: 5
-  m_Name: SkillButton
+  m_Name: TankSkillButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -328,12 +328,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 95659448}
-  m_Father: {fileID: 838092406}
-  m_RootOrder: 1
+  m_Father: {fileID: 263088468}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -15}
+  m_AnchoredPosition: {x: 0, y: 105}
   m_SizeDelta: {x: 90, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &95179611
@@ -1691,6 +1691,7 @@ RectTransform:
   - {fileID: 862883616}
   - {fileID: 1955353424}
   - {fileID: 226215057}
+  - {fileID: 95179610}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3171,8 +3172,8 @@ MonoBehaviour:
   - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
   - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
   - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
-  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
-  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
+  - {fileID: 1370551114335072, guid: 848fa363c4e05ee409985f96449f3769, type: 2}
+  - {fileID: 1370551114335072, guid: 848fa363c4e05ee409985f96449f3769, type: 2}
   EnemyTankLanes:
   - {fileID: 0}
   - {fileID: 0}
@@ -3187,6 +3188,20 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  EnemyLanePos:
+  - {x: 3.5, y: 3.5, z: 0}
+  - {x: 3.5, y: 2, z: 0}
+  - {x: 3.5, y: 0.5, z: 0}
+  - {x: 3.5, y: -1, z: 0}
+  - {x: 3.5, y: -2.5, z: 0}
+  - {x: 3.5, y: -4, z: 0}
+  PlayerLanePos:
+  - {x: -3.5, y: 3.5, z: 0}
+  - {x: -3.5, y: 2, z: 0}
+  - {x: -3.5, y: 0.5, z: 0}
+  - {x: -3.5, y: -1, z: 0}
+  - {x: -3.5, y: -2.5, z: 0}
+  - {x: -3.5, y: -4, z: 0}
   ChoosingAttack: 0
   ChoosingSkill: 
   SelectingAttack: 0
@@ -4249,7 +4264,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2076235360}
-  - {fileID: 95179610}
   m_Father: {fileID: 263088468}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
