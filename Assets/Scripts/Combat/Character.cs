@@ -244,16 +244,16 @@ public class Character : MonoBehaviour
             {
                 //Remaining defending stamina points are reduced and damage to strength is dealt to stamina points instead
                 target.GetComponent<Character>().DefendingStamina -= (int)(damageToStrength);
-                damageToStamina += damageToStrength - defendedBySpeed;
+                damageToStamina += defendedByStamina;
                 damageToStrength = 0;
             }
             //If defending staminapoints deplete
             else
             {
-                //Defending staminapoints equal 0, only the amount that was remaining is dealt to stamina points instead of strength
-                damageToStrength -= defendedTotalAmount;
-                damageToStamina += defendedTotalAmount - defendedBySpeed;
+                //Defending staminapoints equal 0 and only the amount that was remaining is dealt to stamina points instead of strength
                 target.GetComponent<Character>().DefendingStamina = 0;
+                damageToStamina += defendedByStamina;
+                damageToStrength -= defendedTotalAmount;
             }
         }
         else if (target.GetComponent<Character>().Resting)
