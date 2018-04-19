@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
+    private CombatAnimator CA;
     private ClickingScript CS;
     private CombatUIScript UI;
 
@@ -496,6 +497,7 @@ public class BattleManager : MonoBehaviour
     //Turns functions
     private void InitializeCombat()
     {
+        CA = GetComponent<CombatAnimator>();
         CS = GameObject.Find("BattleManager").GetComponent<ClickingScript>();
         UI = GameObject.Find("CombatButtons").GetComponent<CombatUIScript>();
         canvas = GameObject.Find("Canvas");
@@ -642,6 +644,7 @@ public class BattleManager : MonoBehaviour
     private void PlayerTurn()
     {
         InitializeRound();
+        CA.CameraReset();
         CS.ResetSelection();
         actionTurn = false;
         movementTurn = false;
@@ -681,7 +684,7 @@ public class BattleManager : MonoBehaviour
         if (movementTurn)
         {
             //Movement is performed if delay has passed and its index is not out of bounds
-            if (actionDelayRemaining <= 0 && nextActionIndex < MovementList.Count)
+            if (ActionDelayRemaining <= 0 && nextActionIndex < MovementList.Count)
             {
                 MovementList[nextActionIndex].Agent.GetComponent<Character>().SwitchPlaces(MovementList[nextActionIndex].Agent.GetComponent<Character>().LanePos, MovementList[nextActionIndex].TargetIndex);
 
@@ -689,16 +692,16 @@ public class BattleManager : MonoBehaviour
 
                 actionsDone += 1;
                 nextActionIndex += 1;
-                actionDelayRemaining = ActionDelay;
+                ActionDelayRemaining = ActionDelay;
             }
             else
             {
-                actionDelayRemaining -= Time.deltaTime;
+                ActionDelayRemaining -= Time.deltaTime;
             }
 
             if (actionsDone == MovementList.Count)
             {
-                actionDelayRemaining = 0;
+                ActionDelayRemaining = 0;
 
                 MovementList.Clear();
 
@@ -722,17 +725,18 @@ public class BattleManager : MonoBehaviour
     {
         if (actionTurn)
         {
+            CA.CameraMove(ActionList[nextActionIndex].Target.transform.position, 3);
+
             //Action is performed if delay has passed and its index is not out of bounds
-            if (actionDelayRemaining <= 0 && nextActionIndex < ActionList.Count)
+            if (ActionDelayRemaining <= 0 && nextActionIndex < ActionList.Count && !CA.CameraMoving)
             {
-            //Dead characters actions are not performed, also if character has no stamina at this point action is not performed. FOR NOW DEAD TARGETS ARE NOT ATTACKED!
+                //Dead characters actions are not performed, also if character has no stamina at this point action is not performed. FOR NOW DEAD TARGETS ARE NOT ATTACKED!
                 if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
                 {
                     if (ActionList[nextActionIndex].Target == null && !ActionList[nextActionIndex].SkillInUse)
                     {
-                        
-                    }
 
+                    }
                     else if (ActionList[nextActionIndex].SkillInUse)
                     {
                         ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Skill);
@@ -744,18 +748,19 @@ public class BattleManager : MonoBehaviour
 
                     ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
                 }
+
                 actionsDone += 1;
                 nextActionIndex += 1;
-                actionDelayRemaining = ActionDelay;
+                ActionDelayRemaining = ActionDelay;
             }
             else
             {
-                actionDelayRemaining -= Time.deltaTime;
+                ActionDelayRemaining -= Time.deltaTime;
             }
 
             if (actionsDone == ActionList.Count)
             {
-                actionDelayRemaining = 0;
+                ActionDelayRemaining = 0;
 
                 ActionList.Clear();
 
@@ -796,12 +801,12 @@ public class BattleManager : MonoBehaviour
                 restButton.SetActive(true);
             }
 
-            
+
             if (!SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack)
             {
                 attackButton.GetComponent<Image>().color = Color.green;
             }
-            else if(SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack && SelectedCharacter.GetComponent<Character>().UsingSkill == false) 
+            else if (SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack && SelectedCharacter.GetComponent<Character>().UsingSkill == false)
             {
                 attackButton.GetComponent<Image>().color = Color.black;
             }
@@ -904,7 +909,7 @@ public class BattleManager : MonoBehaviour
 
     //Debug
     public float ActionDelay;
-    private float actionDelayRemaining;
+    public float ActionDelayRemaining;
     public void InstantiateDamageNumber(int dmgToStr, int dmgToSta, Transform targetLocation)
     {
         DamageNumber dN;

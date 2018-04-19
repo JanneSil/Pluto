@@ -337,6 +337,7 @@ GameObject:
   - component: {fileID: 515580478}
   - component: {fileID: 515580477}
   - component: {fileID: 515580479}
+  - component: {fileID: 515580480}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -405,7 +406,8 @@ MonoBehaviour:
   SelectedEnemyCharacter: {fileID: 0}
   SelectedLanePos: 0
   InfoText: {fileID: 0}
-  ActionDelay: 1
+  ActionDelay: 3
+  ActionDelayRemaining: 0
 --- !u!4 &515580478
 Transform:
   m_ObjectHideFlags: 0
@@ -433,6 +435,22 @@ MonoBehaviour:
   ObjectClicked: 0
   CharacterClicked: 0
   EnemyCharacterClicked: 0
+--- !u!114 &515580480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 515580476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c05b36f2dbd73a647b6cb7a2f0640ffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BM: {fileID: 0}
+  CameraMoving: 0
+  CameraSpeed: 10
+  CameraTargetSize: 5
+  CameraTargetPosition: {x: 0, y: 0, z: -10}
 --- !u!1001 &875045520
 Prefab:
   m_ObjectHideFlags: 0
