@@ -498,7 +498,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 515580477}
-        m_MethodName: ChooseAttack
+        m_MethodName: AddSkill
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3553,7 +3553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyLanes:
   - {fileID: 1261597061264674, guid: 4fdf3c0ca7232584b86d142526487761, type: 2}
-  - {fileID: 0}
+  - {fileID: 1261597061264674, guid: 4fdf3c0ca7232584b86d142526487761, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -3561,8 +3561,8 @@ MonoBehaviour:
   PlayerLanes:
   - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
   - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
-  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
-  - {fileID: 1486413874490734, guid: 33a55377dfed87740adfb825efdc2c58, type: 2}
+  - {fileID: 1370551114335072, guid: 848fa363c4e05ee409985f96449f3769, type: 2}
+  - {fileID: 1370551114335072, guid: 848fa363c4e05ee409985f96449f3769, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   EnemyTankLanes:
@@ -4964,7 +4964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.9034482, g: 1, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8124,7 +8124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1428353127
 RectTransform:
   m_ObjectHideFlags: 0

@@ -56,14 +56,12 @@ public class ClickingScript : MonoBehaviour {
                         tempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
                     }
                     BM.SelectedLanePos = hit.collider.GetComponent<LaneInfo>().LanePos;
-                    BM.SelectedCharacter.GetComponent<Character>().ActionPoints -= 1;
-                    BM.SelectedCharacter.GetComponent<Character>().Moving = true;
+                    //BM.SelectedCharacter.GetComponent<Character>().ActionPoints -= 1;
+                    //BM.SelectedCharacter.GetComponent<Character>().Moving = true;
                     Debug.Log("Lane Pos: " + BM.SelectedLanePos);
                     BM.AddMove();
                     BM.InfoText.text = "";
                     ResetSelection();
-                    //Marker.transform.position = hit.transform.position;
-                    //Marker.SetActive(ObjectClicked);
                 }
 
                 else if (hit.collider.tag == "Player")
@@ -71,7 +69,6 @@ public class ClickingScript : MonoBehaviour {
                     ResetSelection();
                     ObjectClicked = false;
                     EnemyCharacterClicked = false;
-                    //Marker.SetActive(ObjectClicked);
 
                     if (tempEnemyUnitHolder != null)
                     {
@@ -114,7 +111,7 @@ public class ClickingScript : MonoBehaviour {
                     }
 
                     BM.InfoText.text = "";
-                    BM.SelectedCharacter.GetComponent<Character>().ActionPoints -= 2;
+                    //BM.SelectedCharacter.GetComponent<Character>().ActionPoints -= 2;
                     BM.SelectedCharacter.GetComponent<Character>().Attacking = true;
                     ResetSelection();
                 }

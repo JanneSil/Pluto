@@ -31,6 +31,7 @@ public class Character : MonoBehaviour
     public bool Moving;
     public bool Resting;
     public bool UsingSkill;
+    public string SkillBeingUsed;
 
     [Header("Stats:")]
     [Range(1, 100)]
