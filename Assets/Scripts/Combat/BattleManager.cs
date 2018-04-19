@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BattleManager : MonoBehaviour
 {
     private ClickingScript CS;
+    private CombatUIScript UI;
 
     private bool gameOver = false;
 
@@ -21,6 +22,8 @@ public class BattleManager : MonoBehaviour
                                                      new Vector3(4.2f, -1.9f, -3),
                                                      new Vector3(4.6f, -2.7f, -4),
                                                      new Vector3(   5, -3.5f, -5) };
+
+
     public Vector3[] PlayerLanePos = new Vector3[] { new Vector3(   -3,  0.5f,  0),
                                                       new Vector3(-3.4f, -0.3f, -1),
                                                       new Vector3(-3.8f, -1.1f, -2),
@@ -29,8 +32,8 @@ public class BattleManager : MonoBehaviour
                                                       new Vector3(   -5, -3.5f, -5) };
 
     //Lists
-    private List<Action> ActionList = new List<Action>();
-    private List<Action> MovementList = new List<Action>();
+    private List<CombatAction> ActionList = new List<CombatAction>();
+    private List<CombatAction> MovementList = new List<CombatAction>();
 
     //Selection variables
     public bool ChoosingAttack;
@@ -54,13 +57,17 @@ public class BattleManager : MonoBehaviour
     private int nextActionIndex;
 
     //UI buttons
+    private GameObject selectAttackButton;
+    private GameObject selectSkillButton;
+    private GameObject tankSkillButton;
+
     private GameObject attackButton;
     private GameObject defendButton;
     private GameObject endTurnButton;
     private GameObject moveButton;
     private GameObject resetButton;
     private GameObject restButton;
-    private GameObject tankSkillButton;
+    private GameObject skillButtons;
 
     //UI other
     private GameObject canvas;
@@ -126,12 +133,75 @@ public class BattleManager : MonoBehaviour
     }
     public void ChooseAttack(string skill)
     {
+        if (SelectedCharacter.GetComponent<Character>().Attacking == true)
+        {
+            for (int i = 0; i < ActionList.Count; ++i)
+            {
+                if (ActionList[i].Agent == SelectedCharacter)
+                {
+                    ActionList[i].Agent.GetComponent<Character>().AvailableStamina += ActionList[i].StaminaCost;
+                    ActionList.RemoveAt(i);
+                }
+            }
+
+            SelectedCharacter.GetComponent<Character>().Attacking = false;
+
+            if (skill == "")
+            {
+                SelectedCharacter.GetComponent<Character>().ActionPoints += 2;
+            }
+            else
+            {
+                SelectedCharacter.GetComponent<Character>().ActionPoints += 3;
+            }
+
+            return;
+        }
+        if (skill == "")
+        {
+            if (SelectedCharacter.GetComponent<Character>().ActionPoints < 2)
+            {
+                Debug.Log("Out of Action Points!");
+                return;
+            }
+            if (SelectedCharacter.GetComponent<Character>().AvailableStamina < 10)
+            {
+                Debug.Log("Out of Stamina!");
+                return;
+            }
+        }
+        if (skill != "")
+        {
+            if (SelectedCharacter.GetComponent<Character>().ActionPoints < 3)
+            {
+                Debug.Log("Out of Action Points!");
+                return;
+            }
+            if (SelectedCharacter.GetComponent<Character>().AvailableStamina < 15)
+            {
+                Debug.Log("Out of Stamina!");
+                return;
+            }
+        }
         SelectingAttack = true;
         ChoosingSkill = skill;
         InfoText.text = "Choose a target!";
     }
     public void ChooseDefend()
     {
+        if (SelectedCharacter.GetComponent<Character>().Defending == true)
+        {
+            SelectedCharacter.GetComponent<Character>().Defending = false;
+            SelectedCharacter.GetComponent<Character>().DefendingStamina = 0;
+            SelectedCharacter.GetComponent<Character>().ActionPoints += 2;
+            SelectedCharacter.GetComponent<Character>().AvailableStamina += 10;
+            return;
+        }
+        if (SelectedCharacter.GetComponent<Character>().ActionPoints < 2 || SelectedCharacter.GetComponent<Character>().AvailableStamina < 10)
+        {
+            Debug.Log("Out of Action Points/Stamina");
+            return;
+        }
         //Sets character to defend, reduces action points, resets selection
         SelectedCharacter.GetComponent<Character>().Defending = true;
         SelectedCharacter.GetComponent<Character>().DefendingStamina = 10;
@@ -141,11 +211,50 @@ public class BattleManager : MonoBehaviour
     }
     public void ChooseMove()
     {
+        if (SelectedCharacter.GetComponent<Character>().Moving)
+        {
+            for (int i = 0; i < MovementList.Count; ++i)
+            {
+                if (MovementList[i].Agent == SelectedCharacter)
+                {
+                    MovementList[i].Agent.GetComponent<Character>().AvailableStamina += MovementList[i].StaminaCost;
+                    MovementList.RemoveAt(i);
+                }
+
+            }
+
+            SelectedCharacter.GetComponent<Character>().Moving = false;
+            SelectedCharacter.GetComponent<Character>().ActionPoints += 1;
+            return;
+        }
+        if (SelectedCharacter.GetComponent<Character>().ActionPoints < 1)
+        {
+            Debug.Log("Out of Action Points!");
+            return;
+        }
+        if (SelectedCharacter.GetComponent<Character>().AvailableStamina < StaminaCostMovement(1, SelectedCharacter))
+        {
+            Debug.Log("Out of Stamina!");
+            return;
+        }
+
         SelectingMove = true;
         InfoText.text = "Choose a lane!";
     }
     public void ChooseRest()
     {
+        if (SelectedCharacter.GetComponent<Character>().Resting)
+        {
+            SelectedCharacter.GetComponent<Character>().Resting = false;
+            SelectedCharacter.GetComponent<Character>().ActionPoints += 3;
+            return;
+        }
+
+        if (SelectedCharacter.GetComponent<Character>().ActionPoints < 3)
+        {
+            Debug.Log("Out of Action Points!");
+            return;
+        }
         //Sets character to rest, reduces action points, resets selection
         SelectedCharacter.GetComponent<Character>().Resting = true;
         SelectedCharacter.GetComponent<Character>().ActionPoints -= 3;
@@ -156,13 +265,16 @@ public class BattleManager : MonoBehaviour
         EnemyTurn();
     }
 
+
     //List functions
     public void AddAttack()
     {
         //Creates a new action and adds it to the action list
-        Action attack = new Action();
+        CombatAction attack = new CombatAction();
         attack.Agent = SelectedCharacter;
         attack.Target = SelectedEnemyCharacter;
+        SelectedCharacter.GetComponent<Character>().Attacking = true;
+        SelectedCharacter.GetComponent<Character>().ActionPoints -= 2;
 
         attack.ActionSpeed = SelectedCharacter.GetComponent<Character>().Speed;
         attack.StaminaCost = StaminaCostAttack();
@@ -178,43 +290,90 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-        Action move = new Action();
+
+        CombatAction move = new CombatAction();
         move.Agent = SelectedCharacter;
         move.TargetIndex = SelectedLanePos;
+        move.StaminaCost = StaminaCostMovement(move.TargetIndex - move.Agent.GetComponent<Character>().LanePos, move.Agent);
+
+        if (move.Agent.GetComponent<Character>().AvailableStamina < move.StaminaCost)
+        {
+            Debug.Log("Not Enough Stamina");
+            return;
+        }
+
         move.IsPlayer = true;
         move.IsTanking = SelectedCharacter.GetComponent<Character>().IsTanking;
         move.Class = SelectedCharacter.GetComponent<Character>().Class;
 
-        move.StaminaCost = StaminaCostMovement(move.TargetIndex - move.Agent.GetComponent<Character>().LanePos, move.Agent);
+        SelectedCharacter.GetComponent<Character>().Moving = true;
+        SelectedCharacter.GetComponent<Character>().ActionPoints -= 1;
+
         move.Agent.GetComponent<Character>().AvailableStamina -= move.StaminaCost;
 
         MovementList.Add(move);
 
         CS.ResetSelection();
     }
-    public void AddSkill()
+    public void AddSkill(string newSkill)
     {
-        Action skill = new Action();
+        if (newSkill == "TankSkill" && SelectedCharacter.GetComponent<Character>().UsingSkill)
+        {
+            for (int i = 0; i < ActionList.Count; ++i)
+            {
+                if (ActionList[i].Agent == SelectedCharacter)
+                {
+                    ActionList[i].Agent.GetComponent<Character>().AvailableStamina += ActionList[i].StaminaCost;
+                    ActionList.RemoveAt(i);
+                }
+
+            }
+            SelectedCharacter.GetComponent<Character>().ActionPoints += 3;
+            SelectedCharacter.GetComponent<Character>().UsingSkill = false;
+            SelectedCharacter.GetComponent<Character>().SkillBeingUsed = "";
+            return;
+        }
+
+        CombatAction skill = new CombatAction();
         skill.Agent = SelectedCharacter;
-        skill.Target = SelectedEnemyCharacter;
-        skill.Skill = ChoosingSkill;
+        if (SelectedEnemyCharacter != null)
+        {
+            skill.Target = SelectedEnemyCharacter;
+        }
+        else
+        {
+            skill.Target = null;
+        }
+
+        skill.Skill = newSkill;
+
+        skill.StaminaCost = StaminaCostSkill(skill.Skill);
+
+        if (skill.Agent.GetComponent<Character>().AvailableStamina < skill.StaminaCost)
+        {
+            Debug.Log("Not Enough Stamina");
+            return;
+        }
+
+        skill.Agent.GetComponent<Character>().AvailableStamina -= skill.StaminaCost;
+        SelectedCharacter.GetComponent<Character>().ActionPoints -= 3;
+        skill.SkillInUse = true;
+        SelectedCharacter.GetComponent<Character>().SkillBeingUsed = newSkill;
 
         CS.ResetSelection();
 
         skill.ActionSpeed = SelectedCharacter.GetComponent<Character>().Speed;
-        skill.StaminaCost = StaminaCostSkill(ChoosingSkill);
+
+        SelectedCharacter.GetComponent<Character>().UsingSkill = true;
         ChoosingSkill = "";
 
-        if (skill.Agent.GetComponent<Character>().StaminaPoints >= skill.StaminaCost)
-        {
-            ActionList.Add(skill);
-        }
+        ActionList.Add(skill);
     }
 
     private void AddAttack(GameObject enemyAgent)
     {
         //Creates a new action and adds it to the action list
-        Action attack = new Action();
+        CombatAction attack = new CombatAction();
         attack.Agent = enemyAgent;
         while (attack.Target == null)//Possible crash at game over, if player ends turn after defeat!
         {
@@ -232,12 +391,14 @@ public class BattleManager : MonoBehaviour
     }
     private void AddMove(GameObject enemyAgent)
     {
-        Action move = new Action();
+        CombatAction move = new CombatAction();
         move.Agent = enemyAgent;
         move.TargetIndex = Random.Range(0, 5);
 
         move.StaminaCost = StaminaCostMovement(move.TargetIndex - move.Agent.GetComponent<Character>().LanePos, move.Agent);
+
         move.Agent.GetComponent<Character>().AvailableStamina -= move.StaminaCost;
+
 
         if (move.Agent.GetComponent<Character>().StaminaPoints >= move.StaminaCost)//Could be arbituary, check later date
         {
@@ -334,7 +495,13 @@ public class BattleManager : MonoBehaviour
     private void InitializeCombat()
     {
         CS = GameObject.Find("BattleManager").GetComponent<ClickingScript>();
+        UI = GameObject.Find("CombatButtons").GetComponent<CombatUIScript>();
         canvas = GameObject.Find("Canvas");
+
+        selectAttackButton = GameObject.Find("SelectAttackAction");
+        selectSkillButton = GameObject.Find("SelectSkillButton");
+        tankSkillButton = GameObject.Find("TankSkillButton");
+
         attackButton = GameObject.Find("AttackButton");
         defendButton = GameObject.Find("DefendButton");
         endTurnButton = GameObject.Find("EndTurnButton");
@@ -342,18 +509,20 @@ public class BattleManager : MonoBehaviour
         resetButton = GameObject.Find("ResetButton");
         restButton = GameObject.Find("RestButton");
         infoTextObject = GameObject.Find("InfoText");
-        tankSkillButton = GameObject.Find("TankSkillButton");
+        skillButtons = GameObject.Find("Skills");
+
         InfoText = infoTextObject.GetComponent<Text>();
         InfoText.text = "";
+
         attackButton.SetActive(false);//Setting buttons inactive at start in code seems arbitrary
         defendButton.SetActive(false);
         endTurnButton.SetActive(false);
         moveButton.SetActive(false);
         resetButton.SetActive(false);
         restButton.SetActive(false);
-        tankSkillButton.SetActive(false);
         actionTurn = false;
         movementTurn = false;
+
         playerTurn = true;
 
         //Initialize enemy lanes
@@ -400,6 +569,8 @@ public class BattleManager : MonoBehaviour
                 PlayerLanes[i].GetComponent<Character>().Defending = false;
                 PlayerLanes[i].GetComponent<Character>().Moving = false;
                 PlayerLanes[i].GetComponent<Character>().Resting = false;
+                PlayerLanes[i].GetComponent<Character>().UsingSkill = false;
+                PlayerLanes[i].GetComponent<Character>().SkillBeingUsed = "";
 
                 PlayerLanes[i].GetComponent<Character>().AvailableStamina = PlayerLanes[i].GetComponent<Character>().StaminaPoints;
             }
@@ -552,11 +723,22 @@ public class BattleManager : MonoBehaviour
             //Action is performed if delay has passed and its index is not out of bounds
             if (actionDelayRemaining <= 0 && nextActionIndex < ActionList.Count)
             {
-                //Dead characters actions are not performed, also if character has no stamina at this point action is not performed. FOR NOW DEAD TARGETS ARE NOT ATTACKED!
-                if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].Target != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
+            //Dead characters actions are not performed, also if character has no stamina at this point action is not performed. FOR NOW DEAD TARGETS ARE NOT ATTACKED!
+                if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
                 {
-                    ActionList[nextActionIndex].Agent.GetComponent<Character>().Attack(ActionList[nextActionIndex].Target);
-                    ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Target, ActionList[nextActionIndex].Skill);
+                    if (ActionList[nextActionIndex].Target == null && !ActionList[nextActionIndex].SkillInUse)
+                    {
+                        
+                    }
+
+                    else if (ActionList[nextActionIndex].SkillInUse)
+                    {
+                        ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Skill);
+                    }
+                    else
+                    {
+                        ActionList[nextActionIndex].Agent.GetComponent<Character>().Attack(ActionList[nextActionIndex].Target);
+                    }
 
                     ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
                 }
@@ -588,65 +770,121 @@ public class BattleManager : MonoBehaviour
         if (CS.CharacterClicked && !SelectingAttack && !SelectingMove)
         {
             //Display attack button
-            //True if character is not already attacking, has enough action points and has enough unused stamina points
-            if (!SelectedCharacter.GetComponent<Character>().Attacking && SelectedCharacter.GetComponent<Character>().ActionPoints >= 2 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= 10)
+            selectAttackButton.SetActive(true);
+
+            if (UI.SelectAttack && !UI.SelectSkill)
             {
                 attackButton.SetActive(true);
+                selectSkillButton.SetActive(true);
+                moveButton.SetActive(false);
+                restButton.SetActive(false);
+                defendButton.SetActive(false);
+            }
+            else if (UI.SelectAttack && UI.SelectSkill)
+            {
+                attackButton.SetActive(false);
             }
             else
             {
                 attackButton.SetActive(false);
+                selectSkillButton.SetActive(false);
+                UI.SelectSkill = false;
+                defendButton.SetActive(true);
+                moveButton.SetActive(true);
+                restButton.SetActive(true);
             }
 
-            if (!SelectedCharacter.GetComponent<Character>().Attacking && SelectedCharacter.GetComponent<Character>().ActionPoints >= 2 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= 10 && SelectedCharacter.GetComponent<Character>().Class == "Tank")
+            
+            if (!SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack)
             {
-                tankSkillButton.SetActive(true);
+                attackButton.GetComponent<Image>().color = Color.green;
+            }
+            else if(SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack && SelectedCharacter.GetComponent<Character>().UsingSkill == false) 
+            {
+                attackButton.GetComponent<Image>().color = Color.black;
+            }
+
+            if (UI.SelectSkill)
+            {
+                skillButtons.SetActive(true);
             }
             else
             {
-                tankSkillButton.SetActive(false);
+                skillButtons.SetActive(false);
+            }
+
+            if (SelectedCharacter.GetComponent<Character>().UsingSkill)
+            {
+                selectSkillButton.GetComponent<Image>().color = Color.black;
+            }
+            else
+            {
+                selectSkillButton.GetComponent<Image>().color = Color.green;
+            }
+
+            if (SelectedCharacter.GetComponent<Character>().Attacking || SelectedCharacter.GetComponent<Character>().UsingSkill)
+            {
+                selectAttackButton.GetComponent<Image>().color = Color.black;
+            }
+            else
+            {
+                selectAttackButton.GetComponent<Image>().color = Color.yellow;
+            }
+            if (SelectedCharacter.GetComponent<Character>().SkillBeingUsed == "TankSkill")
+            {
+                tankSkillButton.GetComponent<Image>().color = Color.black;
+            }
+            else
+            {
+                tankSkillButton.GetComponent<Image>().color = Color.green;
             }
 
             //Display defend button
-            //True if character is not already defending, has enough action points and has enough unsued stamina points
-            if (!SelectedCharacter.GetComponent<Character>().Defending && SelectedCharacter.GetComponent<Character>().ActionPoints >= 2 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= 10)
+            if (!SelectedCharacter.GetComponent<Character>().Defending)
             {
-                defendButton.SetActive(true);
+                defendButton.GetComponent<Image>().color = Color.green;
             }
-            else
+
+            else if (SelectedCharacter.GetComponent<Character>().Defending)
             {
-                defendButton.SetActive(false);
+                defendButton.GetComponent<Image>().color = Color.black;
             }
+
 
             //Display move button
             //True if character is not already moving, has enough action points and has enough unused stamina to atleast move a single lane factoring in the characters speed stat
-            if (!SelectedCharacter.GetComponent<Character>().Moving && SelectedCharacter.GetComponent<Character>().ActionPoints >= 1 && SelectedCharacter.GetComponent<Character>().AvailableStamina >= StaminaCostMovement(1, SelectedCharacter))
+            if (!SelectedCharacter.GetComponent<Character>().Moving)
             {
-                moveButton.SetActive(true);
+                moveButton.GetComponent<Image>().color = Color.green;
             }
-            else
+            else if (SelectedCharacter.GetComponent<Character>().Moving)
             {
-                moveButton.SetActive(false);
+                moveButton.GetComponent<Image>().color = Color.black;
             }
 
             //Display rest button
-            //True if character is not already resting and has enough action points
-            if (!SelectedCharacter.GetComponent<Character>().Resting && SelectedCharacter.GetComponent<Character>().ActionPoints >= 3)
+            if (!SelectedCharacter.GetComponent<Character>().Resting)
             {
-                restButton.SetActive(true);
+                restButton.GetComponent<Image>().color = Color.green;
             }
-            else
+            else if (SelectedCharacter.GetComponent<Character>().Resting)
             {
-                restButton.SetActive(false);
+                restButton.GetComponent<Image>().color = Color.black;
             }
+
         }
         else
         {
+            selectAttackButton.SetActive(false);
             attackButton.SetActive(false);
             defendButton.SetActive(false);
             moveButton.SetActive(false);
             restButton.SetActive(false);
-            tankSkillButton.SetActive(false);
+            skillButtons.SetActive(false);
+            selectSkillButton.SetActive(false);
+
+            UI.SelectAttack = false;
+            UI.SelectSkill = false;
         }
 
         //Display reset and end turn button

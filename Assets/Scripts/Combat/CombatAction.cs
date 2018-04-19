@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Action
+public class CombatAction
 {
     public bool IsPlayer;
     public bool IsTanking;
+    public bool SkillInUse;
 
     public string Class;
     public string Skill;
