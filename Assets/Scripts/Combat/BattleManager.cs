@@ -317,6 +317,7 @@ public class BattleManager : MonoBehaviour
     }
     public void AddSkill(string newSkill)
     {
+
         if (newSkill == "TankSkill" && SelectedCharacter.GetComponent<Character>().UsingSkill)
         {
             for (int i = 0; i < ActionList.Count; ++i)
@@ -333,6 +334,7 @@ public class BattleManager : MonoBehaviour
             SelectedCharacter.GetComponent<Character>().SkillBeingUsed = "";
             return;
         }
+
 
         CombatAction skill = new CombatAction();
         skill.Agent = SelectedCharacter;
