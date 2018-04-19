@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0543fe805424df99fe08ce744cbe49, type: 3}
+  m_Name: Idle_Base
+  m_EditorClassIdentifier: 
+  m_PoseEntries:
+  - path: Bones/bn_mors_hips
+    localPosition: {x: -0.19187525, y: 5.9974656, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.7317299, w: 0.6815948}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1
+    localPosition: {x: 0.8947638, y: -0.000000059604645, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.057863045, w: 0.9983246}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2
+    localPosition: {x: 1.7467976, y: -0.00000012188684, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.124015845, w: 0.99228024}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_neck
+    localPosition: {x: 3.3082788, y: 0.000000007450581, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.08483082, w: 0.9963954}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_neck/bn_mors_head
+    localPosition: {x: 0.9755005, y: 0.00000056182034, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.07503769, w: 0.9971807}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_r_shoulder
+    localPosition: {x: 2.2278118, y: 0.48971906, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.81511, w: 0.57930624}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_r_shoulder/bn_mors_r_arm
+    localPosition: {x: 2.026214, y: -0.00000166893, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.3006664, w: 0.9537294}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_r_shoulder/bn_mors_r_arm/bn_mors_r_forearm
+    localPosition: {x: 2.5367959, y: -0.0000022053719, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.63455504, w: 0.7728777}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_r_shoulder/bn_mors_r_arm/bn_mors_r_forearm/bn_mors_r_hand
+    localPosition: {x: 2.35728, y: -0.000000834465, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.04654591, w: 0.99891615}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_r_shoulder/bn_mors_r_arm/bn_mors_r_forearm/bn_mors_r_hand/bn_mors_weapon
+    localPosition: {x: 0.73219216, y: 0.05178646, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.62789875, w: -0.7782951}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_l_shoulder
+    localPosition: {x: 2.4094071, y: -0.90670097, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.6212627, w: 0.7836024}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_l_shoulder/bn_mors_l_arm
+    localPosition: {x: 1.4570651, y: 0.0000013113022, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.5918689, w: 0.8060343}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_l_shoulder/bn_mors_l_arm/bn_mors_l_forearm
+    localPosition: {x: 3.0930285, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.03468887, w: 0.9993982}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_l_shoulder/bn_mors_l_arm/bn_mors_l_forearm/bn_mors_l_hand
+    localPosition: {x: 1.8906064, y: 0.000000006315531, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.045264807, w: 0.9989751}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_spine1/bn_mors_spine2/bn_mors_l_shoulder/bn_mors_l_arm/bn_mors_shield
+    localPosition: {x: 0.84710693, y: 1.0416719, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.6164948, w: 0.787359}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_r_leg
+    localPosition: {x: -0.26499522, y: 1.3760723, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.9518066, w: 0.3066989}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_r_leg/bn_mors_r_knee
+    localPosition: {x: 2.3440871, y: -0.00000047683716, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.12584212, w: 0.9920503}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_r_leg/bn_mors_r_knee/bn_mors_r_foot
+    localPosition: {x: 3.5336733, y: -0.0000008735806, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.31790105, w: 0.94812393}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_l_leg
+    localPosition: {x: -0.61795014, y: -0.6849309, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.9084365, w: 0.41802296}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_l_leg/bn_mors_l_knee
+    localPosition: {x: 2.5151672, y: -0.00000023841858, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.38904142, w: 0.92122024}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_l_leg/bn_mors_l_knee/bn_mors_l_foot
+    localPosition: {x: 3.5760963, y: 0.0000016093254, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.39366037, w: 0.919256}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_clothphys_1
+    localPosition: {x: -0.46016887, y: -0.20314592, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.9998709, w: -0.016069455}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_clothphys_1/bn_mors_clothphys_2
+    localPosition: {x: 1.6580428, y: 0.00000026077032, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.012308601, w: 0.99992424}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_clothphys_1/bn_mors_clothphys_2/bn_mors_clothphys_3
+    localPosition: {x: 1.5987672, y: 0.000000018823812, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.0033138054, w: 0.9999945}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_r_armorphys
+    localPosition: {x: 0.5277213, y: 1.3241827, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.92344975, w: 0.3837194}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_mors_hips/bn_mors_l_armorphys
+    localPosition: {x: 0.2821457, y: -1.2366862, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.9301383, w: 0.3672095}
+    localScale: {x: 1, y: 1, z: 1}
