@@ -260,6 +260,11 @@ public class BattleManager : MonoBehaviour
         SelectedCharacter.GetComponent<Character>().ActionPoints -= 3;
         CS.ResetSelection();
     }
+    public void EnemyRest(GameObject agent)
+    {
+        agent.GetComponent<Character>().Resting = true;
+        agent.GetComponent<Character>().ActionPoints -= 3;
+    } 
     public void EndTurn()
     {
         EnemyTurn();
@@ -377,9 +382,24 @@ public class BattleManager : MonoBehaviour
         //Creates a new action and adds it to the action list
         CombatAction attack = new CombatAction();
         attack.Agent = enemyAgent;
-        while (attack.Target == null)//Possible crash at game over, if player ends turn after defeat!
+
+        //while (attack.Target == null)//Possible crash at game over, if player ends turn after defeat!
+        //{
+        //    attack.Target = PlayerLanes[Random.Range(0, 5)];
+        //}
+
+        if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos] != null)
         {
-            attack.Target = PlayerLanes[Random.Range(0, 5)];
+            attack.Target = PlayerLanes[enemyAgent.GetComponent<Character>().LanePos];
+        }
+        else
+        {
+            attack.Target = PlayerLanes[CheckLaneForAttack(enemyAgent.GetComponent<Character>().LanePos)];
+
+            if (attack.Target == null)
+            {
+                    attack.Target = PlayerLanes[Random.Range(0, 5)];
+            }
         }
 
         attack.ActionSpeed = enemyAgent.GetComponent<Character>().Speed;
@@ -395,7 +415,56 @@ public class BattleManager : MonoBehaviour
     {
         CombatAction move = new CombatAction();
         move.Agent = enemyAgent;
-        move.TargetIndex = Random.Range(0, 5);
+
+        if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos] != null)
+        {
+            return;
+        }
+        else
+        {
+
+            for (int i = 0; i < 6; ++i)
+                {
+
+                if (enemyAgent.GetComponent<Character>().LanePos + i >= 0 && enemyAgent.GetComponent<Character>().LanePos + i < 5)
+                    {
+                    
+                        if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos + i] != null)
+                        {
+                            if (EnemyLanes[enemyAgent.GetComponent<Character>().LanePos + i] == null)
+                            {
+                                move.TargetIndex = enemyAgent.GetComponent<Character>().LanePos + i;
+                                continue;
+                            }
+                        }
+                    }
+                  if (enemyAgent.GetComponent<Character>().LanePos - i <= 5 && enemyAgent.GetComponent<Character>().LanePos - i > 0)
+                    {
+                   
+                    if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos - i] != null)
+                        {
+                            if (EnemyLanes[enemyAgent.GetComponent<Character>().LanePos - i] == null)
+                            {
+                                move.TargetIndex = enemyAgent.GetComponent<Character>().LanePos - i;
+                                continue;
+                            }
+                        }
+
+                    }
+                }
+
+            
+            //move.TargetIndex = Random.Range(0, 5);
+        }
+
+        for (int i = 0; i < MovementList.Count; ++i)
+        {
+            if (MovementList[i].TargetIndex == move.TargetIndex)
+            {
+                move.TargetIndex = Random.Range(0, 5);
+
+            }
+        }
 
         move.StaminaCost = StaminaCostMovement(move.TargetIndex - move.Agent.GetComponent<Character>().LanePos, move.Agent);
 
@@ -433,64 +502,61 @@ public class BattleManager : MonoBehaviour
     //Check lane to remove Tank after depleting all stamina
     private void CheckLane(int number)
     {
-        if (PlayerLanes[number].GetComponent<Character>().LanePos == 5)
-        {
             for (int i = 1; i < 5; ++i)
             {
-                if (PlayerLanes[number - i] == null)
+                if (PlayerLanes[number].GetComponent<Character>().LanePos + i < 5)
                 {
-                    PlayerLanes[number - i] = PlayerTankLanes[number];
-                    PlayerLanes[number - i].GetComponent<Character>().LanePos = number - i;
-                    PlayerTankLanes[number] = null;
-                    PlayerLanes[number - i].GetComponent<Character>().IsTanking = false;
-                    PlayerLanes[number - i].transform.position = PlayerLanePos[number - i];
-                    return;
+                    if (PlayerLanes[number + i] == null)
+                    {
+                        PlayerLanes[number + i] = PlayerTankLanes[number];
+                        PlayerLanes[number + i].GetComponent<Character>().LanePos = number + i;
+                        PlayerTankLanes[number] = null;
+                        PlayerLanes[number + i].GetComponent<Character>().IsTanking = false;
+                        PlayerLanes[number + i].transform.position = PlayerLanePos[number + i];
+                        return;
+                    }
+                }
+
+                if (PlayerLanes[number].GetComponent<Character>().LanePos + i > 0)
+                {
+                    if (PlayerLanes[number - i] == null)
+                    {
+                        PlayerLanes[number - i] = PlayerTankLanes[number];
+                        PlayerLanes[number - i].GetComponent<Character>().LanePos = number - i;
+                        PlayerTankLanes[number] = null;
+                        PlayerLanes[number - i].GetComponent<Character>().IsTanking = false;
+                        PlayerLanes[number - i].transform.position = PlayerLanePos[number - i];
+                        return;
+                    }
                 }
             }
 
-        }
-        else if (PlayerLanes[number].GetComponent<Character>().LanePos == 0)
-        {
-            for (int i = 1; i < 5; ++i)
+    }
+    private int CheckLaneForAttack(int number)
+    {
+
+        for (int i = 0; i < 6; ++i)
             {
-                if (PlayerLanes[number + i] == null)
+                if (number + i <= 5)
                 {
-                    PlayerLanes[number + i] = PlayerTankLanes[number];
-                    PlayerLanes[number + i].GetComponent<Character>().LanePos = number + i;
-                    PlayerTankLanes[number] = null;
-                    PlayerLanes[number + i].GetComponent<Character>().IsTanking = false;
-                    PlayerLanes[number + i].transform.position = PlayerLanePos[number + i];
-                    return;
+                    if (PlayerLanes[number + i] != null) 
+                        {
+                            return PlayerLanes[number + i].GetComponent<Character>().LanePos;
+                        }   
+
                 }
+                if (number - i >= 0)
+                {
+                    if (PlayerLanes[number - i] != null)
+                    {
+                        return PlayerLanes[number - i].GetComponent<Character>().LanePos;
+                    }
+
+                }
+
             }
-
-        }
-
-        else if (PlayerLanes[number].GetComponent<Character>().LanePos != 5 && PlayerLanes[number].GetComponent<Character>().LanePos != 0)
-        {
-            for (int i = 1; i < 5; ++i)
-            {
-                if (PlayerLanes[number + i] == null)
-                {
-                    PlayerLanes[number + i] = PlayerTankLanes[number];
-                    PlayerLanes[number + i].GetComponent<Character>().LanePos = number + i;
-                    PlayerTankLanes[number] = null;
-                    PlayerLanes[number + i].GetComponent<Character>().IsTanking = false;
-                    PlayerLanes[number + i].transform.position = PlayerLanePos[number + i];
-                    return;
-                }
-                else if (PlayerLanes[number - i] == null)
-                {
-                    PlayerLanes[number - i] = PlayerTankLanes[number];
-                    PlayerLanes[number - i].GetComponent<Character>().LanePos = number - i;
-                    PlayerTankLanes[number] = null;
-                    PlayerLanes[number - i].GetComponent<Character>().IsTanking = false;
-                    PlayerLanes[number - i].transform.position = PlayerLanePos[number - i];
-                    return;
-                }
-            }
-
-        }
+        
+            return EnemyLanes[number].GetComponent<Character>().LanePos;
     }
 
     //Turns functions
@@ -659,7 +725,10 @@ public class BattleManager : MonoBehaviour
         {
             if (EnemyLanes[i] != null)
             {
-                //Enemy randomly chooses action, adds to MovementList and ActionList
+                if (EnemyLanes[i].GetComponent<Character>().AvailableStamina < 10)
+                {
+                    EnemyRest(EnemyLanes[i]);
+                }
                 AddMove(EnemyLanes[i]);
                 AddAttack(EnemyLanes[i]);
             }

@@ -406,18 +406,22 @@ public class Character : MonoBehaviour
         {
             if (BM.EnemyLanes[targetIndex] != null)
             {
-                GameObject startGO = BM.EnemyLanes[startIndex];
-                GameObject targetGO = BM.EnemyLanes[targetIndex];
-
-                BM.EnemyLanes[targetIndex] = startGO;
-                LanePos = targetIndex;
-                BM.EnemyLanes[startIndex] = targetGO;
-                BM.EnemyLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
-
-
-                BM.EnemyLanes[startIndex].transform.position = BM.EnemyLanePos[startIndex];
-                BM.EnemyLanes[targetIndex].transform.position = BM.EnemyLanePos[targetIndex];
+                return;
             }
+            //if (BM.EnemyLanes[targetIndex] != null)
+            //{
+            //    GameObject startGO = BM.EnemyLanes[startIndex];
+            //    GameObject targetGO = BM.EnemyLanes[targetIndex];
+
+            //    BM.EnemyLanes[targetIndex] = startGO;
+            //    LanePos = targetIndex;
+            //    BM.EnemyLanes[startIndex] = targetGO;
+            //    BM.EnemyLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
+
+
+            //    BM.EnemyLanes[startIndex].transform.position = BM.EnemyLanePos[startIndex];
+            //    BM.EnemyLanes[targetIndex].transform.position = BM.EnemyLanePos[targetIndex];
+            //}
             else
             {
                 BM.EnemyLanes[targetIndex] = BM.EnemyLanes[startIndex];
