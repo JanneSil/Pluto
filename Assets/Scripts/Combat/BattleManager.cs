@@ -29,8 +29,8 @@ public class BattleManager : MonoBehaviour
                                                       new Vector3(   -5, -3.5f, -5) };
 
     //Lists
-    private List<Action> ActionList = new List<Action>();
-    private List<Action> MovementList = new List<Action>();
+    private List<CombatAction> ActionList = new List<CombatAction>();
+    private List<CombatAction> MovementList = new List<CombatAction>();
 
     //Selection variables
     public bool ChoosingAttack;
@@ -160,7 +160,7 @@ public class BattleManager : MonoBehaviour
     public void AddAttack()
     {
         //Creates a new action and adds it to the action list
-        Action attack = new Action();
+        CombatAction attack = new CombatAction();
         attack.Agent = SelectedCharacter;
         attack.Target = SelectedEnemyCharacter;
 
@@ -178,7 +178,7 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-        Action move = new Action();
+        CombatAction move = new CombatAction();
         move.Agent = SelectedCharacter;
         move.TargetIndex = SelectedLanePos;
         move.IsPlayer = true;
@@ -194,7 +194,7 @@ public class BattleManager : MonoBehaviour
     }
     public void AddSkill()
     {
-        Action skill = new Action();
+        CombatAction skill = new CombatAction();
         skill.Agent = SelectedCharacter;
         skill.Target = SelectedEnemyCharacter;
         skill.Skill = ChoosingSkill;
@@ -214,7 +214,7 @@ public class BattleManager : MonoBehaviour
     private void AddAttack(GameObject enemyAgent)
     {
         //Creates a new action and adds it to the action list
-        Action attack = new Action();
+        CombatAction attack = new CombatAction();
         attack.Agent = enemyAgent;
         while (attack.Target == null)//Possible crash at game over, if player ends turn after defeat!
         {
@@ -232,7 +232,7 @@ public class BattleManager : MonoBehaviour
     }
     private void AddMove(GameObject enemyAgent)
     {
-        Action move = new Action();
+        CombatAction move = new CombatAction();
         move.Agent = enemyAgent;
         move.TargetIndex = Random.Range(0, 5);
 

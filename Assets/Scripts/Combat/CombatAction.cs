@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Action
+public class CombatAction
 {
     public bool IsPlayer;
     public bool IsTanking;
