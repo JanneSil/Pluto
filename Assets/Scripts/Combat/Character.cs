@@ -54,7 +54,6 @@ public class Character : MonoBehaviour
     private float staminaOverkill;
     private float strengthPortion;
 
-    [HideInInspector]
     //Movement variables
     private float moveMargin;
     private float movePause;
@@ -411,6 +410,9 @@ public class Character : MonoBehaviour
                 BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
 
             }
+        //Debug
+        moveStartPos = BM.PlayerLanePos[targetIndex];
+        moveTargetPos = BM.PlayerLanePos[targetIndex];
         }
         else
         {
@@ -436,6 +438,9 @@ public class Character : MonoBehaviour
 
                 BM.EnemyLanes[targetIndex].transform.position = BM.EnemyLanePos[targetIndex];
             }
+            //Debug
+            moveStartPos = BM.EnemyLanePos[targetIndex];
+            moveTargetPos = BM.EnemyLanePos[targetIndex];
         }
     }
     public void Attack(GameObject target)
@@ -498,7 +503,7 @@ public class Character : MonoBehaviour
     public void SetMove(Vector3 targetPos, float pause, float speed, float margin)
     {
         movePause = pause;
-            moveTargetPos = targetPos;
+        moveTargetPos = targetPos;
         if (Player)
         {
             moveStartPos = BM.PlayerLanePos[LanePos];

@@ -738,23 +738,27 @@ public class BattleManager : MonoBehaviour
             //nextActionIndex is in bounds
             if (nextActionIndex < ActionList.Count)
             {
-                //Camera wait time has passed
-                if (cameraWait <= 0)
+                //Dead characters actions do not move the camera or the character, also if character has no stamina at this point action is not performed.
+                if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
                 {
-                    CA.CameraMove(ActionList[nextActionIndex].Target.transform.position, CameraAttackSize);
-                }
+                    //Camera wait time has passed
+                    if (cameraWait <= 0)
+                    {
+                        CA.CameraMove(ActionList[nextActionIndex].Target.transform.position, CameraAttackSize);
+                    }
 
-                //Character hasn't moved and the next action's agent has sufficent stamina points
-                if (!characterMoved && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
-                {
-                    CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f);
-                    characterMoved = true;
+                    //Character hasn't moved
+                    if (!characterMoved)
+                    {
+                        CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f);
+                        characterMoved = true;
+                    }
                 }
 
                 //Action is performed if delay has passed
                 if (actionDelayRemaining <= 0)
                 {
-                    //Dead characters actions are not performed, also if character has no stamina at this point action is not performed. Dead targets are not attacked.
+                    //Dead characters actions are not performed, also if character has no stamina at this point action is not performed.
                     if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
                     {
                         if (ActionList[nextActionIndex].Target == null && !ActionList[nextActionIndex].SkillInUse)
