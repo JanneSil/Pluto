@@ -406,8 +406,8 @@ MonoBehaviour:
   SelectedEnemyCharacter: {fileID: 0}
   SelectedLanePos: 0
   InfoText: {fileID: 0}
-  ActionDelay: 3
-  ActionDelayRemaining: 0
+  ActionDelay: 2
+  CameraAttackSize: 3
 --- !u!4 &515580478
 Transform:
   m_ObjectHideFlags: 0
@@ -447,10 +447,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BM: {fileID: 0}
-  CameraMoving: 0
+  CameraMargin: 0.01
   CameraSpeed: 10
-  CameraTargetSize: 5
-  CameraTargetPosition: {x: 0, y: 0, z: -10}
+  MoveMargin: 0.05
+  MoveSpeed: 10
+  AttackingOffset: {x: 2, y: 0, z: 0}
 --- !u!1001 &875045520
 Prefab:
   m_ObjectHideFlags: 0

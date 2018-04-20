@@ -54,8 +54,15 @@ public class Character : MonoBehaviour
     private float staminaOverkill;
     private float strengthPortion;
 
-    //Turn saved stats
     [HideInInspector]
+    //Movement variables
+    private float moveMargin;
+    private float movePause;
+    private float moveSpeed;
+    private Vector3 moveStartPos;
+    private Vector3 moveTargetPos;
+
+    //Turn saved stats
     public bool Player;
 
     public int AvailableStamina;
@@ -65,6 +72,7 @@ public class Character : MonoBehaviour
     private int staminaPointsMax;
     private int strengthPointsMax;
 
+    //Unity functions
     void Start()
     {
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
@@ -136,6 +144,8 @@ public class Character : MonoBehaviour
         {
             Die();
         }
+
+        moveUpdate();
     }
 
     private void Die()
@@ -482,6 +492,53 @@ public class Character : MonoBehaviour
         else if (Skill == "")
         {
             return;
+        }
+    }
+
+    public void SetMove(Vector3 targetPos, float pause, float speed, float margin)
+    {
+        movePause = pause;
+            moveTargetPos = targetPos;
+        if (Player)
+        {
+            moveStartPos = BM.PlayerLanePos[LanePos];
+        }
+        else
+        {
+            moveStartPos = BM.EnemyLanePos[LanePos];
+        }
+        moveMargin = margin;
+        moveSpeed = speed;
+    }
+
+    private void moveUpdate()
+    {
+        Vector3 prevPos;
+        Vector3 stepPos;
+
+        Vector2 compareAgent = new Vector2(transform.position.x, transform.position.y);
+        Vector2 compareTarget = new Vector2(moveTargetPos.x, moveTargetPos.y);
+
+        //This is to remove overhead from Update(), position is not affected if it falls into the margin
+        if ((compareTarget - compareAgent).magnitude > moveMargin)
+        {
+            prevPos = transform.position;
+
+            //Interpolates a step between current and target. Adds step to current.
+            stepPos = new Vector3((moveTargetPos.x - prevPos.x) * moveSpeed * Time.deltaTime, (moveTargetPos.y - prevPos.y) * moveSpeed * Time.deltaTime, 0);
+
+            transform.position += stepPos;
+        }
+        else if ((compareTarget - compareAgent).magnitude <= moveMargin)
+        {
+            if (movePause <= 0)
+            {
+                moveTargetPos = moveStartPos;
+            }
+            else
+            {
+                movePause -= Time.deltaTime;
+            }
         }
     }
 }

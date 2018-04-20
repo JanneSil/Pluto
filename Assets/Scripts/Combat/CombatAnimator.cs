@@ -6,17 +6,18 @@ public class CombatAnimator : MonoBehaviour
 {
     public BattleManager BM;
 
-    public bool CameraMoving;
-
+    public float CameraMargin;
     public float CameraSpeed;
-    public float CameraTargetSize;
+    public float MoveMargin;
+    public float MoveSpeed;
 
     private float cameraDefaultSize;
-    private float cameraMargin = 0.01f;
+    private float cameraTargetSize;
 
-    public Vector3 CameraTargetPosition;
+    public Vector3 AttackingOffset;
 
     private Vector3 cameraDefaultPos;
+    private Vector3 cameraTargetPos;
 
     //Unity functions
     void Start()
@@ -27,29 +28,28 @@ public class CombatAnimator : MonoBehaviour
         cameraDefaultSize = Camera.main.orthographicSize;
 
         //Debug
-        CameraTargetPosition.z = -10;
-        CameraTargetSize = 5;
+        cameraTargetPos.z = -10;
+        cameraTargetSize = 5;
     }
     void Update()
     {
-        CameraUpdate();
+        cameraUpdate();
     }
 
     //Camera functions
     public void CameraMove(Vector3 targetPosition, float size)
     {
-        CameraTargetPosition = new Vector3(targetPosition.x, targetPosition.y, -10);
-        CameraTargetSize = size;
-
-        BM.ActionDelayRemaining += 3;
+        cameraTargetPos = new Vector3(targetPosition.x, targetPosition.y, -10);
+        cameraTargetSize = size;
     }
     public void CameraReset()
     {
         //Sets camera's target to what it was at Start()
-        CameraTargetPosition = cameraDefaultPos;
-        CameraTargetSize = cameraDefaultSize;
+        cameraTargetPos = cameraDefaultPos;
+        cameraTargetSize = cameraDefaultSize;
     }
-    public void CameraUpdate()
+
+    private void cameraUpdate()
     {
         float prevSize;
         float stepSize;
@@ -57,40 +57,33 @@ public class CombatAnimator : MonoBehaviour
         Vector3 prevPos;
         Vector3 stepPos;
 
-            Debug.Log("" + (CameraTargetPosition - Camera.main.transform.position).magnitude);
-
         //This is to remove overhead from Update(), position and size are not affected if they fall into the margin
-        if ((CameraTargetPosition - Camera.main.transform.position).magnitude > cameraMargin || Mathf.Abs(CameraTargetSize - Camera.main.orthographicSize) > cameraMargin)
+        if ((cameraTargetPos - Camera.main.transform.position).magnitude > CameraMargin || Mathf.Abs(cameraTargetSize - Camera.main.orthographicSize) > CameraMargin)
         {
-            CameraMoving = true;
-
             prevPos = Camera.main.transform.position;
             prevSize = Camera.main.orthographicSize;
 
             //Interpolates a step between current and target. Adds step to current.
-            stepPos = new Vector3((CameraTargetPosition.x - prevPos.x) * CameraSpeed * Time.deltaTime, (CameraTargetPosition.y - prevPos.y) * CameraSpeed * Time.deltaTime, 0);
-            stepSize = (CameraTargetSize - prevSize) * CameraSpeed * Time.deltaTime;
+            stepPos = new Vector3((cameraTargetPos.x - prevPos.x) * CameraSpeed * Time.deltaTime, (cameraTargetPos.y - prevPos.y) * CameraSpeed * Time.deltaTime, 0);
+            stepSize = (cameraTargetSize - prevSize) * CameraSpeed * Time.deltaTime;
 
             Camera.main.transform.position += stepPos;
             Camera.main.orthographicSize += stepSize;
         }
-        else
-        {
-            CameraMoving = false;
-        }
     }
 
     //Character functions
-    public void CharAttak(GameObject agent, GameObject target, bool player)
+    public void MoveAttack(GameObject agent, GameObject target, float pause)
     {
-
-    }
-    public void CharMove(GameObject agent, int targetLane)
-    {
-
-    }
-    public void CharMove(GameObject agent, GameObject secondAgent)
-    {
-
+        //Player character
+        if (agent.GetComponent<Character>().Player)
+        {
+            agent.GetComponent<Character>().SetMove(BM.EnemyLanePos[target.GetComponent<Character>().LanePos] - AttackingOffset, pause, MoveSpeed, MoveMargin);
+        }
+        //Enemy character
+        else
+        {
+            agent.GetComponent<Character>().SetMove(BM.PlayerLanePos[target.GetComponent<Character>().LanePos] + AttackingOffset, pause, MoveSpeed, MoveMargin);
+        }
     }
 }
