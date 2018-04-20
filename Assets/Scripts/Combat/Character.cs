@@ -397,9 +397,12 @@ public class Character : MonoBehaviour
                 BM.PlayerLanes[startIndex] = targetGO;
                 BM.PlayerLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
 
-
                 BM.PlayerLanes[startIndex].transform.position = BM.PlayerLanePos[startIndex];
                 BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
+
+                //Debug
+                targetGO.GetComponent<Character>().moveStartPos = BM.PlayerLanePos[targetGO.GetComponent<Character>().LanePos];
+                targetGO.GetComponent<Character>().moveTargetPos = BM.PlayerLanePos[targetGO.GetComponent<Character>().LanePos];
             }
 
             else //If the character game object needs to switch to a empty index
@@ -408,11 +411,10 @@ public class Character : MonoBehaviour
                 LanePos = targetIndex;
                 BM.PlayerLanes[startIndex] = null;
                 BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
-
             }
-        //Debug
-        moveStartPos = BM.PlayerLanePos[targetIndex];
-        moveTargetPos = BM.PlayerLanePos[targetIndex];
+            //Debug
+            moveStartPos = BM.PlayerLanePos[targetIndex];
+            moveTargetPos = BM.PlayerLanePos[targetIndex];
         }
         else
         {
@@ -426,9 +428,12 @@ public class Character : MonoBehaviour
                 BM.EnemyLanes[startIndex] = targetGO;
                 BM.EnemyLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
 
-
                 BM.EnemyLanes[startIndex].transform.position = BM.EnemyLanePos[startIndex];
                 BM.EnemyLanes[targetIndex].transform.position = BM.EnemyLanePos[targetIndex];
+
+                //Debug
+                targetGO.GetComponent<Character>().moveStartPos = BM.EnemyLanePos[targetGO.GetComponent<Character>().LanePos];
+                targetGO.GetComponent<Character>().moveTargetPos = BM.EnemyLanePos[targetGO.GetComponent<Character>().LanePos];
             }
             else
             {
