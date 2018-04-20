@@ -177,8 +177,8 @@ public class Character : MonoBehaviour
     public void CharacterClick()
     {
         BM.ChooseCharacter(LanePos, Player, IsTanking);
-        sprite.color = Color.green;
         UnitChosen = true;
+        sprite.color = Color.green;
     }
 
     //Damage calculation
@@ -454,7 +454,7 @@ public class Character : MonoBehaviour
 
         //Damage dealt accordingly, if stamina goes negative remaining damage is dealt to strength instead, also instatiates damgage number
         //}
-        if (BM.PlayerTankLanes[target.GetComponent<Character>().LanePos] != null) //Tank is Protecting the Target and is hit instead
+        if (BM.PlayerTankLanes[target.GetComponent<Character>().LanePos] != null && !Player) //Tank is Protecting the Target and is hit instead
         {
 
             DealDamage(BM.PlayerTankLanes[target.GetComponent<Character>().LanePos], 1);

@@ -9,6 +9,7 @@ public class BattleManager : MonoBehaviour
     private CombatUIScript UI;
 
     private bool gameOver = false;
+    private GameObject tempUnit;
 
     //Lane data arrays
     public GameObject[] EnemyLanes = new GameObject[6];
@@ -96,20 +97,20 @@ public class BattleManager : MonoBehaviour
 
             if (Tanking)
             {
-                Debug.Log("Selected: " + PlayerTankLanes[laneIndex]);
+                //Debug.Log("Selected: " + PlayerTankLanes[laneIndex]);
                 SelectedCharacter = PlayerTankLanes[laneIndex];
             }
 
             else
             {
-                Debug.Log("Selected: " + PlayerLanes[laneIndex]);
+                //Debug.Log("Selected: " + PlayerLanes[laneIndex]);
                 SelectedCharacter = PlayerLanes[laneIndex];
             }
 
         }
         else
         {
-            Debug.Log("Selected: " + EnemyLanes[laneIndex]);
+            //Debug.Log("Selected: " + EnemyLanes[laneIndex]);
             SelectedEnemyCharacter = EnemyLanes[laneIndex];
         }
 
@@ -228,6 +229,12 @@ public class BattleManager : MonoBehaviour
                 if (MovementList[i].Agent == SelectedCharacter)
                 {
                     MovementList[i].Agent.GetComponent<Character>().AvailableStamina += MovementList[i].StaminaCost;
+                    if (MovementList[i].SwitchingPlaces)
+                    {
+                        MovementList[i].OtherAgent.GetComponent<Character>().AvailableStamina += MovementList[i].StaminaCost;
+                        MovementList[i].OtherAgent.GetComponent<Character>().Moving = false;
+                        MovementList[i].OtherAgent.GetComponent<Character>().ActionPoints += 1;
+                    }
                     MovementList.RemoveAt(i);
                 }
 
@@ -245,6 +252,7 @@ public class BattleManager : MonoBehaviour
         if (SelectedCharacter.GetComponent<Character>().AvailableStamina < StaminaCostMovement(1, SelectedCharacter))
         {
             Debug.Log("Out of Stamina!");
+            tempUnit = null;
             return;
         }
 
@@ -319,12 +327,81 @@ public class BattleManager : MonoBehaviour
         move.TargetIndex = SelectedLanePos;
         move.StaminaCost = StaminaCostMovement(move.TargetIndex - move.Agent.GetComponent<Character>().LanePos, move.Agent);
 
+        for (int i = 0; i < MovementList.Count; ++i)
+        {
+            if (MovementList[i].TargetIndex == move.TargetIndex)
+            {
+                Debug.Log("Cannot move there as a another unit is already moving there.");
+                return;
+            }
+            if (MovementList[i].OtherAgentTargetIndex == move.TargetIndex)
+            {
+                Debug.Log("Cannot move there as a another unit is already moving there.");
+                return;
+            }
+
+        }
+
         if (move.Agent.GetComponent<Character>().AvailableStamina < move.StaminaCost)
         {
             Debug.Log("Not Enough Stamina");
             return;
         }
 
+        if (PlayerLanes[move.TargetIndex] != null && tempUnit == null)
+        {
+            if (PlayerLanes[move.TargetIndex].GetComponent<Character>().AvailableStamina >= StaminaCostMovement(1, SelectedCharacter))
+            {
+                if (!PlayerLanes[move.TargetIndex].GetComponent<Character>().Moving)
+                {
+                    CS.ResetSelection();
+                    CS.ObjectClicked = false;
+                    CS.EnemyCharacterClicked = false;
+
+                    if (CS.TempEnemyUnitHolder != null)
+                    {
+                        CS.TempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
+                    }
+
+                    if (CS.TempUnitHolder != null)
+                    {
+                        CS.TempUnitHolder.GetComponent<Character>().UnitChosen = false;
+                    }
+                    tempUnit = move.Agent;
+                    CS.CharacterClicked = true;
+                    CS.TempUnitHolder = PlayerLanes[move.TargetIndex];
+                    PlayerLanes[move.TargetIndex].GetComponent<Character>().CharacterClick();
+                    return;
+                }
+            }
+            else
+            {
+                Debug.Log("Friendly unit doesn't have enough stamina to move away.");
+                return;
+            }
+
+        }
+
+        if (tempUnit != null)
+        {
+            if (move.TargetIndex == tempUnit.GetComponent<Character>().LanePos)
+            {
+                move.OtherAgent = tempUnit;
+                if (move.OtherAgent.GetComponent<Character>().ActionPoints < 1 || move.OtherAgent.GetComponent<Character>().AvailableStamina < move.StaminaCost)
+                {
+                    Debug.Log("Other unit doesn't have enough actions points/stamina");
+                    tempUnit = null;
+                    return;
+                }
+                move.SwitchingPlaces = true;
+                move.OtherAgentTargetIndex = SelectedCharacter.GetComponent<Character>().LanePos;
+                move.OtherAgent.GetComponent<Character>().Moving = true;
+                move.OtherAgent.GetComponent<Character>().ActionPoints -= 1;
+                move.OtherAgent.GetComponent<Character>().AvailableStamina -= move.StaminaCost;
+            }
+        }
+
+        tempUnit = null;
         move.IsPlayer = true;
         move.IsTanking = SelectedCharacter.GetComponent<Character>().IsTanking;
         move.Class = SelectedCharacter.GetComponent<Character>().Class;
@@ -770,10 +847,21 @@ public class BattleManager : MonoBehaviour
                 if (EnemyLanes[i].GetComponent<Character>().Targeted && EnemyLanes[i].GetComponent<Character>().ActionPoints >= 2)
                 {
                     float randomValue = Random.value;
-                    if (randomValue >= 0.7f)
+                    if (EnemyLanes[i].GetComponent<Character>().StrengthPoints < 20)
                     {
-                        Debug.Log("Enemy defended");
-                        EnemyDefend(EnemyLanes[i]);
+                        if (randomValue >= 0.3f)
+                        {
+                            Debug.Log("Enemy defended");
+                            EnemyDefend(EnemyLanes[i]);
+                        }
+                    }
+                    else
+                    {
+                        if (randomValue >= 0.7f)
+                        {
+                            Debug.Log("Enemy defended");
+                            EnemyDefend(EnemyLanes[i]);
+                        }
                     }
                 }
                 AddMove(EnemyLanes[i]);
@@ -802,6 +890,10 @@ public class BattleManager : MonoBehaviour
                 MovementList[nextActionIndex].Agent.GetComponent<Character>().SwitchPlaces(MovementList[nextActionIndex].Agent.GetComponent<Character>().LanePos, MovementList[nextActionIndex].TargetIndex);
 
                 MovementList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= MovementList[nextActionIndex].StaminaCost;
+                if (MovementList[nextActionIndex].OtherAgent != null)
+                {
+                    MovementList[nextActionIndex].OtherAgent.GetComponent<Character>().StaminaPoints -= MovementList[nextActionIndex].StaminaCost;
+                }
 
                 actionsDone += 1;
                 nextActionIndex += 1;
@@ -859,6 +951,7 @@ public class BattleManager : MonoBehaviour
                     }
 
                     ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
+
                 }
                 actionsDone += 1;
                 nextActionIndex += 1;

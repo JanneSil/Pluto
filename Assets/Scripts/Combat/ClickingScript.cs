@@ -13,8 +13,8 @@ public class ClickingScript : MonoBehaviour {
     private BattleManager BM;
     private CombatUIScript UI;
 
-    private GameObject tempUnitHolder;
-    private GameObject tempEnemyUnitHolder;
+    public GameObject TempUnitHolder;
+    public GameObject TempEnemyUnitHolder;
     public bool CharacterClicked;
     public bool EnemyCharacterClicked;
 
@@ -51,17 +51,15 @@ public class ClickingScript : MonoBehaviour {
                     ObjectClicked = true;
                     EnemyCharacterClicked = false;
                     BM.SelectingMove = false;
-                    if (tempEnemyUnitHolder != null)
+                    if (TempEnemyUnitHolder != null)
                     {
-                        tempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
+                        TempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
                     }
                     BM.SelectedLanePos = hit.collider.GetComponent<LaneInfo>().LanePos;
-                    //BM.SelectedCharacter.GetComponent<Character>().ActionPoints -= 1;
-                    //BM.SelectedCharacter.GetComponent<Character>().Moving = true;
-                    Debug.Log("Lane Pos: " + BM.SelectedLanePos);
+                    //Debug.Log("Lane Pos: " + BM.SelectedLanePos);
+                    ResetSelection();
                     BM.AddMove();
                     BM.InfoText.text = "";
-                    ResetSelection();
                 }
 
                 else if (hit.collider.tag == "Player")
@@ -70,18 +68,18 @@ public class ClickingScript : MonoBehaviour {
                     ObjectClicked = false;
                     EnemyCharacterClicked = false;
 
-                    if (tempEnemyUnitHolder != null)
+                    if (TempEnemyUnitHolder != null)
                     {
-                        tempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
+                        TempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
                     }
 
-                    if (tempUnitHolder != null)
+                    if (TempUnitHolder != null)
                     {
-                        tempUnitHolder.GetComponent<Character>().UnitChosen = false;
+                        TempUnitHolder.GetComponent<Character>().UnitChosen = false;
                     }
 
                     CharacterClicked = true;
-                    tempUnitHolder = hit.collider.gameObject;
+                    TempUnitHolder = hit.collider.gameObject;
                     //Debug.Log("Character clicked");
                     hit.collider.GetComponent<Character>().CharacterClick();
                 }
@@ -92,13 +90,13 @@ public class ClickingScript : MonoBehaviour {
                     //Marker.SetActive(ObjectClicked);
                     BM.SelectingAttack = false;
 
-                    if (tempEnemyUnitHolder != null)
+                    if (TempEnemyUnitHolder != null)
                     {
-                        tempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
+                        TempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
                     }
 
                     EnemyCharacterClicked = true;
-                    tempEnemyUnitHolder = hit.collider.gameObject;
+                    TempEnemyUnitHolder = hit.collider.gameObject;
                     //Debug.Log("Enemy clicked");
                     hit.collider.GetComponent<Character>().CharacterClick();
                     if (BM.ChoosingSkill.Length > 0)
@@ -140,14 +138,14 @@ public class ClickingScript : MonoBehaviour {
         UI.SelectSkill = false;
         //Marker.SetActive(ObjectClicked);
 
-        if (tempUnitHolder != null)
+        if (TempUnitHolder != null)
         {
-            tempUnitHolder.GetComponent<Character>().UnitChosen = false;
+            TempUnitHolder.GetComponent<Character>().UnitChosen = false;
         }
 
-        if (tempEnemyUnitHolder != null)
+        if (TempEnemyUnitHolder != null)
         {
-            tempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
+            TempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
         }
     }
 

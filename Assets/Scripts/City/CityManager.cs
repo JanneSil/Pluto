@@ -84,7 +84,7 @@ public class CityManager : MonoBehaviour
         if (leavingCity)
         {
             leavingCity = false;
-            StartCoroutine(LoadScene("Main"));
+            StartCoroutine(LoadScene("CombatScene"));
         }
 
     }
