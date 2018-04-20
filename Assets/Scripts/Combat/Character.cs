@@ -31,6 +31,7 @@ public class Character : MonoBehaviour
     public bool Moving;
     public bool Resting;
     public bool UsingSkill;
+    public bool Targeted;
     public string SkillBeingUsed;
 
     [Header("Stats:")]
@@ -286,7 +287,14 @@ public class Character : MonoBehaviour
         {
             target.GetComponent<Character>().StaminaPoints -= (int)(damageToStamina * damageMultiplier);
 
-            BM.InstantiateDamageNumber((int)damageToStrength * damageMultiplier, (int)damageToStamina * damageMultiplier, target.transform);
+            if (target.GetComponent<Character>().IsTanking)
+            {
+                BM.InstantiateDamageNumber((int)0, (int)damageToStamina * damageMultiplier, target.transform);
+            }
+            else
+            {
+                BM.InstantiateDamageNumber((int)damageToStrength * damageMultiplier, (int)damageToStamina * damageMultiplier, target.transform);
+            }
         }
         else
         {
@@ -295,7 +303,15 @@ public class Character : MonoBehaviour
             target.GetComponent<Character>().StaminaPoints = 0;
             target.GetComponent<Character>().StrengthPoints -= (int)staminaOverkill;
 
-            BM.InstantiateDamageNumber((int)((damageToStrength * damageMultiplier) + staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform);
+            if (target.GetComponent<Character>().IsTanking)
+            {
+                BM.InstantiateDamageNumber((int)(staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform);
+            }
+            else
+            {
+                BM.InstantiateDamageNumber((int)((damageToStrength * damageMultiplier) + staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform);
+            }
+
         }
     }
 

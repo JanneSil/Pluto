@@ -40,7 +40,7 @@ public class ClickingScript : MonoBehaviour {
         RaycastHit hit;
 
 
-        if (Input.GetButtonDown("Fire1") && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetButtonDown("Fire1") && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() && BM.playerTurn)
         {
             
             if (Physics.Raycast(ray, out hit, 1000))

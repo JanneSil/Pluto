@@ -32,7 +32,7 @@ public class BattleManager : MonoBehaviour
                                                       new Vector3(   -5, -3.5f, -5) };
 
     //Lists
-    private List<CombatAction> ActionList = new List<CombatAction>();
+    public List<CombatAction> ActionList = new List<CombatAction>();
     private List<CombatAction> MovementList = new List<CombatAction>();
 
     //Selection variables
@@ -51,7 +51,7 @@ public class BattleManager : MonoBehaviour
     //Turn variables
     private bool actionTurn;
     private bool movementTurn;
-    private bool playerTurn;
+    public bool playerTurn;
 
     private int actionsDone;
     private int nextActionIndex;
@@ -88,7 +88,7 @@ public class BattleManager : MonoBehaviour
         MovementTurnUpdate();
     }
 
-    //Character functions, should consider moving these to Character.cs except for ChooseCharacter()
+    //Character functions
     public void ChooseCharacter(int laneIndex, bool player, bool Tanking)
     {
         if (player)
@@ -140,20 +140,30 @@ public class BattleManager : MonoBehaviour
                 if (ActionList[i].Agent == SelectedCharacter)
                 {
                     ActionList[i].Agent.GetComponent<Character>().AvailableStamina += ActionList[i].StaminaCost;
+                    ActionList[i].Target.GetComponent<Character>().Targeted = false;
+
+                    if (ActionList[i].SkillInUse)
+                    {
+                        SelectedCharacter.GetComponent<Character>().ActionPoints += 3;
+                    }
+                    else
+                    {
+                        SelectedCharacter.GetComponent<Character>().ActionPoints += 2;
+                    }
                     ActionList.RemoveAt(i);
                 }
             }
 
             SelectedCharacter.GetComponent<Character>().Attacking = false;
 
-            if (skill == "")
-            {
-                SelectedCharacter.GetComponent<Character>().ActionPoints += 2;
-            }
-            else
-            {
-                SelectedCharacter.GetComponent<Character>().ActionPoints += 3;
-            }
+            //if (skill == "")
+            //{
+            //    SelectedCharacter.GetComponent<Character>().ActionPoints += 2;
+            //}
+            //else
+            //{
+            //    SelectedCharacter.GetComponent<Character>().ActionPoints += 3;
+            //}
 
             return;
         }
@@ -265,11 +275,18 @@ public class BattleManager : MonoBehaviour
         agent.GetComponent<Character>().Resting = true;
         agent.GetComponent<Character>().ActionPoints -= 3;
     } 
+    public void EnemyDefend(GameObject agent)
+    {
+        agent.GetComponent<Character>().Defending = true;
+        agent.GetComponent<Character>().DefendingStamina = 10;
+        agent.GetComponent<Character>().ActionPoints -= 2;
+        agent.GetComponent<Character>().AvailableStamina -= 10;
+    }
     public void EndTurn()
     {
+        CS.ResetSelection();
         EnemyTurn();
     }
-
 
     //List functions
     public void AddAttack()
@@ -278,6 +295,7 @@ public class BattleManager : MonoBehaviour
         CombatAction attack = new CombatAction();
         attack.Agent = SelectedCharacter;
         attack.Target = SelectedEnemyCharacter;
+        attack.Target.GetComponent<Character>().Targeted = true;
         SelectedCharacter.GetComponent<Character>().Attacking = true;
         SelectedCharacter.GetComponent<Character>().ActionPoints -= 2;
 
@@ -330,6 +348,7 @@ public class BattleManager : MonoBehaviour
                 if (ActionList[i].Agent == SelectedCharacter)
                 {
                     ActionList[i].Agent.GetComponent<Character>().AvailableStamina += ActionList[i].StaminaCost;
+                    ActionList[i].Target.GetComponent<Character>().Targeted = false;
                     ActionList.RemoveAt(i);
                 }
 
@@ -372,6 +391,11 @@ public class BattleManager : MonoBehaviour
         skill.ActionSpeed = SelectedCharacter.GetComponent<Character>().Speed;
 
         SelectedCharacter.GetComponent<Character>().UsingSkill = true;
+        if (SelectedEnemyCharacter != null)
+        {
+            SelectedEnemyCharacter.GetComponent<Character>().Targeted = true;
+        }
+
         ChoosingSkill = "";
 
         ActionList.Add(skill);
@@ -387,6 +411,10 @@ public class BattleManager : MonoBehaviour
         //{
         //    attack.Target = PlayerLanes[Random.Range(0, 5)];
         //}
+        if (attack.Agent.GetComponent<Character>().ActionPoints < 2)
+        {
+            return;
+        }
 
         if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos] != null)
         {
@@ -408,6 +436,8 @@ public class BattleManager : MonoBehaviour
 
         if (attack.Agent.GetComponent<Character>().StaminaPoints >= attack.StaminaCost)//Could be arbituary, check later date
         {
+            attack.Agent.GetComponent<Character>().Attacking = true;
+            attack.Agent.GetComponent<Character>().ActionPoints -= 2;
             ActionList.Add(attack);
         }
     }
@@ -416,17 +446,21 @@ public class BattleManager : MonoBehaviour
         CombatAction move = new CombatAction();
         move.Agent = enemyAgent;
 
+        if (move.Agent.GetComponent<Character>().ActionPoints < 1)
+        {
+            return;
+        }
+
         if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos] != null)
         {
             return;
         }
         else
         {
-
             for (int i = 0; i < 6; ++i)
                 {
 
-                if (enemyAgent.GetComponent<Character>().LanePos + i >= 0 && enemyAgent.GetComponent<Character>().LanePos + i < 5)
+                if (enemyAgent.GetComponent<Character>().LanePos + i <= 5)
                     {
                     
                         if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos + i] != null)
@@ -434,11 +468,11 @@ public class BattleManager : MonoBehaviour
                             if (EnemyLanes[enemyAgent.GetComponent<Character>().LanePos + i] == null)
                             {
                                 move.TargetIndex = enemyAgent.GetComponent<Character>().LanePos + i;
-                                continue;
+                                break;
                             }
                         }
                     }
-                  if (enemyAgent.GetComponent<Character>().LanePos - i <= 5 && enemyAgent.GetComponent<Character>().LanePos - i > 0)
+                  if (enemyAgent.GetComponent<Character>().LanePos - i >= 0)
                     {
                    
                     if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos - i] != null)
@@ -446,7 +480,7 @@ public class BattleManager : MonoBehaviour
                             if (EnemyLanes[enemyAgent.GetComponent<Character>().LanePos - i] == null)
                             {
                                 move.TargetIndex = enemyAgent.GetComponent<Character>().LanePos - i;
-                                continue;
+                            break;
                             }
                         }
 
@@ -461,7 +495,8 @@ public class BattleManager : MonoBehaviour
         {
             if (MovementList[i].TargetIndex == move.TargetIndex)
             {
-                move.TargetIndex = Random.Range(0, 5);
+                //move.TargetIndex = Random.Range(0, 5);
+                return;
 
             }
         }
@@ -473,6 +508,8 @@ public class BattleManager : MonoBehaviour
 
         if (move.Agent.GetComponent<Character>().StaminaPoints >= move.StaminaCost)//Could be arbituary, check later date
         {
+            move.Agent.GetComponent<Character>().Moving = true;
+            move.Agent.GetComponent<Character>().ActionPoints -= 1;
             MovementList.Add(move);
         }
     }
@@ -502,9 +539,9 @@ public class BattleManager : MonoBehaviour
     //Check lane to remove Tank after depleting all stamina
     private void CheckLane(int number)
     {
-            for (int i = 1; i < 5; ++i)
+            for (int i = 1; i < 6; ++i)
             {
-                if (PlayerLanes[number].GetComponent<Character>().LanePos + i < 5)
+                if (PlayerLanes[number].GetComponent<Character>().LanePos + i <= 5)
                 {
                     if (PlayerLanes[number + i] == null)
                     {
@@ -517,7 +554,7 @@ public class BattleManager : MonoBehaviour
                     }
                 }
 
-                if (PlayerLanes[number].GetComponent<Character>().LanePos + i > 0)
+                if (PlayerLanes[number].GetComponent<Character>().LanePos - i >= 0)
                 {
                     if (PlayerLanes[number - i] == null)
                     {
@@ -727,7 +764,17 @@ public class BattleManager : MonoBehaviour
             {
                 if (EnemyLanes[i].GetComponent<Character>().AvailableStamina < 10)
                 {
+                    Debug.Log("Enemy is Resting");
                     EnemyRest(EnemyLanes[i]);
+                }
+                if (EnemyLanes[i].GetComponent<Character>().Targeted && EnemyLanes[i].GetComponent<Character>().ActionPoints >= 2)
+                {
+                    float randomValue = Random.value;
+                    if (randomValue >= 0.7f)
+                    {
+                        Debug.Log("Enemy defended");
+                        EnemyDefend(EnemyLanes[i]);
+                    }
                 }
                 AddMove(EnemyLanes[i]);
                 AddAttack(EnemyLanes[i]);
