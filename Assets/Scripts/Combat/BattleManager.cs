@@ -38,7 +38,6 @@ public class BattleManager : MonoBehaviour
 
     //Selection variables
     public bool ChoosingAttack;
-    public string ChoosingSkill;
     public bool SelectingAttack;
     public bool SelectingMove;
 
@@ -47,12 +46,19 @@ public class BattleManager : MonoBehaviour
 
     public int SelectedLanePos;
 
+    public string ChoosingSkill;
+
     public Text InfoText;
 
     //Turn variables
     private bool actionTurn;
+    private bool characterMoved = false;
     private bool movementTurn;
     private bool playerTurn;
+
+    public float ActionDelay;
+
+    private float actionDelayRemaining;
 
     private int actionsDone;
     private int nextActionIndex;
@@ -71,9 +77,12 @@ public class BattleManager : MonoBehaviour
     private GameObject skillButtons;
 
     //UI other
+    public float CameraAttackSize;
+
+    private float cameraWait;
+
     private GameObject canvas;
     private GameObject infoTextObject;
-
     //Unity functions
     private void Start()
     {
@@ -726,30 +735,28 @@ public class BattleManager : MonoBehaviour
     {
         if (actionTurn)
         {
-            //Camera is moved instanly to the first actions target, after the action happens (ActionDelay <= 0) action delay and camera wait time is reset
-            //Camera should move before the next attack happens, also the camera wait time should be relative to action delay variable
-
+            //nextActionIndex is in bounds
             if (nextActionIndex < ActionList.Count)
             {
+                //Camera wait time has passed
                 if (cameraWait <= 0)
                 {
                     CA.CameraMove(ActionList[nextActionIndex].Target.transform.position, CameraAttackSize);
                 }
 
-                if (!characterMoved)
+                //Character hasn't moved and the next action's agent has sufficent stamina points
+                if (!characterMoved && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
                 {
-                    CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.75f);
+                    CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f);
                     characterMoved = true;
                 }
 
-
-                //Action is performed if delay has passed and its index is not out of bounds
+                //Action is performed if delay has passed
                 if (actionDelayRemaining <= 0)
                 {
-                    //Dead characters actions are not performed, also if character has no stamina at this point action is not performed. FOR NOW DEAD TARGETS ARE NOT ATTACKED!
+                    //Dead characters actions are not performed, also if character has no stamina at this point action is not performed. Dead targets are not attacked.
                     if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
                     {
-
                         if (ActionList[nextActionIndex].Target == null && !ActionList[nextActionIndex].SkillInUse)
                         {
 
@@ -763,35 +770,30 @@ public class BattleManager : MonoBehaviour
                             ActionList[nextActionIndex].Agent.GetComponent<Character>().Attack(ActionList[nextActionIndex].Target);
                         }
 
+                        //Stamina cost is subtracted
                         ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
                     }
 
-                    actionsDone += 1;
-                    nextActionIndex += 1;
                     actionDelayRemaining = ActionDelay;
-
-                    //Debug
-                    cameraWait = ActionDelay* 0.25f;
+                    actionsDone += 1;
+                    cameraWait = ActionDelay * 0.2f;
                     characterMoved = false;
+                    nextActionIndex += 1;
                 }
                 else
                 {
                     actionDelayRemaining -= Time.deltaTime;
-
-                    //Debug
                     cameraWait -= Time.deltaTime;
                 }
             }
 
-            //All actions on the list are completed the action turn ends
+            //All actions on the list are completed, and camera wait time is over: action turn ends
             if (actionsDone == ActionList.Count)
             {
                 if (cameraWait <= 0)
                 {
                     actionDelayRemaining = 0;
-
                     ActionList.Clear();
-
                     CA.CameraReset();
 
                     PlayerTurn();
@@ -805,6 +807,41 @@ public class BattleManager : MonoBehaviour
     }
 
     //UI functions
+    public void InstantiateDamageNumber(int dmgToStr, int dmgToSta, Transform targetLocation)
+    {
+        DamageNumber dN;
+        DamageNumber dNInstance;
+
+        Text t;
+
+        Vector2 screenPosition;
+
+        dN = Resources.Load<DamageNumber>("Prefabs/Combat/DamageNumber");
+        screenPosition = Camera.main.WorldToScreenPoint(targetLocation.position);
+
+        dNInstance = Instantiate(dN);
+        dNInstance.transform.SetParent(canvas.transform, false);
+        dNInstance.transform.position = screenPosition;
+
+        t = dNInstance.GetComponent<Text>();
+
+        if (dmgToStr < 1)
+        {
+            t.text = "-" + dmgToSta;
+            t.color = Color.yellow;
+        }
+        else if (dmgToSta < 1)
+        {
+            t.text = "-" + dmgToStr;
+            t.color = Color.red;
+        }
+        else
+        {
+            t.text = "-" + dmgToStr + "(" + dmgToSta + ")";
+            t.color = new Vector4(1, 0.5f, 0, 1);
+        }
+    }
+
     private void displayActionButtons()
     {
         //Enabling and disabling character action buttons
@@ -943,48 +980,6 @@ public class BattleManager : MonoBehaviour
     }
 
     //Debug
-    private bool characterMoved = false;
-
-    public float ActionDelay;
-    public float CameraAttackSize;
-
-    private float actionDelayRemaining;
-    private float cameraWait;
-
-    public void InstantiateDamageNumber(int dmgToStr, int dmgToSta, Transform targetLocation)
-    {
-        DamageNumber dN;
-        DamageNumber dNInstance;
-
-        Text t;
-
-        Vector2 screenPosition;
-
-        dN = Resources.Load<DamageNumber>("Prefabs/Combat/DamageNumber");
-        screenPosition = Camera.main.WorldToScreenPoint(targetLocation.position);
-
-        dNInstance = Instantiate(dN);
-        dNInstance.transform.SetParent(canvas.transform, false);
-        dNInstance.transform.position = screenPosition;
-
-        t = dNInstance.GetComponent<Text>();
-
-        if (dmgToStr < 1)
-        {
-            t.text = "-" + dmgToSta;
-            t.color = Color.yellow;
-        }
-        else if (dmgToSta < 1)
-        {
-            t.text = "-" + dmgToStr;
-            t.color = Color.red;
-        }
-        else
-        {
-            t.text = "-" + dmgToStr + "(" + dmgToSta + ")";
-            t.color = new Vector4(1, 0.5f, 0, 1);
-        }
-    }
     public void ResetTurn()
     {
         if (playerTurn)
