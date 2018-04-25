@@ -160,13 +160,13 @@ AnimationClip:
         tangentMode: 0
       - serializedVersion: 2
         time: 1
-        value: {x: 0, y: 0, z: -53.978004}
-        inSlope: {x: 0, y: 0, z: -19.479202}
-        outSlope: {x: 0, y: 0, z: -19.479202}
+        value: {x: 0, y: 0, z: -0.669}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
       - serializedVersion: 2
         time: 2
-        value: {x: 0, y: 0, z: -67.798004}
+        value: {x: 0, y: 0, z: -35.086002}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -4596,13 +4596,13 @@ AnimationClip:
         tangentMode: 0
       - serializedVersion: 2
         time: 1
-        value: {x: 0.8883636, y: -0.000003185567, z: 0}
-        inSlope: {x: 0, y: -0.000008062552, z: 0}
-        outSlope: {x: 0, y: -0.000008062552, z: 0}
+        value: {x: 0.8883631, y: -0.0000049017617, z: 0}
+        inSlope: {x: 0, y: -0.000009462237, z: 0}
+        outSlope: {x: 0, y: -0.000009462237, z: 0}
         tangentMode: 0
       - serializedVersion: 2
         time: 2
-        value: {x: 0.8883788, y: -0.0000104525825, z: 0}
+        value: {x: 0.8883799, y: -0.000012202188, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -5791,13 +5791,13 @@ AnimationClip:
         tangentMode: 136
       - serializedVersion: 2
         time: 1
-        value: -53.978004
-        inSlope: -19.479202
-        outSlope: -19.479202
+        value: -0.669
+        inSlope: 0
+        outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 2
-        value: -67.798004
+        value: -35.086002
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -5825,13 +5825,13 @@ AnimationClip:
         tangentMode: 136
       - serializedVersion: 2
         time: 1
-        value: 0.8883636
+        value: 0.8883631
         inSlope: 0
         outSlope: 0
         tangentMode: 136
       - serializedVersion: 2
         time: 2
-        value: 0.8883788
+        value: 0.8883799
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -5859,13 +5859,13 @@ AnimationClip:
         tangentMode: 136
       - serializedVersion: 2
         time: 1
-        value: -0.000003185567
-        inSlope: -0.000008062552
-        outSlope: -0.000008062552
+        value: -0.0000049017617
+        inSlope: -0.000009462237
+        outSlope: -0.000009462237
         tangentMode: 136
       - serializedVersion: 2
         time: 2
-        value: -0.0000104525825
+        value: -0.000012202188
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -19268,7 +19268,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Rig/bn_enemydps_hips/bn_enemydps_spine1/bn_enemydps_spine2/bn_enemydps_neck/bn_enemydps_head
+    path: Rig/bn_enemydps_hips/bn_enemydps_l_leg/bn_enemydps_l_knee/bn_enemydps_l_foot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -19278,7 +19278,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Rig/bn_enemydps_hips/bn_enemydps_spine1/bn_enemydps_spine2/bn_enemydps_neck/bn_enemydps_head
+    path: Rig/bn_enemydps_hips/bn_enemydps_l_leg/bn_enemydps_l_knee/bn_enemydps_l_foot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -19288,7 +19288,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Rig/bn_enemydps_hips/bn_enemydps_spine1/bn_enemydps_spine2/bn_enemydps_neck/bn_enemydps_head
+    path: Rig/bn_enemydps_hips/bn_enemydps_l_leg/bn_enemydps_l_knee/bn_enemydps_l_foot
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -19568,7 +19568,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Rig/bn_enemydps_hips/bn_enemydps_l_leg/bn_enemydps_l_knee/bn_enemydps_l_foot
+    path: Rig/bn_enemydps_hips/bn_enemydps_spine1/bn_enemydps_spine2/bn_enemydps_neck/bn_enemydps_head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -19578,7 +19578,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Rig/bn_enemydps_hips/bn_enemydps_l_leg/bn_enemydps_l_knee/bn_enemydps_l_foot
+    path: Rig/bn_enemydps_hips/bn_enemydps_spine1/bn_enemydps_spine2/bn_enemydps_neck/bn_enemydps_head
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -19588,7 +19588,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Rig/bn_enemydps_hips/bn_enemydps_l_leg/bn_enemydps_l_knee/bn_enemydps_l_foot
+    path: Rig/bn_enemydps_hips/bn_enemydps_spine1/bn_enemydps_spine2/bn_enemydps_neck/bn_enemydps_head
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
