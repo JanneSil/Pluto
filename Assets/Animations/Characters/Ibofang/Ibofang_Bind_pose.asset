@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0543fe805424df99fe08ce744cbe49, type: 3}
+  m_Name: Ibofang_Bind_pose
+  m_EditorClassIdentifier: 
+  m_PoseEntries:
+  - path: Bones/bn_ibo_hips
+    localPosition: {x: 0.08872032, y: 6.8434544, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.7456323, w: 0.6663577}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1
+    localPosition: {x: 0.70929784, y: -0.00000011920929, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.024346603, w: 0.9997036}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2
+    localPosition: {x: 1.4759924, y: 0.0000000017316779, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.09195756, w: 0.99576294}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_neck
+    localPosition: {x: 2.2970598, y: -0.000000012572855, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.16394556, w: 0.9864694}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_neck/bn_ibo_head
+    localPosition: {x: 0.9790632, y: 0.0000003222376, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.058581818, w: 0.9982826}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_neck/bn_ibo_head/bn_ibo_hair1
+    localPosition: {x: 1.2375845, y: -0.31345162, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.82867455, w: 0.55973077}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_neck/bn_ibo_head/bn_ibo_hair1/bn_ibo_hair2
+    localPosition: {x: 0.5694847, y: 0.000000018626451, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.56574637, w: 0.8245793}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_neck/bn_ibo_head/bn_ibo_hairback1
+    localPosition: {x: -0.14657012, y: 0.5755238, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.9977476, w: 0.06708025}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_neck/bn_ibo_head/bn_ibo_hairback1/bn_ibo_hairback2
+    localPosition: {x: 0.47560832, y: -0.000000059604645, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.10669317, w: 0.994292}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_r_shoulder
+    localPosition: {x: 1.2680115, y: 0.46228266, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.6514567, w: 0.7586859}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_r_shoulder/bn_ibo_r_arm
+    localPosition: {x: 1.2892538, y: -0.0000009536743, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.6067503, w: 0.79489255}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_r_shoulder/bn_ibo_r_arm/bn_ibo_r_forearm
+    localPosition: {x: 1.9581686, y: -0.000002026558, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.06682098, w: 0.997765}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_r_shoulder/bn_ibo_r_arm/bn_ibo_r_forearm/bn_ibo_r_hand
+    localPosition: {x: 1.8845565, y: -0.0000019033905, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.045380708, w: 0.9989698}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_l_shoulder
+    localPosition: {x: 1.1110251, y: -0.79319435, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.7089762, w: 0.70523244}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_l_shoulder/bn_ibo_l_arm
+    localPosition: {x: 0.5986217, y: 0.0000007748604, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.6548373, w: 0.7557699}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_l_shoulder/bn_ibo_l_arm/bn_ibo_l_forearm
+    localPosition: {x: 1.9585532, y: -0.00000011920929, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.7992196, w: 0.6010391}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_l_shoulder/bn_ibo_l_arm/bn_ibo_l_forearm/bn_ibo_l_hand
+    localPosition: {x: 1.535547, y: -0.00000011920929, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.12773822, w: 0.99180794}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_l_shoulder/bn_ibo_l_arm/bn_ibo_l_forearm/bn_ibo_l_hand/bn_ibo_weapon
+    localPosition: {x: 0.52134687, y: -0.09422976, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.781369, w: 0.6240694}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_l_shoulder/bn_ibo_l_arm/bn_ibo_l_forearm/bn_ibo_l_hand/bn_ibo_weapon/bn_ibo_stick1
+    localPosition: {x: -3.7289147, y: 0.079809904, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.007809107, w: 0.99996954}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_l_shoulder/bn_ibo_l_arm/bn_ibo_l_forearm/bn_ibo_l_hand/bn_ibo_weapon/bn_ibo_stick1/bn_ibo_stick2
+    localPosition: {x: 4.51732, y: -7.9944584e-10, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.003122979, w: 0.9999951}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_spine1/bn_ibo_spine2/bn_ibo_l_shoulder/bn_ibo_l_arm/bn_ibo_l_forearm/bn_ibo_l_hand/bn_ibo_weapon/bn_ibo_stick1/bn_ibo_stick2/bn_ibo_stick3
+    localPosition: {x: 4.1047244, y: -0.0000006957136, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.0013187584, w: 0.99999917}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_r_leg
+    localPosition: {x: -0.5543034, y: 0.8524201, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.98435676, w: 0.1761866}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_r_leg/bn_ibo_r_knee
+    localPosition: {x: 2.7345166, y: 0.00000023841858, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.06846089, w: 0.99765384}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_r_leg/bn_ibo_r_knee/bn_ibo_r_foot
+    localPosition: {x: 3.3874469, y: -0.0000010575168, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.26552853, w: 0.96410304}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_l_leg
+    localPosition: {x: -0.6629891, y: -0.556999, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.9981016, w: 0.06158953}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_l_leg/bn_ibo_l_knee
+    localPosition: {x: 2.7133503, y: -0.00000059604645, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.0646445, w: 0.99790835}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_l_leg/bn_ibo_l_knee/bn_ibo_l_foot
+    localPosition: {x: 3.4584281, y: -0.00000045332126, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.43091318, w: 0.90239346}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_cloth1
+    localPosition: {x: -1.2203796, y: -0.14178014, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.9759108, w: 0.2181703}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: Bones/bn_ibo_hips/bn_ibo_cloth1/bn_ibo_cloth2
+    localPosition: {x: 1.6539705, y: 0.00000059604645, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.0033260132, w: 0.9999945}
+    localScale: {x: 1, y: 1, z: 1}

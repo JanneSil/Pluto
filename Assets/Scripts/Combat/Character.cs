@@ -32,6 +32,7 @@ public class Character : MonoBehaviour
     public bool Resting;
     public bool UsingSkill;
     public bool Targeted;
+    public bool SwitchingPlaces;
     public string SkillBeingUsed;
 
     [Header("Stats:")]
@@ -55,8 +56,14 @@ public class Character : MonoBehaviour
     private float staminaOverkill;
     private float strengthPortion;
 
+    //Movement variables
+    private float moveMargin;
+    private float movePause;
+    private float moveSpeed;
+    private Vector3 moveStartPos;
+    private Vector3 moveTargetPos;
+
     //Turn saved stats
-    [HideInInspector]
     public bool Player;
 
     public int AvailableStamina;
@@ -66,6 +73,7 @@ public class Character : MonoBehaviour
     private int staminaPointsMax;
     private int strengthPointsMax;
 
+    //Unity functions
     void Start()
     {
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
@@ -137,6 +145,8 @@ public class Character : MonoBehaviour
         {
             Die();
         }
+
+        moveUpdate();
     }
 
     private void Die()
@@ -321,7 +331,7 @@ public class Character : MonoBehaviour
         //Switches two character game objects index and position.
         if (Player)
         {
-            if (Class == "Tank" && IsTanking) //Moving in the tanking lanes
+            if (Class == "Tank" && IsTanking && !SwitchingPlaces) //Moving in the tanking lanes
             {
                 if (BM.PlayerLanes[targetIndex] != null && BM.PlayerTankLanes[targetIndex] == null)
                 {
@@ -355,7 +365,7 @@ public class Character : MonoBehaviour
                     BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
                 }
             }
-            else if (Class == "Tank" && !IsTanking)
+            else if (Class == "Tank" && !IsTanking && !SwitchingPlaces)
             {
 
                 if (BM.PlayerLanes[targetIndex] != null && BM.PlayerTankLanes[targetIndex] == null)
@@ -404,9 +414,12 @@ public class Character : MonoBehaviour
                 BM.PlayerLanes[startIndex] = targetGO;
                 BM.PlayerLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
 
-
                 BM.PlayerLanes[startIndex].transform.position = BM.PlayerLanePos[startIndex];
                 BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
+
+                //Debug
+                targetGO.GetComponent<Character>().moveStartPos = BM.PlayerLanePos[targetGO.GetComponent<Character>().LanePos];
+                targetGO.GetComponent<Character>().moveTargetPos = BM.PlayerLanePos[targetGO.GetComponent<Character>().LanePos];
             }
 
             else //If the character game object needs to switch to a empty index
@@ -415,8 +428,10 @@ public class Character : MonoBehaviour
                 LanePos = targetIndex;
                 BM.PlayerLanes[startIndex] = null;
                 BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
-
             }
+            //Debug
+            moveStartPos = BM.PlayerLanePos[targetIndex];
+            moveTargetPos = BM.PlayerLanePos[targetIndex];
         }
         else
         {
@@ -426,8 +441,8 @@ public class Character : MonoBehaviour
             }
             //if (BM.EnemyLanes[targetIndex] != null)
             //{
-            //    GameObject startGO = BM.EnemyLanes[startIndex];
-            //    GameObject targetGO = BM.EnemyLanes[targetIndex];
+                //GameObject startGO = BM.EnemyLanes[startIndex];
+                GameObject targetGO = BM.EnemyLanes[targetIndex];
 
             //    BM.EnemyLanes[targetIndex] = startGO;
             //    LanePos = targetIndex;
@@ -438,14 +453,22 @@ public class Character : MonoBehaviour
             //    BM.EnemyLanes[startIndex].transform.position = BM.EnemyLanePos[startIndex];
             //    BM.EnemyLanes[targetIndex].transform.position = BM.EnemyLanePos[targetIndex];
             //}
-            else
-            {
+
+                //Debug
+                //targetGO.GetComponent<Character>().moveStartPos = BM.EnemyLanePos[targetGO.GetComponent<Character>().LanePos];
+                //targetGO.GetComponent<Character>().moveTargetPos = BM.EnemyLanePos[targetGO.GetComponent<Character>().LanePos];            
+
+            //else
+            //{
                 BM.EnemyLanes[targetIndex] = BM.EnemyLanes[startIndex];
                 LanePos = targetIndex;
                 BM.EnemyLanes[startIndex] = null;
 
                 BM.EnemyLanes[targetIndex].transform.position = BM.EnemyLanePos[targetIndex];
-            }
+            //}
+            //Debug
+            moveStartPos = BM.EnemyLanePos[targetIndex];
+            moveTargetPos = BM.EnemyLanePos[targetIndex];
         }
     }
     public void Attack(GameObject target)
@@ -472,28 +495,27 @@ public class Character : MonoBehaviour
     {
         if (Skill == "TankSkill")
         {
-            if (BM.EnemyLanes[agent.GetComponent<Character>().LanePos] == null)
+            if (BM.EnemyLanes[agent.GetComponent<Character>().LanePos] != null)
             {
-                return;
+                CalculateDamage(BM.EnemyLanes[agent.GetComponent<Character>().LanePos]);
+                DealDamage(BM.EnemyLanes[agent.GetComponent<Character>().LanePos], 2);
             }
 
-            CalculateDamage(BM.EnemyLanes[agent.GetComponent<Character>().LanePos]);
-
-            DealDamage(BM.EnemyLanes[agent.GetComponent<Character>().LanePos], 2);
-
-            if (BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos != 0)
+            if (agent.GetComponent<Character>().LanePos - 1 > -1)
             {
-                if (BM.EnemyLanes[BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos - 1] != null)
+                if (BM.EnemyLanes[agent.GetComponent<Character>().LanePos - 1] != null)
                 {
-                    DealDamage(BM.EnemyLanes[BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos - 1], 1);
+                    CalculateDamage(BM.EnemyLanes[agent.GetComponent<Character>().LanePos - 1]);
+                    DealDamage(BM.EnemyLanes[agent.GetComponent<Character>().LanePos - 1], 1);
                 }
             }
 
-            if (BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos != 5)
+            if (agent.GetComponent<Character>().LanePos + 1 < 6)
             {
-                if (BM.EnemyLanes[BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos + 1] != null)
+                if (BM.EnemyLanes[agent.GetComponent<Character>().LanePos + 1] != null)
                 {
-                    DealDamage(BM.EnemyLanes[BM.EnemyLanes[agent.GetComponent<Character>().LanePos].GetComponent<Character>().LanePos + 1], 1);
+                    CalculateDamage(BM.EnemyLanes[agent.GetComponent<Character>().LanePos + 1]);
+                    DealDamage(BM.EnemyLanes[agent.GetComponent<Character>().LanePos + 1], 1);
                 }
             }
 
@@ -502,6 +524,53 @@ public class Character : MonoBehaviour
         else if (Skill == "")
         {
             return;
+        }
+    }
+
+    public void SetMove(Vector3 targetPos, float pause, float speed, float margin)
+    {
+        movePause = pause;
+        moveTargetPos = targetPos;
+        if (Player)
+        {
+            moveStartPos = BM.PlayerLanePos[LanePos];
+        }
+        else
+        {
+            moveStartPos = BM.EnemyLanePos[LanePos];
+        }
+        moveMargin = margin;
+        moveSpeed = speed;
+    }
+
+    private void moveUpdate()
+    {
+        Vector3 prevPos;
+        Vector3 stepPos;
+
+        Vector2 compareAgent = new Vector2(transform.position.x, transform.position.y);
+        Vector2 compareTarget = new Vector2(moveTargetPos.x, moveTargetPos.y);
+
+        //This is to remove overhead from Update(), position is not affected if it falls into the margin
+        if ((compareTarget - compareAgent).magnitude > moveMargin)
+        {
+            prevPos = transform.position;
+
+            //Interpolates a step between current and target. Adds step to current.
+            stepPos = new Vector3((moveTargetPos.x - prevPos.x) * moveSpeed * Time.deltaTime, (moveTargetPos.y - prevPos.y) * moveSpeed * Time.deltaTime, 0);
+
+            transform.position += stepPos;
+        }
+        else if ((compareTarget - compareAgent).magnitude <= moveMargin)
+        {
+            if (movePause <= 0)
+            {
+                moveTargetPos = moveStartPos;
+            }
+            else
+            {
+                movePause -= Time.deltaTime;
+            }
         }
     }
 }

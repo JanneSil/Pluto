@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
+    private CombatAnimator CA;
     private ClickingScript CS;
     private CombatUIScript UI;
 
@@ -38,7 +39,6 @@ public class BattleManager : MonoBehaviour
 
     //Selection variables
     public bool ChoosingAttack;
-    public string ChoosingSkill;
     public bool SelectingAttack;
     public bool SelectingMove;
 
@@ -47,12 +47,19 @@ public class BattleManager : MonoBehaviour
 
     public int SelectedLanePos;
 
+    public string ChoosingSkill;
+
     public Text InfoText;
 
     //Turn variables
     private bool actionTurn;
+    private bool characterMoved = false;
     private bool movementTurn;
     public bool playerTurn;
+
+    public float ActionDelay;
+
+    private float actionDelayRemaining;
 
     private int actionsDone;
     private int nextActionIndex;
@@ -71,9 +78,12 @@ public class BattleManager : MonoBehaviour
     private GameObject skillButtons;
 
     //UI other
+    public float CameraAttackSize;
+
+    private float cameraWait;
+
     private GameObject canvas;
     private GameObject infoTextObject;
-
     //Unity functions
     private void Start()
     {
@@ -317,7 +327,7 @@ public class BattleManager : MonoBehaviour
     }
     public void AddMove()
     {
-        if (SelectedCharacter.GetComponent<Character>().LanePos == SelectedLanePos)
+        if (SelectedCharacter.GetComponent<Character>().LanePos == SelectedLanePos && SelectedCharacter.GetComponent<Character>().Class != "Tank")
         {
             return;
         }
@@ -327,19 +337,22 @@ public class BattleManager : MonoBehaviour
         move.TargetIndex = SelectedLanePos;
         move.StaminaCost = StaminaCostMovement(move.TargetIndex - move.Agent.GetComponent<Character>().LanePos, move.Agent);
 
-        for (int i = 0; i < MovementList.Count; ++i)
+        if (SelectedCharacter.GetComponent<Character>().Class != "Tank")
         {
-            if (MovementList[i].TargetIndex == move.TargetIndex)
+            for (int i = 0; i < MovementList.Count; ++i)
             {
-                Debug.Log("Cannot move there as a another unit is already moving there.");
-                return;
-            }
-            if (MovementList[i].OtherAgentTargetIndex == move.TargetIndex)
-            {
-                Debug.Log("Cannot move there as a another unit is already moving there.");
-                return;
-            }
+                if (MovementList[i].TargetIndex == move.TargetIndex)
+                {
+                    Debug.Log("Cannot move there as a another unit is already moving there.");
+                    return;
+                }
+                if (MovementList[i].OtherAgentTargetIndex == move.TargetIndex)
+                {
+                    Debug.Log("Cannot move there as a another unit is already moving there.");
+                    return;
+                }
 
+            }
         }
 
         if (move.Agent.GetComponent<Character>().AvailableStamina < move.StaminaCost)
@@ -348,7 +361,7 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        if (PlayerLanes[move.TargetIndex] != null && tempUnit == null)
+        if (PlayerLanes[move.TargetIndex] != null && tempUnit == null && SelectedCharacter.GetComponent<Character>().Class != "Tank")
         {
             if (PlayerLanes[move.TargetIndex].GetComponent<Character>().AvailableStamina >= StaminaCostMovement(1, SelectedCharacter))
             {
@@ -393,6 +406,8 @@ public class BattleManager : MonoBehaviour
                     tempUnit = null;
                     return;
                 }
+                move.Agent.GetComponent<Character>().SwitchingPlaces = true;
+                move.OtherAgent.GetComponent<Character>().SwitchingPlaces = true;
                 move.SwitchingPlaces = true;
                 move.OtherAgentTargetIndex = SelectedCharacter.GetComponent<Character>().LanePos;
                 move.OtherAgent.GetComponent<Character>().Moving = true;
@@ -445,7 +460,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            skill.Target = null;
+            skill.Target = EnemyLanes[skill.Agent.GetComponent<Character>().LanePos];
         }
 
         skill.Skill = newSkill;
@@ -528,7 +543,7 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos] != null)
+        if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos] != null && PlayerLanes[move.TargetIndex].GetComponent<Character>().Class == "")
         {
             return;
         }
@@ -566,6 +581,10 @@ public class BattleManager : MonoBehaviour
 
             
             //move.TargetIndex = Random.Range(0, 5);
+        }
+        if (PlayerLanes[move.TargetIndex].GetComponent<Character>().Class == "Tank")
+        {
+            return;
         }
 
         for (int i = 0; i < MovementList.Count; ++i)
@@ -676,6 +695,7 @@ public class BattleManager : MonoBehaviour
     //Turns functions
     private void InitializeCombat()
     {
+        CA = GetComponent<CombatAnimator>();
         CS = GameObject.Find("BattleManager").GetComponent<ClickingScript>();
         UI = GameObject.Find("CombatButtons").GetComponent<CombatUIScript>();
         canvas = GameObject.Find("Canvas");
@@ -753,6 +773,7 @@ public class BattleManager : MonoBehaviour
                 PlayerLanes[i].GetComponent<Character>().Resting = false;
                 PlayerLanes[i].GetComponent<Character>().UsingSkill = false;
                 PlayerLanes[i].GetComponent<Character>().SkillBeingUsed = "";
+                PlayerLanes[i].GetComponent<Character>().SwitchingPlaces = false;
 
                 PlayerLanes[i].GetComponent<Character>().AvailableStamina = PlayerLanes[i].GetComponent<Character>().StaminaPoints;
             }
@@ -776,6 +797,7 @@ public class BattleManager : MonoBehaviour
                 PlayerTankLanes[i].GetComponent<Character>().Defending = false;
                 PlayerTankLanes[i].GetComponent<Character>().Moving = false;
                 PlayerTankLanes[i].GetComponent<Character>().Resting = false;
+                PlayerTankLanes[i].GetComponent<Character>().SwitchingPlaces = false;
 
                 PlayerTankLanes[i].GetComponent<Character>().AvailableStamina = PlayerTankLanes[i].GetComponent<Character>().StaminaPoints;
 
@@ -793,6 +815,15 @@ public class BattleManager : MonoBehaviour
                     {
                         CheckLane(i);
                     }
+                }
+
+                if (PlayerLanes[i] == null)
+                {
+                    PlayerLanes[i] = PlayerTankLanes[i];
+                    PlayerLanes[i].GetComponent<Character>().LanePos = i;
+                    PlayerTankLanes[i] = null;
+                    PlayerLanes[i].GetComponent<Character>().IsTanking = false;
+                    PlayerLanes[i].transform.position = PlayerLanePos[i];
                 }
             }
         }
@@ -877,6 +908,7 @@ public class BattleManager : MonoBehaviour
         movementTurn = true;
         playerTurn = false;
 
+        actionDelayRemaining = ActionDelay;
         actionsDone = 0;
         nextActionIndex = 0;
     }
@@ -920,6 +952,7 @@ public class BattleManager : MonoBehaviour
         movementTurn = false;
         playerTurn = false;
 
+        actionDelayRemaining = ActionDelay;
         actionsDone = 0;
         nextActionIndex = 0;
 
@@ -930,50 +963,134 @@ public class BattleManager : MonoBehaviour
     {
         if (actionTurn)
         {
-            //Action is performed if delay has passed and its index is not out of bounds
-            if (actionDelayRemaining <= 0 && nextActionIndex < ActionList.Count)
+            //nextActionIndex is in bounds
+            if (nextActionIndex < ActionList.Count)
             {
-            //Dead characters actions are not performed, also if character has no stamina at this point action is not performed. FOR NOW DEAD TARGETS ARE NOT ATTACKED!
-                if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
+                //Dead characters actions do not move the camera or the character, also if character has no stamina at this point action is not performed.
+                if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].Target != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
                 {
-                    if (ActionList[nextActionIndex].Target == null && !ActionList[nextActionIndex].SkillInUse)
+                    //Camera wait time has passed
+                    if (cameraWait <= 0)
                     {
-                        
+                        if (ActionList[nextActionIndex].SkillInUse)
+                        {
+                            CA.CameraMove(EnemyLanePos[ActionList[nextActionIndex].Agent.GetComponent<Character>().LanePos], CameraAttackSize);
+                        }
+                        else
+                        {
+                            CA.CameraMove(ActionList[nextActionIndex].Target.transform.position, CameraAttackSize);
+                        }
                     }
 
-                    else if (ActionList[nextActionIndex].SkillInUse)
+                    //Character hasn't moved
+                    if (!characterMoved && cameraWait <= 0)
                     {
-                        ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Skill);
+                        if (ActionList[nextActionIndex].SkillInUse)
+                        {
+                            CA.MoveAttack(ActionList[nextActionIndex].Agent, null, ActionDelay * 0.9f);
+                        }
+                        else
+                        {
+                            CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f);
+                        }
+                        characterMoved = true;
                     }
-                    else
-                    {
-                        ActionList[nextActionIndex].Agent.GetComponent<Character>().Attack(ActionList[nextActionIndex].Target);
-                    }
-
-                    ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
-
                 }
-                actionsDone += 1;
-                nextActionIndex += 1;
-                actionDelayRemaining = ActionDelay;
-            }
-            else
-            {
-                actionDelayRemaining -= Time.deltaTime;
+
+                //Action is performed if delay has passed
+                if (actionDelayRemaining <= 0)
+                {
+                    //Dead characters actions are not performed, also if character has no stamina at this point action is not performed.
+                    if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
+                    {
+                        if (ActionList[nextActionIndex].Target == null && !ActionList[nextActionIndex].SkillInUse)
+                        {
+
+                        }
+                        else if (ActionList[nextActionIndex].SkillInUse)
+                        {
+                            ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Skill);
+                        }
+                        else
+                        {
+                            ActionList[nextActionIndex].Agent.GetComponent<Character>().Attack(ActionList[nextActionIndex].Target);
+                        }
+
+                        //Stamina cost is subtracted
+                        ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
+                    }
+
+
+                    //ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
+
+                    actionDelayRemaining = ActionDelay;
+                    actionsDone += 1;
+                    cameraWait = ActionDelay * 0.2f;
+                    characterMoved = false;
+                    nextActionIndex += 1;
+                }
+                else
+                {
+                    actionDelayRemaining -= Time.deltaTime;
+                    cameraWait -= Time.deltaTime;
+                }
             }
 
+            //All actions on the list are completed, and camera wait time is over: action turn ends
             if (actionsDone == ActionList.Count)
             {
-                actionDelayRemaining = 0;
+                if (cameraWait <= 0)
+                {
+                    actionDelayRemaining = 0;
+                    ActionList.Clear();
+                    CA.CameraReset();
 
-                ActionList.Clear();
-
-                PlayerTurn();
+                    PlayerTurn();
+                }
+                else
+                {
+                    cameraWait -= Time.deltaTime;
+                }
             }
         }
     }
 
     //UI functions
+    public void InstantiateDamageNumber(int dmgToStr, int dmgToSta, Transform targetLocation)
+    {
+        DamageNumber dN;
+        DamageNumber dNInstance;
+
+        Text t;
+
+        Vector2 screenPosition;
+
+        dN = Resources.Load<DamageNumber>("Prefabs/Combat/DamageNumber");
+        screenPosition = Camera.main.WorldToScreenPoint(targetLocation.position);
+
+        dNInstance = Instantiate(dN);
+        dNInstance.transform.SetParent(canvas.transform, false);
+        dNInstance.transform.position = screenPosition;
+
+        t = dNInstance.GetComponent<Text>();
+
+        if (dmgToStr < 1)
+        {
+            t.text = "-" + dmgToSta;
+            t.color = Color.yellow;
+        }
+        else if (dmgToSta < 1)
+        {
+            t.text = "-" + dmgToStr;
+            t.color = Color.red;
+        }
+        else
+        {
+            t.text = "-" + dmgToStr + "(" + dmgToSta + ")";
+            t.color = new Vector4(1, 0.5f, 0, 1);
+        }
+    }
+
     private void displayActionButtons()
     {
         //Enabling and disabling character action buttons
@@ -1005,12 +1122,12 @@ public class BattleManager : MonoBehaviour
                 restButton.SetActive(true);
             }
 
-            
+
             if (!SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack)
             {
                 attackButton.GetComponent<Image>().color = Color.green;
             }
-            else if(SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack && SelectedCharacter.GetComponent<Character>().UsingSkill == false) 
+            else if (SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack && SelectedCharacter.GetComponent<Character>().UsingSkill == false)
             {
                 attackButton.GetComponent<Image>().color = Color.black;
             }
@@ -1112,42 +1229,6 @@ public class BattleManager : MonoBehaviour
     }
 
     //Debug
-    public float ActionDelay;
-    private float actionDelayRemaining;
-    public void InstantiateDamageNumber(int dmgToStr, int dmgToSta, Transform targetLocation)
-    {
-        DamageNumber dN;
-        DamageNumber dNInstance;
-
-        Text t;
-
-        Vector2 screenPosition;
-
-        dN = Resources.Load<DamageNumber>("Prefabs/Combat/DamageNumber");
-        screenPosition = Camera.main.WorldToScreenPoint(targetLocation.position);
-
-        dNInstance = Instantiate(dN);
-        dNInstance.transform.SetParent(canvas.transform, false);
-        dNInstance.transform.position = screenPosition;
-
-        t = dNInstance.GetComponent<Text>();
-
-        if (dmgToStr < 1)
-        {
-            t.text = "-" + dmgToSta;
-            t.color = Color.yellow;
-        }
-        else if (dmgToSta < 1)
-        {
-            t.text = "-" + dmgToStr;
-            t.color = Color.red;
-        }
-        else
-        {
-            t.text = "-" + dmgToStr + "(" + dmgToSta + ")";
-            t.color = new Vector4(1, 0.5f, 0, 1);
-        }
-    }
     public void ResetTurn()
     {
         if (playerTurn)
