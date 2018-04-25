@@ -56,6 +56,7 @@ public class BattleManager : MonoBehaviour
     private bool characterMoved = false;
     private bool movementTurn;
     public bool playerTurn;
+    public bool SuccesfulAttack;
 
     public float ActionDelay;
 
@@ -245,6 +246,15 @@ public class BattleManager : MonoBehaviour
                         MovementList[i].OtherAgent.GetComponent<Character>().Moving = false;
                         MovementList[i].OtherAgent.GetComponent<Character>().ActionPoints += 1;
                     }
+
+                    MovementList.RemoveAt(i);
+                }
+
+                if (MovementList[i].TargetIndex == SelectedCharacter.GetComponent<Character>().LanePos)
+                {
+                    MovementList[i].Agent.GetComponent<Character>().AvailableStamina += MovementList[i].StaminaCost;
+                    MovementList[i].Agent.GetComponent<Character>().Moving = false;
+                    MovementList[i].Agent.GetComponent<Character>().ActionPoints += 1;
                     MovementList.RemoveAt(i);
                 }
 
@@ -428,7 +438,7 @@ public class BattleManager : MonoBehaviour
 
         MovementList.Add(move);
 
-        CS.ResetSelection();
+        SuccesfulAttack = true;
     }
     public void AddSkill(string newSkill)
     {
@@ -543,7 +553,7 @@ public class BattleManager : MonoBehaviour
             return;
         }
 
-        if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos] != null && PlayerLanes[move.TargetIndex].GetComponent<Character>().Class == "")
+        if (PlayerLanes[enemyAgent.GetComponent<Character>().LanePos] != null && PlayerLanes[enemyAgent.GetComponent<Character>().LanePos].GetComponent<Character>().Class == "" && PlayerTankLanes[enemyAgent.GetComponent<Character>().LanePos] == null)
         {
             return;
         }
@@ -582,9 +592,12 @@ public class BattleManager : MonoBehaviour
             
             //move.TargetIndex = Random.Range(0, 5);
         }
-        if (PlayerLanes[move.TargetIndex].GetComponent<Character>().Class == "Tank")
+        if (PlayerLanes[move.TargetIndex] != null)
         {
-            return;
+            if (PlayerLanes[move.TargetIndex].GetComponent<Character>().Class == "Tank")
+            {
+                return;
+            }
         }
 
         for (int i = 0; i < MovementList.Count; ++i)

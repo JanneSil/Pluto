@@ -48,17 +48,20 @@ public class ClickingScript : MonoBehaviour {
 
                 if (hit.collider.tag == "Lane" && CharacterClicked && BM.SelectingMove)
                 {
+                    BM.SuccesfulAttack = false;
                     ObjectClicked = true;
                     EnemyCharacterClicked = false;
-                    BM.SelectingMove = false;
                     if (TempEnemyUnitHolder != null)
                     {
                         TempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
                     }
                     BM.SelectedLanePos = hit.collider.GetComponent<LaneInfo>().LanePos;
-                    //Debug.Log("Lane Pos: " + BM.SelectedLanePos);
-                    ResetSelection();
                     BM.AddMove();
+                    if (!BM.SuccesfulAttack)
+                    {
+                        return;
+                    }
+                    ResetSelection();
                     BM.InfoText.text = "";
                 }
 
@@ -131,6 +134,7 @@ public class ClickingScript : MonoBehaviour {
         ObjectClicked = false;
         BM.SelectingAttack = false;
         BM.SelectingMove = false;
+        BM.SuccesfulAttack = false;
         CharacterClicked = false;
         EnemyCharacterClicked = false;
         BM.InfoText.text = "";
