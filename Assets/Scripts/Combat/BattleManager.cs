@@ -1000,10 +1000,12 @@ public class BattleManager : MonoBehaviour
                     {
                         if (ActionList[nextActionIndex].SkillInUse)
                         {
+                            ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
                             CA.MoveAttack(ActionList[nextActionIndex].Agent, null, ActionDelay * 0.9f);
                         }
                         else
                         {
+                            ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
                             CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f);
                         }
                         characterMoved = true;
