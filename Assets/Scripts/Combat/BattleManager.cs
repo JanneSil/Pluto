@@ -54,6 +54,7 @@ public class BattleManager : MonoBehaviour
     //Turn variables
     private bool actionTurn;
     private bool characterMoved = false;
+    private bool characterAnimated = false;
     private bool movementTurn;
     public bool playerTurn;
     public bool SuccesfulAttack;
@@ -987,11 +988,24 @@ public class BattleManager : MonoBehaviour
                     {
                         if (ActionList[nextActionIndex].SkillInUse)
                         {
-                            CA.CameraMove(EnemyLanePos[ActionList[nextActionIndex].Agent.GetComponent<Character>().LanePos], CameraAttackSize);
+                            if (!characterAnimated)
+                            {
+                                characterAnimated = true;
+                                ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
+                                ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                CA.CameraMove(EnemyLanePos[ActionList[nextActionIndex].Agent.GetComponent<Character>().LanePos], CameraAttackSize);
+                            }
                         }
                         else
                         {
-                            CA.CameraMove(ActionList[nextActionIndex].Target.transform.position, CameraAttackSize);
+                            if (characterAnimated == false)
+                            {
+                                characterAnimated = true;
+                                ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
+                                ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                CA.CameraMove(ActionList[nextActionIndex].Target.transform.position + new Vector3(0,1), CameraAttackSize);
+                            }
+
                         }
                     }
 
@@ -1000,12 +1014,11 @@ public class BattleManager : MonoBehaviour
                     {
                         if (ActionList[nextActionIndex].SkillInUse)
                         {
-                            ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
                             CA.MoveAttack(ActionList[nextActionIndex].Agent, null, ActionDelay * 0.9f);
                         }
                         else
                         {
-                            ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
+                            
                             CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f);
                         }
                         characterMoved = true;
@@ -1035,13 +1048,12 @@ public class BattleManager : MonoBehaviour
                         ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
                     }
 
-
-                    //ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
-
                     actionDelayRemaining = ActionDelay;
                     actionsDone += 1;
                     cameraWait = ActionDelay * 0.2f;
                     characterMoved = false;
+                    characterAnimated = false;
+                    CA.CameraReset();
                     nextActionIndex += 1;
                 }
                 else
