@@ -50,6 +50,10 @@ public class CombatAnimator : MonoBehaviour
         {
             tempX = -4;
         }
+        if (tempX > 3.7)
+        {
+            tempX = 3.7f;
+        }
 
         cameraTargetPos = new Vector3(tempX, tempY, -10);
         cameraTargetSize = size;

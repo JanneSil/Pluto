@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Anima2D;
 
 public class Character : MonoBehaviour
 {
@@ -72,12 +73,22 @@ public class Character : MonoBehaviour
 
     private int staminaPointsMax;
     private int strengthPointsMax;
+    private bool criticalHit;
+    private Component[] components;
+
+    private GameObject gameObjectToMove;
+    private Vector3 gameObjectOriginalPosition;
+    private Vector3 gameObjectTargetPosition;
+    public float speed;
+    public bool HasToMove;
+    Camera cam;
 
     //Unity functions
     void Start()
     {
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         sprite = GetComponent<SpriteRenderer>();
+        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
 
         //Debug
         Alive = true;
@@ -95,6 +106,8 @@ public class Character : MonoBehaviour
     }
     void Update()
     {
+        Vector3 screenPos = cam.WorldToScreenPoint(gameObject.transform.position);
+
         //Clamp stremgth and stamina points
         if (StrengthPoints > strengthPointsMax)
         {
@@ -126,18 +139,22 @@ public class Character : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.GetComponent<Slider>().value = ((float)StrengthPoints / (float)strengthPointsMax);
+            healthBar.transform.position = new Vector3(healthBar.transform.position.x, screenPos.y + 180, healthBar.transform.position.z);
         }
         if (staminaBar != null)
         {
             staminaBar.GetComponent<Slider>().value = ((float)StaminaPoints / (float)staminaPointsMax);
+            staminaBar.transform.position = new Vector3(staminaBar.transform.position.x, screenPos.y + 180, staminaBar.transform.position.z);
         }
         if (healthText != null)
         {
-            healthText.text = StrengthPoints + "/" + strengthPointsMax;
+            //healthText.text = StrengthPoints + "/" + strengthPointsMax;
+            healthText.text = "";
         }
         if (staminaText != null)
         {
-            staminaText.text = StaminaPoints + "/" + staminaPointsMax;
+            //staminaText.text = StaminaPoints + "/" + staminaPointsMax;
+            staminaText.text = "";
         }
 
         //Death, consider moving to damaging method
@@ -146,7 +163,22 @@ public class Character : MonoBehaviour
             Die();
         }
 
-        moveUpdate();
+        if (BM.actionTurn)
+        {
+            moveUpdate();
+        }
+    }
+    private void LateUpdate()
+    {
+        if (HasToMove && transform.position.y != gameObjectTargetPosition.y)
+        {
+            gameObjectToMove.transform.position = Vector3.MoveTowards(transform.position, gameObjectTargetPosition, speed * Time.deltaTime);
+        }
+        else
+        {
+            HasToMove = false;
+            gameObjectToMove = null;
+        }
     }
 
     private void Die()
@@ -228,6 +260,7 @@ public class Character : MonoBehaviour
         if (Random.Range(0, 100) < Dexterity)
         {
             damageOutput = damageOutput * 2;
+            criticalHit = true;
 
             Debug.Log("CRITICAL HIT PERFORMED BY: " + gameObject);
         }
@@ -288,6 +321,7 @@ public class Character : MonoBehaviour
 
     private void DealDamage(GameObject target, int damageMultiplier)
     {
+
         if (!target.GetComponent<Character>().IsTanking)
         {
             target.GetComponent<Character>().StrengthPoints -= (int)(damageToStrength * damageMultiplier);
@@ -299,11 +333,11 @@ public class Character : MonoBehaviour
 
             if (target.GetComponent<Character>().IsTanking)
             {
-                BM.InstantiateDamageNumber((int)0, (int)damageToStamina * damageMultiplier, target.transform);
+                BM.InstantiateDamageNumber((int)0, (int)damageToStamina * damageMultiplier, target.transform, criticalHit);
             }
             else
             {
-                BM.InstantiateDamageNumber((int)damageToStrength * damageMultiplier, (int)damageToStamina * damageMultiplier, target.transform);
+                BM.InstantiateDamageNumber((int)damageToStrength * damageMultiplier, (int)damageToStamina * damageMultiplier, target.transform, criticalHit);
             }
         }
         else
@@ -315,14 +349,16 @@ public class Character : MonoBehaviour
 
             if (target.GetComponent<Character>().IsTanking)
             {
-                BM.InstantiateDamageNumber((int)(staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform);
+                BM.InstantiateDamageNumber((int)(staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform, criticalHit);
             }
             else
             {
-                BM.InstantiateDamageNumber((int)((damageToStrength * damageMultiplier) + staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform);
+                BM.InstantiateDamageNumber((int)((damageToStrength * damageMultiplier) + staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform, criticalHit);
             }
 
         }
+
+        criticalHit = false;
     }
 
     //Character Functions
@@ -351,9 +387,11 @@ public class Character : MonoBehaviour
                     LanePos = targetIndex;
                     BM.PlayerTankLanes[startIndex] = targetGO;
                     BM.PlayerTankLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
-
                     BM.PlayerTankLanes[startIndex].transform.position = BM.PlayerLanePos[startIndex] + new Vector3(1.5f, 0, 0);
                     BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+
+                    SortLayers(BM.PlayerLanes[targetIndex], targetIndex);
+                    SortLayers(BM.PlayerLanes[startIndex], startIndex);
                 }
                 else
                 {
@@ -362,7 +400,12 @@ public class Character : MonoBehaviour
                     LanePos = targetIndex;
                     IsTanking = false;
 
-                    BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
+                    gameObjectTargetPosition = BM.PlayerLanePos[targetIndex];
+                    gameObjectToMove = BM.PlayerLanes[targetIndex];
+                    HasToMove = true;
+
+                    //BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
+                    SortLayers(BM.PlayerLanes[targetIndex], targetIndex);
                 }
             }
             else if (Class == "Tank" && !IsTanking && !SwitchingPlaces)
@@ -375,7 +418,12 @@ public class Character : MonoBehaviour
                     IsTanking = true;
                     BM.PlayerLanes[startIndex] = null;
 
-                    BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    gameObjectOriginalPosition = BM.PlayerLanePos[startIndex];
+                    gameObjectTargetPosition = BM.PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    gameObjectToMove = BM.PlayerTankLanes[targetIndex];
+                    HasToMove = true;
+
+                    //BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
                 }
                 else if (BM.PlayerLanes[targetIndex] != null && BM.PlayerTankLanes[targetIndex] != null)
                 {
@@ -389,7 +437,6 @@ public class Character : MonoBehaviour
                     BM.PlayerLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
                     BM.PlayerLanes[startIndex].GetComponent<Character>().IsTanking = false;
 
-
                     BM.PlayerLanes[startIndex].transform.position = BM.PlayerLanePos[startIndex];
                     BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
                 }
@@ -400,7 +447,12 @@ public class Character : MonoBehaviour
                     LanePos = targetIndex;
                     IsTanking = false;
 
-                    BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
+                    gameObjectOriginalPosition = BM.PlayerLanePos[startIndex];
+                    gameObjectTargetPosition = BM.PlayerLanePos[targetIndex];
+                    gameObjectToMove = BM.PlayerLanes[targetIndex];
+                    HasToMove = true;
+
+                    SortLayers(BM.PlayerLanes[targetIndex], targetIndex);
                 }
 
             }
@@ -414,8 +466,19 @@ public class Character : MonoBehaviour
                 BM.PlayerLanes[startIndex] = targetGO;
                 BM.PlayerLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
 
-                BM.PlayerLanes[startIndex].transform.position = BM.PlayerLanePos[startIndex];
-                BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
+
+                BM.PlayerLanes[startIndex].GetComponent<Character>().gameObjectTargetPosition = BM.PlayerLanePos[startIndex];
+                BM.PlayerLanes[startIndex].GetComponent<Character>().gameObjectToMove = BM.PlayerLanes[startIndex];
+                BM.PlayerLanes[startIndex].GetComponent<Character>().HasToMove = true;
+
+                gameObjectTargetPosition = BM.PlayerLanePos[targetIndex];
+                gameObjectToMove = gameObject;
+                HasToMove = true;
+                //BM.PlayerLanes[startIndex].transform.position = BM.PlayerLanePos[startIndex];
+                //BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
+
+                SortLayers(BM.PlayerLanes[targetIndex], targetIndex);
+                SortLayers(BM.PlayerLanes[startIndex], startIndex);
 
                 //Debug
                 targetGO.GetComponent<Character>().moveStartPos = BM.PlayerLanePos[targetGO.GetComponent<Character>().LanePos];
@@ -427,7 +490,15 @@ public class Character : MonoBehaviour
                 BM.PlayerLanes[targetIndex] = BM.PlayerLanes[startIndex];
                 LanePos = targetIndex;
                 BM.PlayerLanes[startIndex] = null;
-                BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
+
+                gameObjectTargetPosition = BM.PlayerLanePos[targetIndex];
+                gameObjectToMove = gameObject;
+                HasToMove = true;
+
+                //BM.PlayerLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex];
+
+                SortLayers(BM.PlayerLanes[targetIndex], targetIndex);
+
             }
             //Debug
             moveStartPos = BM.PlayerLanePos[targetIndex];
@@ -454,17 +525,24 @@ public class Character : MonoBehaviour
             //    BM.EnemyLanes[targetIndex].transform.position = BM.EnemyLanePos[targetIndex];
             //}
 
-                //Debug
-                //targetGO.GetComponent<Character>().moveStartPos = BM.EnemyLanePos[targetGO.GetComponent<Character>().LanePos];
-                //targetGO.GetComponent<Character>().moveTargetPos = BM.EnemyLanePos[targetGO.GetComponent<Character>().LanePos];            
+            //Debug
+            //targetGO.GetComponent<Character>().moveStartPos = BM.EnemyLanePos[targetGO.GetComponent<Character>().LanePos];
+            //targetGO.GetComponent<Character>().moveTargetPos = BM.EnemyLanePos[targetGO.GetComponent<Character>().LanePos];            
 
             //else
             //{
-                BM.EnemyLanes[targetIndex] = BM.EnemyLanes[startIndex];
-                LanePos = targetIndex;
-                BM.EnemyLanes[startIndex] = null;
 
-                BM.EnemyLanes[targetIndex].transform.position = BM.EnemyLanePos[targetIndex];
+            BM.EnemyLanes[targetIndex] = BM.EnemyLanes[startIndex];
+            LanePos = targetIndex;
+            BM.EnemyLanes[startIndex] = null;
+
+            gameObjectTargetPosition = BM.EnemyLanePos[targetIndex];
+            gameObjectToMove = gameObject;
+            HasToMove = true;
+
+            //BM.EnemyLanes[targetIndex].transform.position = BM.EnemyLanePos[targetIndex];
+
+            SortLayers(BM.EnemyLanes[targetIndex], targetIndex);
             //}
             //Debug
             moveStartPos = BM.EnemyLanePos[targetIndex];
@@ -479,9 +557,7 @@ public class Character : MonoBehaviour
         //}
         if (BM.PlayerTankLanes[target.GetComponent<Character>().LanePos] != null && !Player) //Tank is Protecting the Target and is hit instead
         {
-
             DealDamage(BM.PlayerTankLanes[target.GetComponent<Character>().LanePos], 1);
-
             return;
         }
         else
@@ -542,6 +618,15 @@ public class Character : MonoBehaviour
         moveMargin = margin;
         moveSpeed = speed;
     }
+    private void SortLayers(GameObject agent, int targetIndex)
+    {
+        components = agent.GetComponentsInChildren<SpriteMeshInstance>();
+
+        foreach (SpriteMeshInstance spritemesh in components)
+        {
+            spritemesh.sortingLayerName = "Lane" + targetIndex;
+        }
+    }
 
     private void moveUpdate()
     {
@@ -563,7 +648,7 @@ public class Character : MonoBehaviour
         }
         else if ((compareTarget - compareAgent).magnitude <= moveMargin)
         {
-            if (movePause <= 0)
+            if (BM.TurnDelayRemaining <= 0.1)
             {
                 moveTargetPos = moveStartPos;
             }
@@ -572,5 +657,7 @@ public class Character : MonoBehaviour
                 movePause -= Time.deltaTime;
             }
         }
+
+
     }
 }

@@ -39,6 +39,6 @@ public class DamageNumber : MonoBehaviour
         text.color = nextColorText;
 
         //Moves text along y-axis
-        gameObject.transform.Translate(0, FloatingSpeed * Time.deltaTime, 0);
+        gameObject.transform.Translate(0, FloatingSpeed * Time.deltaTime, 0, Space.Self);
     }
 }
