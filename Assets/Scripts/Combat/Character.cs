@@ -184,7 +184,9 @@ public class Character : MonoBehaviour
     private void Die()
     {
         Alive = false;
-        Destroy(gameObject);
+
+        healthBar.SetActive(false);
+        staminaBar.SetActive(false);
         if (Player)
         {
             BM.PlayerLanes[LanePos] = null;
@@ -193,6 +195,8 @@ public class Character : MonoBehaviour
         {
             BM.EnemyLanes[LanePos] = null;
         }
+
+        Destroy(gameObject);
     }
     private void GetStatusBars()
     {
