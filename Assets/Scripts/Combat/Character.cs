@@ -76,9 +76,9 @@ public class Character : MonoBehaviour
     private bool criticalHit;
     private Component[] components;
 
-    private GameObject gameObjectToMove;
-    private Vector3 gameObjectOriginalPosition;
-    private Vector3 gameObjectTargetPosition;
+    public GameObject gameObjectToMove;
+    public Vector3 gameObjectOriginalPosition;
+    public Vector3 gameObjectTargetPosition;
     public float speed;
     public bool HasToMove;
     Camera cam;
@@ -87,7 +87,6 @@ public class Character : MonoBehaviour
     void Start()
     {
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
-        sprite = GetComponent<SpriteRenderer>();
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
 
         //Debug
@@ -128,11 +127,13 @@ public class Character : MonoBehaviour
 
         if (!UnitChosen && Player)
         {
-            sprite.color = Color.yellow;
+            foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+                r.enabled = false;
+            //sprite.enabled = false;
         }
         else if (!UnitChosen && !Player)
         {
-            sprite.color = Color.red;
+            //sprite.color = Color.red;
         }
 
         //Update UI elements
@@ -224,7 +225,9 @@ public class Character : MonoBehaviour
     {
         BM.ChooseCharacter(LanePos, Player, IsTanking);
         UnitChosen = true;
-        sprite.color = Color.green;
+        foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+            r.enabled = true;
+        //sprite.color = Color.green;
     }
 
     //Damage calculation

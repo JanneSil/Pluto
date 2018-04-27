@@ -103,11 +103,10 @@ public class BattleManager : MonoBehaviour
     }
     private void Update()
     {
-        CheckCombatResult();
         displayActionButtons();
-
         ActionTurnUpdate();
         MovementTurnUpdate();
+        CheckCombatResult();
     }
 
     //Character functions
@@ -140,18 +139,22 @@ public class BattleManager : MonoBehaviour
     //Combat functions
     private void CheckCombatResult()
     {
-        if (EnemyLanes[0] == null && EnemyLanes[1] == null && EnemyLanes[2] == null && EnemyLanes[3] == null && EnemyLanes[4] == null && EnemyLanes[5] == null)
+        if (playerTurn)
         {
-            gameOver = true;
-            InfoText.text = "You Win!";
-            endTurnButton.SetActive(false);
+            if (EnemyLanes[0] == null && EnemyLanes[1] == null && EnemyLanes[2] == null && EnemyLanes[3] == null && EnemyLanes[4] == null && EnemyLanes[5] == null)
+            {
+                gameOver = true;
+                InfoText.text = "You Win!";
+                endTurnButton.SetActive(false);
+            }
+            if (PlayerLanes[0] == null && PlayerLanes[1] == null && PlayerLanes[2] == null && PlayerLanes[3] == null && PlayerLanes[4] == null && PlayerLanes[5] == null)
+            {
+                gameOver = true;
+                InfoText.text = "You Lose!";
+                endTurnButton.SetActive(false);
+            }
         }
-        if (PlayerLanes[0] == null && PlayerLanes[1] == null && PlayerLanes[2] == null && PlayerLanes[3] == null && PlayerLanes[4] == null && PlayerLanes[5] == null)
-        {
-            gameOver = true;
-            InfoText.text = "You Lose!";
-            endTurnButton.SetActive(false);
-        }
+
     }
     public void ChooseAttack(string skill)
     {
@@ -224,6 +227,7 @@ public class BattleManager : MonoBehaviour
         if (SelectedCharacter.GetComponent<Character>().Defending == true)
         {
             SelectedCharacter.GetComponent<Character>().Defending = false;
+            SelectedCharacter.GetComponent<Animator>().SetBool("RaiseGuard", false);
             SelectedCharacter.GetComponent<Character>().DefendingStamina = 0;
             SelectedCharacter.GetComponent<Character>().ActionPoints += 2;
             SelectedCharacter.GetComponent<Character>().AvailableStamina += 10;
@@ -236,6 +240,7 @@ public class BattleManager : MonoBehaviour
         }
         //Sets character to defend, reduces action points, resets selection
         SelectedCharacter.GetComponent<Character>().Defending = true;
+        SelectedCharacter.GetComponent<Animator>().SetBool("RaiseGuard", true);
         SelectedCharacter.GetComponent<Character>().DefendingStamina = 10;
         SelectedCharacter.GetComponent<Character>().ActionPoints -= 2;
         SelectedCharacter.GetComponent<Character>().AvailableStamina -= 10;
@@ -316,6 +321,7 @@ public class BattleManager : MonoBehaviour
     public void EnemyDefend(GameObject agent)
     {
         agent.GetComponent<Character>().Defending = true;
+        agent.GetComponent<Animator>().SetBool("RaiseGuard", true);
         agent.GetComponent<Character>().DefendingStamina = 10;
         agent.GetComponent<Character>().ActionPoints -= 2;
         agent.GetComponent<Character>().AvailableStamina -= 10;
@@ -808,6 +814,7 @@ public class BattleManager : MonoBehaviour
                 PlayerLanes[i].GetComponent<Character>().ActionPoints = 4;
                 PlayerLanes[i].GetComponent<Character>().Attacking = false;
                 PlayerLanes[i].GetComponent<Character>().Defending = false;
+                PlayerLanes[i].GetComponent<Animator>().SetBool("RaiseGuard", false);
                 PlayerLanes[i].GetComponent<Character>().Moving = false;
                 PlayerLanes[i].GetComponent<Character>().Resting = false;
                 PlayerLanes[i].GetComponent<Character>().UsingSkill = false;
@@ -834,6 +841,7 @@ public class BattleManager : MonoBehaviour
                 PlayerTankLanes[i].GetComponent<Character>().ActionPoints = 4;
                 PlayerTankLanes[i].GetComponent<Character>().Attacking = false;
                 PlayerTankLanes[i].GetComponent<Character>().Defending = false;
+                PlayerTankLanes[i].GetComponent<Animator>().SetBool("RaiseGuard", false);
                 PlayerTankLanes[i].GetComponent<Character>().Moving = false;
                 PlayerTankLanes[i].GetComponent<Character>().Resting = false;
                 PlayerTankLanes[i].GetComponent<Character>().SwitchingPlaces = false;
@@ -862,7 +870,10 @@ public class BattleManager : MonoBehaviour
                     PlayerLanes[i].GetComponent<Character>().LanePos = i;
                     PlayerTankLanes[i] = null;
                     PlayerLanes[i].GetComponent<Character>().IsTanking = false;
-                    PlayerLanes[i].transform.position = PlayerLanePos[i];
+
+                    PlayerLanes[i].GetComponent<Character>().gameObjectTargetPosition = PlayerLanePos[i];
+                    PlayerLanes[i].GetComponent<Character>().gameObjectToMove = PlayerLanes[i];
+                    PlayerLanes[i].GetComponent<Character>().HasToMove = true;
                 }
             }
         }
@@ -881,6 +892,7 @@ public class BattleManager : MonoBehaviour
                     EnemyLanes[i].GetComponent<Character>().ActionPoints = 4;
                     EnemyLanes[i].GetComponent<Character>().Attacking = false;
                     EnemyLanes[i].GetComponent<Character>().Defending = false;
+                    EnemyLanes[i].GetComponent<Animator>().SetBool("RaiseGuard", false);
                     EnemyLanes[i].GetComponent<Character>().Moving = false;
                     EnemyLanes[i].GetComponent<Character>().Resting = false;
 
@@ -1143,7 +1155,6 @@ public class BattleManager : MonoBehaviour
                     actionDelayRemaining = 0;
                     ActionList.Clear();
                     CA.CameraReset();
-
                     PlayerTurn();
                 }
                 else
