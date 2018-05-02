@@ -1109,7 +1109,7 @@ Transform:
   - {fileID: 1680579250}
   - {fileID: 2103785513}
   m_Father: {fileID: 790745286}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &155004253
 GameObject:
@@ -1433,16 +1433,16 @@ MonoBehaviour:
     - m_Bone: {fileID: 0}
       m_BoneTransform: {fileID: 1151254650}
       solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: -0.22164844, w: 0.9751266}
+      solverRotation: {x: 0, y: 0, z: -0.028726047, w: 0.9995873}
       defaultLocalRotation: {x: 0, y: 0, z: -0.22164848, w: 0.9751267}
     - m_Bone: {fileID: 0}
       m_BoneTransform: {fileID: 2065847758}
       solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0.5807575, w: 0.8140766}
+      solverRotation: {x: 0, y: 0, z: 0.45910373, w: 0.8883827}
       defaultLocalRotation: {x: 0, y: 0, z: 0.5807573, w: 0.8140767}
     m_Weight: 1
     m_RestoreDefaultPose: 1
-    targetPosition: {x: -20.743593, y: 2.2577114, z: 0}
+    targetPosition: {x: -20.720201, y: 8.399244, z: 0}
     flip: 0
 --- !u!1 &226754171
 GameObject:
@@ -2414,7 +2414,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 413143383}
-  m_LocalRotation: {x: 0, y: 0, z: 0.5661861, w: 0.82427746}
+  m_LocalRotation: {x: 0, y: 0, z: 0.6266878, w: 0.77927047}
   m_LocalPosition: {x: 1.3942832, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2422,7 +2422,7 @@ Transform:
   - {fileID: 1549543507}
   m_Father: {fileID: 1908777908}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 68.969}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 77.61201}
 --- !u!114 &413143385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3475,7 +3475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b157d7625014c58bfbad3513f40289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.37}
   m_Length: 3.48
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 0}
@@ -3620,7 +3620,6 @@ GameObject:
   m_Component:
   - component: {fileID: 643075711}
   - component: {fileID: 643075714}
-  - component: {fileID: 643075713}
   - component: {fileID: 643075712}
   m_Layer: 0
   m_Name: Ibo_Combat_Attack_01_L_LowerLeg
@@ -3642,8 +3641,8 @@ Transform:
   m_Father: {fileID: 790745286}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180.00002}
---- !u!23 &643075712
-MeshRenderer:
+--- !u!137 &643075712
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -3674,13 +3673,21 @@ MeshRenderer:
   m_SortingLayerID: -727269289
   m_SortingLayer: 10
   m_SortingOrder: 0
---- !u!33 &643075713
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 643075710}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 0}
+  m_Bones:
+  - {fileID: 743813723}
+  - {fileID: 1972154121}
+  - {fileID: 1273300436}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 743813723}
+  m_AABB:
+    m_Center: {x: 1.5005004, y: -1.7419493, z: 0}
+    m_Extent: {x: 0.9494674, y: 2.1861362, z: 0}
+  m_DirtyAABB: 0
 --- !u!114 &643075714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3935,7 +3942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.986207, g: 1, b: 0, a: 1}
-  m_Length: 0.4110288
+  m_Length: 0.41102827
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 1067004434}
   m_AttachedIK: {fileID: 0}
@@ -4236,14 +4243,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 743813722}
-  m_LocalRotation: {x: 0, y: 0, z: -0.8447216, w: 0.535206}
+  m_LocalRotation: {x: 0, y: 0, z: -0.902341, w: 0.43102282}
   m_LocalPosition: {x: 0.09353852, y: -0.3602271, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1972154121}
   m_Father: {fileID: 1680579250}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -115.284004}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -128.936}
 --- !u!114 &743813724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4256,7 +4263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 0.21323532, b: 0.21323532, a: 1}
-  m_Length: 1.61637
+  m_Length: 1.6163701
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 1972154121}
   m_AttachedIK: {fileID: 1727865782}
@@ -4390,8 +4397,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 790745286}
+  - component: {fileID: 790745287}
   m_Layer: 0
-  m_Name: Ibofang_Combat_Attack_01
+  m_Name: Ibofang_Combat_Attack_basic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4404,7 +4412,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 790745285}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.32, y: -8.56, z: 0}
+  m_LocalPosition: {x: -22.72, y: -3.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2018567329}
@@ -4418,12 +4426,27 @@ Transform:
   - {fileID: 1905355480}
   - {fileID: 1850220678}
   - {fileID: 282492182}
-  - {fileID: 1772885903}
-  - {fileID: 1633936592}
   - {fileID: 151971098}
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &790745287
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 790745285}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c47fccf7d46f8b9428f990c592c926a7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &792250305
 GameObject:
   m_ObjectHideFlags: 0
@@ -4446,10 +4469,11 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 792250305}
-  m_LocalRotation: {x: -0, y: -0, z: -0.96439385, w: -0.26447013}
+  m_LocalRotation: {x: -0, y: -0, z: -0.9643939, w: -0.26447016}
   m_LocalPosition: {x: 0.67748964, y: -0.026903808, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1633936592}
   m_Father: {fileID: 413143384}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 149.32901}
@@ -6038,7 +6062,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.986207, g: 1, b: 0, a: 1}
-  m_Length: 1.4291534
+  m_Length: 1.4291601
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 596066085}
   m_AttachedIK: {fileID: 0}
@@ -6214,7 +6238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 0.21323532, b: 0.21323532, a: 1}
-  m_Length: 1.0367528
+  m_Length: 1.0367527
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 1151254650}
   m_AttachedIK: {fileID: 0}
@@ -6260,7 +6284,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.21323532, g: 0.73955363, b: 1, a: 1}
-  m_Length: 1.2188725
+  m_Length: 1.218873
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 1908777908}
   m_AttachedIK: {fileID: 0}
@@ -6334,14 +6358,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1151254649}
-  m_LocalRotation: {x: 0, y: 0, z: -0.22164844, w: 0.9751266}
+  m_LocalRotation: {x: 0, y: 0, z: -0.028726049, w: 0.99958736}
   m_LocalPosition: {x: 1.0367521, y: 0.00000086426735, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2065847758}
   m_Father: {fileID: 1109906700}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -25.612001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3.292}
 --- !u!114 &1151254651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6354,7 +6378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 0.21323532, b: 0.21323532, a: 1}
-  m_Length: 1.4268291
+  m_Length: 1.4268293
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 2065847758}
   m_AttachedIK: {fileID: 222538878}
@@ -6488,7 +6512,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0.1858585, w: 0.98257655}
   m_LocalPosition: {x: 0.045914374, y: -0.20303996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1772885903}
   m_Father: {fileID: 527377824}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -21.422}
@@ -6882,7 +6907,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.21323532, g: 0.73955363, b: 1, a: 1}
-  m_Length: 2.1065373
+  m_Length: 2.106536
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 1368244698}
   m_AttachedIK: {fileID: 0}
@@ -7418,7 +7443,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1333045400}
   - component: {fileID: 1333045403}
-  - component: {fileID: 1333045402}
   - component: {fileID: 1333045401}
   m_Layer: 0
   m_Name: Ibo_Combat_Attack_01_L_Leg
@@ -7440,8 +7464,8 @@ Transform:
   m_Father: {fileID: 790745286}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1333045401
-MeshRenderer:
+--- !u!137 &1333045401
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -7472,13 +7496,21 @@ MeshRenderer:
   m_SortingLayerID: -727269289
   m_SortingLayer: 10
   m_SortingOrder: 1
---- !u!33 &1333045402
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1333045399}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 0}
+  m_Bones:
+  - {fileID: 1680579250}
+  - {fileID: 743813723}
+  - {fileID: 1972154121}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 1680579250}
+  m_AABB:
+    m_Center: {x: -0.5363281, y: -1.3106422, z: 0}
+    m_Extent: {x: 1.3653135, y: 1.469255, z: 0}
+  m_DirtyAABB: 0
 --- !u!114 &1333045403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7510,7 +7542,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1343699929}
   - component: {fileID: 1343699932}
-  - component: {fileID: 1343699931}
   - component: {fileID: 1343699930}
   m_Layer: 0
   m_Name: Ibo_Combat_Attack_01_R_Leg
@@ -7532,8 +7563,8 @@ Transform:
   m_Father: {fileID: 790745286}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1343699930
-MeshRenderer:
+--- !u!137 &1343699930
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -7564,13 +7595,21 @@ MeshRenderer:
   m_SortingLayerID: -727269289
   m_SortingLayer: 10
   m_SortingOrder: 0
---- !u!33 &1343699931
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1343699928}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 0}
+  m_Bones:
+  - {fileID: 1265216212}
+  - {fileID: 1368244698}
+  - {fileID: 1347120873}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 1265216212}
+  m_AABB:
+    m_Center: {x: 3.1796107, y: 0.27066392, z: 0}
+    m_Extent: {x: 2.4488702, y: 0.93284637, z: 0}
+  m_DirtyAABB: 0
 --- !u!114 &1343699932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7660,7 +7699,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1368244697}
-  m_LocalRotation: {x: 0, y: 0, z: 0.05689233, w: 0.9983803}
+  m_LocalRotation: {x: 0, y: 0, z: 0.056892335, w: 0.99838036}
   m_LocalPosition: {x: 2.1065354, y: 0.00000047683716, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7680,7 +7719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.21323532, g: 0.73955363, b: 1, a: 1}
-  m_Length: 2.2714658
+  m_Length: 2.2714632
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 1347120873}
   m_AttachedIK: {fileID: 0}
@@ -8895,7 +8934,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1550422263}
   - component: {fileID: 1550422266}
-  - component: {fileID: 1550422265}
   - component: {fileID: 1550422264}
   m_Layer: 0
   m_Name: Ibo_Combat_Attack_01_R_Arm
@@ -8917,8 +8955,8 @@ Transform:
   m_Father: {fileID: 790745286}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 35.365}
---- !u!23 &1550422264
-MeshRenderer:
+--- !u!137 &1550422264
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -8949,13 +8987,21 @@ MeshRenderer:
   m_SortingLayerID: -727269289
   m_SortingLayer: 10
   m_SortingOrder: 3
---- !u!33 &1550422265
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1550422262}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 0}
+  m_Bones:
+  - {fileID: 1131030779}
+  - {fileID: 1908777908}
+  - {fileID: 413143384}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 1131030779}
+  m_AABB:
+    m_Center: {x: 1.5085597, y: 0.5808253, z: 0}
+    m_Extent: {x: 1.0745468, y: 1.0951009, z: 0}
+  m_DirtyAABB: 0
 --- !u!114 &1550422266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9267,12 +9313,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1633936591}
-  m_LocalRotation: {x: -0, y: -0, z: 0.19899622, w: 0.98000026}
-  m_LocalPosition: {x: -2.33, y: 5.82, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.55223256, w: 0.8336901}
+  m_LocalPosition: {x: -0.009774931, y: -0.02906651, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 790745286}
-  m_RootOrder: 12
+  m_Father: {fileID: 792250306}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 22.957}
 --- !u!212 &1633936593
 SpriteRenderer:
@@ -9405,8 +9451,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b157d7625014c58bfbad3513f40289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 4.1583557
+  m_Color: {r: 1, g: 1, b: 1, a: 0.37}
+  m_Length: 4.1583576
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 605462338}
   m_AttachedIK: {fileID: 0}
@@ -9455,7 +9501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.986207, g: 1, b: 0, a: 1}
-  m_Length: 0.78935677
+  m_Length: 0.7893568
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 1695476521}
   m_AttachedIK: {fileID: 0}
@@ -9657,16 +9703,16 @@ MonoBehaviour:
     - m_Bone: {fileID: 0}
       m_BoneTransform: {fileID: 743813723}
       solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: -0.84472156, w: 0.53520596}
+      solverRotation: {x: 0, y: 0, z: -0.902341, w: 0.43102282}
       defaultLocalRotation: {x: 0, y: 0, z: -0.8447216, w: 0.535206}
     - m_Bone: {fileID: 0}
       m_BoneTransform: {fileID: 1972154121}
       solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: -0.7376424, w: 0.6751916}
+      solverRotation: {x: 0, y: 0, z: -0.5980658, w: 0.80144703}
       defaultLocalRotation: {x: 0, y: 0, z: -0.7376424, w: 0.6751916}
     m_Weight: 1
     m_RestoreDefaultPose: 1
-    targetPosition: {x: -20.860464, y: -6.261091, z: 0}
+    targetPosition: {x: -20.110579, y: -0.96033883, z: 0}
     flip: 1
 --- !u!1 &1730858605
 GameObject:
@@ -9759,16 +9805,16 @@ MonoBehaviour:
     - m_Bone: {fileID: 0}
       m_BoneTransform: {fileID: 1908777908}
       solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0.40448064, w: 0.91454655}
+      solverRotation: {x: 0, y: 0, z: 0.3772003, w: 0.9261317}
       defaultLocalRotation: {x: 0, y: 0, z: 0.40448076, w: 0.91454655}
     - m_Bone: {fileID: 0}
       m_BoneTransform: {fileID: 413143384}
       solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0.5661861, w: 0.82427746}
+      solverRotation: {x: 0, y: 0, z: 0.62668777, w: 0.7792704}
       defaultLocalRotation: {x: -0, y: -0, z: 0.56618595, w: 0.8242776}
     m_Weight: 1
     m_RestoreDefaultPose: 1
-    targetPosition: {x: -24.22619, y: -3.4411755, z: 0}
+    targetPosition: {x: -23.630472, y: 2.4493508, z: 0}
     flip: 0
 --- !u!4 &1741889468
 Transform:
@@ -9824,8 +9870,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b157d7625014c58bfbad3513f40289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Length: 3.329501
+  m_Color: {r: 1, g: 1, b: 1, a: 0.37}
+  m_Length: 3.3295012
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 1674807002}
   m_AttachedIK: {fileID: 0}
@@ -9920,7 +9966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.986207, g: 1, b: 0, a: 1}
-  m_Length: 0.7221766
+  m_Length: 0.72218674
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 2075087202}
   m_AttachedIK: {fileID: 0}
@@ -9946,12 +9992,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1772885902}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.049999237, y: 7.3800006, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.7276488, w: 0.6859499}
+  m_LocalPosition: {x: 0.08488678, y: 0.07560456, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 790745286}
-  m_RootOrder: 11
+  m_Father: {fileID: 1168513998}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1772885904
 SpriteRenderer:
@@ -10100,7 +10146,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1787523434}
   - component: {fileID: 1787523437}
-  - component: {fileID: 1787523436}
   - component: {fileID: 1787523435}
   m_Layer: 0
   m_Name: Ibo_Combat_Attack_01_L_Forearm
@@ -10122,8 +10167,8 @@ Transform:
   m_Father: {fileID: 790745286}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90.00001}
---- !u!23 &1787523435
-MeshRenderer:
+--- !u!137 &1787523435
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -10154,13 +10199,21 @@ MeshRenderer:
   m_SortingLayerID: -727269289
   m_SortingLayer: 10
   m_SortingOrder: 7
---- !u!33 &1787523436
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1787523433}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 0}
+  m_Bones:
+  - {fileID: 1151254650}
+  - {fileID: 2065847758}
+  - {fileID: 1880447242}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 1151254650}
+  m_AABB:
+    m_Center: {x: 1.6109607, y: 0.91852266, z: 0}
+    m_Extent: {x: 0.7860732, y: 1.4166317, z: 0}
+  m_DirtyAABB: 0
 --- !u!114 &1787523437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10486,7 +10539,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1850220678}
   - component: {fileID: 1850220681}
-  - component: {fileID: 1850220680}
   - component: {fileID: 1850220679}
   m_Layer: 0
   m_Name: Ibo_Combat_Attack_01_Torso
@@ -10508,8 +10560,8 @@ Transform:
   m_Father: {fileID: 790745286}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &1850220679
-MeshRenderer:
+--- !u!137 &1850220679
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -10540,13 +10592,27 @@ MeshRenderer:
   m_SortingLayerID: -727269289
   m_SortingLayer: 10
   m_SortingOrder: 2
---- !u!33 &1850220680
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1850220677}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 0}
+  m_Bones:
+  - {fileID: 1680579250}
+  - {fileID: 1695476521}
+  - {fileID: 527377824}
+  - {fileID: 1131030779}
+  - {fileID: 1109906700}
+  - {fileID: 1265216212}
+  - {fileID: 1085242651}
+  - {fileID: 596066085}
+  - {fileID: 743813723}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 1680579250}
+  m_AABB:
+    m_Center: {x: 0.034898996, y: 0.7360161, z: 0}
+    m_Extent: {x: 3.6510155, y: 2.1014278, z: 0}
+  m_DirtyAABB: 0
 --- !u!114 &1850220681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10597,7 +10663,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1880447241}
-  m_LocalRotation: {x: -0, y: -0, z: 0.24896657, w: 0.9685121}
+  m_LocalRotation: {x: -0, y: -0, z: 0.19819033, w: 0.9801636}
   m_LocalPosition: {x: 1.5725027, y: -0.000003695488, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -10854,7 +10920,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1905355480}
   - component: {fileID: 1905355483}
-  - component: {fileID: 1905355482}
   - component: {fileID: 1905355481}
   m_Layer: 0
   m_Name: Ibo_Combat_Attack_01_Stick
@@ -10876,8 +10941,8 @@ Transform:
   m_Father: {fileID: 790745286}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30.230001}
---- !u!23 &1905355481
-MeshRenderer:
+--- !u!137 &1905355481
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -10908,13 +10973,21 @@ MeshRenderer:
   m_SortingLayerID: -727269289
   m_SortingLayer: 10
   m_SortingOrder: 6
---- !u!33 &1905355482
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1905355479}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 0}
+  m_Bones:
+  - {fileID: 1757122962}
+  - {fileID: 1674807002}
+  - {fileID: 605462338}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 1757122962}
+  m_AABB:
+    m_Center: {x: 5.1813955, y: -0.009253204, z: 0}
+    m_Extent: {x: 6.025564, y: 0.26020062, z: 0}
+  m_DirtyAABB: 0
 --- !u!114 &1905355483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11110,14 +11183,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1908777907}
-  m_LocalRotation: {x: 0, y: 0, z: 0.40448064, w: 0.91454655}
+  m_LocalRotation: {x: 0, y: 0, z: 0.3772003, w: 0.9261317}
   m_LocalPosition: {x: 1.2188731, y: -0.00000029802322, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 413143384}
   m_Father: {fileID: 1131030779}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 47.717003}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 44.320004}
 --- !u!114 &1908777909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11130,7 +11203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 0.21323532, g: 0.73955363, b: 1, a: 1}
-  m_Length: 1.3942826
+  m_Length: 1.3942839
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 413143384}
   m_AttachedIK: {fileID: 1741889467}
@@ -11242,7 +11315,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1930091035}
   - component: {fileID: 1930091038}
-  - component: {fileID: 1930091037}
   - component: {fileID: 1930091036}
   m_Layer: 0
   m_Name: Ibo_Combat_Attack_01_R_Forearm
@@ -11258,14 +11330,14 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1930091034}
   m_LocalRotation: {x: -0, y: -0, z: -0.47149822, w: 0.881867}
-  m_LocalPosition: {x: -2.2679996, y: 5.8650007, z: 0}
+  m_LocalPosition: {x: -2.275, y: 5.507, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 790745286}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -56.263004}
---- !u!23 &1930091036
-MeshRenderer:
+--- !u!137 &1930091036
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -11296,13 +11368,20 @@ MeshRenderer:
   m_SortingLayerID: -727269289
   m_SortingLayer: 10
   m_SortingOrder: 7
---- !u!33 &1930091037
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1930091034}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 0}
+  m_Bones:
+  - {fileID: 1908777908}
+  - {fileID: 413143384}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 1908777908}
+  m_AABB:
+    m_Center: {x: 1.6458583, y: 0.6825969, z: 0}
+    m_Extent: {x: 0.86711746, y: 1.1755459, z: 0}
+  m_DirtyAABB: 0
 --- !u!114 &1930091038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11464,14 +11543,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1972154120}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7376424, w: 0.6751916}
+  m_LocalRotation: {x: 0, y: 0, z: -0.5980658, w: 0.80144703}
   m_LocalPosition: {x: 1.61637, y: -0.00000023841858, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1273300436}
   m_Father: {fileID: 743813723}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -95.062004}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -73.463005}
 --- !u!114 &1972154122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11484,7 +11563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 0.21323532, b: 0.21323532, a: 1}
-  m_Length: 2.655137
+  m_Length: 2.6551356
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 1273300436}
   m_AttachedIK: {fileID: 1727865782}
@@ -11599,7 +11678,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2018567329}
   - component: {fileID: 2018567332}
-  - component: {fileID: 2018567331}
   - component: {fileID: 2018567330}
   m_Layer: 0
   m_Name: Ibo_Combat_Attack_01_Head
@@ -11621,8 +11699,8 @@ Transform:
   m_Father: {fileID: 790745286}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90.00001}
---- !u!23 &2018567330
-MeshRenderer:
+--- !u!137 &2018567330
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -11653,13 +11731,21 @@ MeshRenderer:
   m_SortingLayerID: -727269289
   m_SortingLayer: 10
   m_SortingOrder: 5
---- !u!33 &2018567331
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2018567328}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 0}
+  m_Bones:
+  - {fileID: 2075087202}
+  - {fileID: 665560605}
+  - {fileID: 1067004434}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 2075087202}
+  m_AABB:
+    m_Center: {x: 0.43823016, y: -0.14075446, z: 0}
+    m_Extent: {x: 1.1525171, y: 0.97628236, z: 0}
+  m_DirtyAABB: 0
 --- !u!114 &2018567332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11789,7 +11875,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2054533871}
   - component: {fileID: 2054533874}
-  - component: {fileID: 2054533873}
   - component: {fileID: 2054533872}
   m_Layer: 0
   m_Name: Ibo_Combat_Attack_01_L_Arm
@@ -11811,8 +11896,8 @@ Transform:
   m_Father: {fileID: 790745286}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &2054533872
-MeshRenderer:
+--- !u!137 &2054533872
+SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -11843,13 +11928,21 @@ MeshRenderer:
   m_SortingLayerID: -727269289
   m_SortingLayer: 10
   m_SortingOrder: 0
---- !u!33 &2054533873
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2054533870}
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 0}
+  m_Bones:
+  - {fileID: 1109906700}
+  - {fileID: 1151254650}
+  - {fileID: 2065847758}
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 1109906700}
+  m_AABB:
+    m_Center: {x: 1.4033632, y: -0.40695763, z: 0}
+    m_Extent: {x: 1.2124283, y: 1.1015466, z: 0}
+  m_DirtyAABB: 0
 --- !u!114 &2054533874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11973,14 +12066,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2065847757}
-  m_LocalRotation: {x: 0, y: 0, z: 0.5807575, w: 0.8140766}
+  m_LocalRotation: {x: 0, y: 0, z: 0.45910373, w: 0.8883827}
   m_LocalPosition: {x: 1.4268289, y: 0.00000090152025, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1880447242}
   m_Father: {fileID: 1151254650}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 71.008}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 54.659004}
 --- !u!114 &2065847759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11993,7 +12086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Color: {r: 1, g: 0.21323532, b: 0.21323532, a: 1}
-  m_Length: 1.5725037
+  m_Length: 1.5725048
   m_Child: {fileID: 0}
   m_ChildTransform: {fileID: 1880447242}
   m_AttachedIK: {fileID: 222538878}
