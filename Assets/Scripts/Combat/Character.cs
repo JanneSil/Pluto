@@ -82,6 +82,7 @@ public class Character : MonoBehaviour
     public float speed;
     public bool HasToMove;
     Camera cam;
+    private bool doOnce;
 
     //Unity functions
     void Start()
@@ -131,8 +132,23 @@ public class Character : MonoBehaviour
                 r.enabled = false;
             //sprite.enabled = false;
         }
-        else if (!UnitChosen && !Player)
+        //else if (!UnitChosen && !Player)
+        //{
+        //    //sprite.color = Color.red;
+        //}
+
+        if (BM.SelectingAttack && !Player && doOnce)
         {
+            foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+                r.enabled = true;
+            doOnce = false;
+            //sprite.enabled = false;
+        }
+        else if (!BM.SelectingAttack && !Player && !doOnce)
+        {
+               foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+                   r.enabled = false;
+            doOnce = true;
             //sprite.color = Color.red;
         }
 

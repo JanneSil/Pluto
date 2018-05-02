@@ -18,7 +18,7 @@ public class CombatAction
 
     public int ActionSpeed;
     public int TargetIndex;
-    public int OtherAgentTargetIndex;
+    public int OtherAgentTargetIndex = -1;
     public int StaminaCost;
 }
 

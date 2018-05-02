@@ -74,6 +74,7 @@ public class BattleManager : MonoBehaviour
     private int nextActionIndex;
     private int tempIntHolder;
     private bool once;
+    private bool removeMovement;
 
     //UI buttons
     private GameObject selectAttackButton;
@@ -252,25 +253,33 @@ public class BattleManager : MonoBehaviour
         {
             for (int i = 0; i < MovementList.Count; ++i)
             {
-                if (MovementList[i].Agent == SelectedCharacter)
-                {
-                    MovementList[i].Agent.GetComponent<Character>().AvailableStamina += MovementList[i].StaminaCost;
-                    if (MovementList[i].SwitchingPlaces)
-                    {
-                        MovementList[i].OtherAgent.GetComponent<Character>().AvailableStamina += MovementList[i].StaminaCost;
-                        MovementList[i].OtherAgent.GetComponent<Character>().Moving = false;
-                        MovementList[i].OtherAgent.GetComponent<Character>().ActionPoints += 1;
-                    }
-
-                    MovementList.RemoveAt(i);
-                }
-
                 if (MovementList[i].TargetIndex == SelectedCharacter.GetComponent<Character>().LanePos)
                 {
                     MovementList[i].Agent.GetComponent<Character>().AvailableStamina += MovementList[i].StaminaCost;
                     MovementList[i].Agent.GetComponent<Character>().Moving = false;
                     MovementList[i].Agent.GetComponent<Character>().ActionPoints += 1;
+                    GameObject.Find("Lane" + MovementList[i].TargetIndex).GetComponent<LaneInfo>().LaneChosen = false;
+                    removeMovement = true;
+                }
+                if (MovementList[i].Agent == SelectedCharacter)
+                {
+                    MovementList[i].Agent.GetComponent<Character>().AvailableStamina += MovementList[i].StaminaCost;
+                    GameObject.Find("Lane" + MovementList[i].TargetIndex).GetComponent<LaneInfo>().LaneChosen = false;
+                    if (MovementList[i].SwitchingPlaces)
+                    {
+                        MovementList[i].OtherAgent.GetComponent<Character>().AvailableStamina += MovementList[i].StaminaCost;
+                        MovementList[i].OtherAgent.GetComponent<Character>().Moving = false;
+                        MovementList[i].OtherAgent.GetComponent<Character>().ActionPoints += 1;
+                        GameObject.Find("Lane" + MovementList[i].OtherAgentTargetIndex).GetComponent<LaneInfo>().LaneChosen = false;
+
+                    }
+                    removeMovement = true;
+                }
+                if (removeMovement)
+                {
                     MovementList.RemoveAt(i);
+                    i -= 1;
+                    removeMovement = false;
                 }
 
             }
@@ -279,6 +288,7 @@ public class BattleManager : MonoBehaviour
             SelectedCharacter.GetComponent<Character>().ActionPoints += 1;
             return;
         }
+
         if (SelectedCharacter.GetComponent<Character>().ActionPoints < 1)
         {
             Debug.Log("Out of Action Points!");
@@ -293,6 +303,8 @@ public class BattleManager : MonoBehaviour
 
         SelectingMove = true;
         InfoText.text = "Choose a lane!";
+
+
     }
     public void ChooseRest()
     {
@@ -374,6 +386,8 @@ public class BattleManager : MonoBehaviour
                 }
                 if (MovementList[i].OtherAgentTargetIndex == move.TargetIndex)
                 {
+                    Debug.Log(MovementList[i].OtherAgentTargetIndex);
+                    Debug.Log(move.TargetIndex);
                     Debug.Log("Cannot move there as a another unit is already moving there.");
                     return;
                 }
@@ -436,6 +450,7 @@ public class BattleManager : MonoBehaviour
                 move.OtherAgent.GetComponent<Character>().SwitchingPlaces = true;
                 move.SwitchingPlaces = true;
                 move.OtherAgentTargetIndex = SelectedCharacter.GetComponent<Character>().LanePos;
+                GameObject.Find("Lane" + move.OtherAgentTargetIndex).GetComponent<LaneInfo>().LaneChosen = true;
                 move.OtherAgent.GetComponent<Character>().Moving = true;
                 move.OtherAgent.GetComponent<Character>().ActionPoints -= 1;
                 move.OtherAgent.GetComponent<Character>().AvailableStamina -= move.StaminaCost;
@@ -449,6 +464,7 @@ public class BattleManager : MonoBehaviour
 
         SelectedCharacter.GetComponent<Character>().Moving = true;
         SelectedCharacter.GetComponent<Character>().ActionPoints -= 1;
+        GameObject.Find("Lane" + move.TargetIndex).GetComponent<LaneInfo>().LaneChosen = true;
 
         move.Agent.GetComponent<Character>().AvailableStamina -= move.StaminaCost;
 
@@ -486,8 +502,10 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            skill.Target = EnemyLanes[skill.Agent.GetComponent<Character>().LanePos];
+            skill.Target = skill.Agent;
         }
+
+        Debug.Log(skill.Target);
 
         skill.Skill = newSkill;
 
@@ -655,7 +673,7 @@ public class BattleManager : MonoBehaviour
             return 0;
         }
     }
-    private int StaminaCostMovement(int numberOfLanesMoved, GameObject agent)
+    public int StaminaCostMovement(int numberOfLanesMoved, GameObject agent)
     {
         //Stamina cost = 5 * Number of lanes moved * (1 - Character speed / 100)
         return 5 * Mathf.Abs(numberOfLanesMoved) * (1 - (agent.GetComponent<Character>().Speed / 100));
@@ -1059,7 +1077,10 @@ public class BattleManager : MonoBehaviour
                                 }
                                 else
                                 {
-                                    ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                    if (ActionList[nextActionIndex].Target != ActionList[nextActionIndex].Agent)
+                                    {
+                                        ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                    }
                                 }
                                 CA.CameraMove(EnemyLanePos[ActionList[nextActionIndex].Agent.GetComponent<Character>().LanePos], CameraAttackSize);
                             }
@@ -1077,7 +1098,10 @@ public class BattleManager : MonoBehaviour
                                 }
                                 else
                                 {
-                                    ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                    if (ActionList[nextActionIndex].Target != ActionList[nextActionIndex].Agent)
+                                    {
+                                        ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                    }
                                 }
                                 CA.CameraMove(ActionList[nextActionIndex].Target.transform.position + new Vector3(0,1), CameraAttackSize);
                             }
