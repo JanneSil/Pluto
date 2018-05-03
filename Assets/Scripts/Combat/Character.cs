@@ -92,7 +92,12 @@ public class Character : MonoBehaviour
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
         GetComponent<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
         foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
-            r.enabled = false;
+        {
+            if (r.gameObject.name == "Target")
+            {
+                r.enabled = false;
+            }
+        }
 
         //Debug
         Alive = true;
@@ -149,7 +154,12 @@ public class Character : MonoBehaviour
         if (!BM.SelectingAttack && !Player && !doOnce)
         {
             foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
-                r.enabled = false;
+            {
+                if (r.gameObject.name == "Target")
+                {
+                    r.enabled = false;
+                }
+            }
             doOnce = true;
             //sprite.color = Color.red;
         }

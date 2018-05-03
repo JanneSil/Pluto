@@ -147,7 +147,13 @@ public class ClickingScript : MonoBehaviour {
         if (BM.SelectedCharacter != null)
         {
             foreach (SpriteRenderer r in BM.SelectedCharacter.GetComponentsInChildren<SpriteRenderer>())
-                r.enabled = false;
+            {
+                if (r.gameObject.name == "Target")
+                {
+                    r.enabled = false;
+                }
+            }
+
         }
         ObjectClicked = false;
         BM.SelectingAttack = false;

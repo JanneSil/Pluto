@@ -50,7 +50,14 @@ public class DisplayInfo : MonoBehaviour {
                     if (tempGameObject != null && tempGameObject != hit.collider.gameObject)
                     {
                         foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
-                            r.enabled = false;
+                        {
+                            if (r.gameObject.name == "Target")
+                            {
+                                r.enabled = false;
+                            }
+                            
+                        }
+                            
                         doOnce = true;
                     }
                     if (doOnce)
@@ -59,7 +66,13 @@ public class DisplayInfo : MonoBehaviour {
                         GetInfo(hit.collider.gameObject);
                         hoverInfo.SetActive(true);
                         foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
-                            r.enabled = true;
+                        {
+                            if (r.gameObject.name == "Target")
+                            {
+                                r.enabled = true;
+                            }
+
+                        }
                     }
                     transform.position = Input.mousePosition + offset;
                     infoText.text = "Strength: " + strength + 
@@ -73,14 +86,26 @@ public class DisplayInfo : MonoBehaviour {
                     if (tempGameObject != null && tempGameObject != hit.collider.gameObject)
                     {
                         foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
-                            r.enabled = false;
+                        {
+                            if (r.gameObject.name == "Target")
+                            {
+                                r.enabled = false;
+                            }
+
+                        }
                         doOnce = true;
                     }
                     if (doOnce)
                     {
                         tempGameObject = hit.collider.gameObject;
                         foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
-                            r.enabled = true;
+                        {
+                            if (r.gameObject.name == "Target")
+                            {
+                                r.enabled = true;
+                            }
+
+                        }
                     }
                     doOnce = false;
                 }
@@ -90,7 +115,13 @@ public class DisplayInfo : MonoBehaviour {
                     if (tempGameObject != null)
                     {
                         foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
-                            r.enabled = false;
+                        {
+                            if (r.gameObject.name == "Target")
+                            {
+                                r.enabled = false;
+                            }
+
+                        }
                     }
                     doOnce = true;
                 }
@@ -101,8 +132,14 @@ public class DisplayInfo : MonoBehaviour {
                     {
                         if (!doOnceSecond)
                         {
-                            foreach (SpriteRenderer r in hit.collider.gameObject.GetComponent<LaneInfo>().UnitOnLane.GetComponentsInChildren<SpriteRenderer>())
-                                r.enabled = true;
+                            foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
+                            {
+                                if (r.gameObject.name == "Target")
+                                {
+                                    r.enabled = true;
+                                }
+
+                            }
                             tempGameObjectTwo = hit.collider.gameObject;
                         }
                         doOnceSecond = true;
@@ -111,8 +148,14 @@ public class DisplayInfo : MonoBehaviour {
                     {
                         if (tempGameObjectTwo != hit.collider.gameObject)
                         {
-                            foreach (SpriteRenderer r in tempGameObjectTwo.GetComponent<LaneInfo>().UnitOnLane.GetComponentsInChildren<SpriteRenderer>())
-                                r.enabled = false;
+                            foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
+                            {
+                                if (r.gameObject.name == "Target")
+                                {
+                                    r.enabled = false;
+                                }
+
+                            }
                         }
 
                         doOnceSecond = false;
@@ -122,9 +165,15 @@ public class DisplayInfo : MonoBehaviour {
                 {
                         if (tempGameObjectTwo != hit.collider.gameObject)
                         {
-                            foreach (SpriteRenderer r in tempGameObjectTwo.GetComponent<LaneInfo>().UnitOnLane.GetComponentsInChildren<SpriteRenderer>())
+                        foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
+                        {
+                            if (r.gameObject.name == "Target")
+                            {
                                 r.enabled = false;
+                            }
+
                         }
+                    }
 
                         doOnceSecond = false;
                 }
@@ -137,7 +186,10 @@ public class DisplayInfo : MonoBehaviour {
                         {
                             if (tempGameObjectThree != BM.SelectedCharacter)
                             {
-                                r.enabled = false;
+                                if (r.gameObject.name == "Target")
+                                {
+                                    r.enabled = false;
+                                }
                             }
 
                         }
@@ -148,7 +200,10 @@ public class DisplayInfo : MonoBehaviour {
                         tempGameObjectThree = hit.collider.gameObject;
                         foreach (SpriteRenderer r in tempGameObjectThree.GetComponentsInChildren<SpriteRenderer>())
                         {
-                            r.enabled = true;
+                            if (r.gameObject.name == "Target")
+                            {
+                                r.enabled = true;
+                            }
                             if (tempGameObjectThree != BM.SelectedCharacter)
                             {
                                 r.color = color;
@@ -166,7 +221,10 @@ public class DisplayInfo : MonoBehaviour {
                         {
                             if (tempGameObjectThree != BM.SelectedCharacter)
                             {
-                                r.enabled = false;
+                                if (r.gameObject.name == "Target")
+                                {
+                                    r.enabled = false;
+                                }
                             }
 
                         }
