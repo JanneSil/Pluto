@@ -259,6 +259,7 @@ public class BattleManager : MonoBehaviour
                     MovementList[i].Agent.GetComponent<Character>().Moving = false;
                     MovementList[i].Agent.GetComponent<Character>().ActionPoints += 1;
                     GameObject.Find("Lane" + MovementList[i].TargetIndex).GetComponent<LaneInfo>().LaneChosen = false;
+                    GameObject.Find("Lane" + MovementList[i].TargetIndex).GetComponent<LaneInfo>().UnitOnLane = null;
                     removeMovement = true;
                 }
                 if (MovementList[i].Agent == SelectedCharacter)
@@ -271,6 +272,7 @@ public class BattleManager : MonoBehaviour
                         MovementList[i].OtherAgent.GetComponent<Character>().Moving = false;
                         MovementList[i].OtherAgent.GetComponent<Character>().ActionPoints += 1;
                         GameObject.Find("Lane" + MovementList[i].OtherAgentTargetIndex).GetComponent<LaneInfo>().LaneChosen = false;
+                        GameObject.Find("Lane" + MovementList[i].OtherAgentTargetIndex).GetComponent<LaneInfo>().UnitOnLane = null;
 
                     }
                     removeMovement = true;
@@ -465,6 +467,7 @@ public class BattleManager : MonoBehaviour
         SelectedCharacter.GetComponent<Character>().Moving = true;
         SelectedCharacter.GetComponent<Character>().ActionPoints -= 1;
         GameObject.Find("Lane" + move.TargetIndex).GetComponent<LaneInfo>().LaneChosen = true;
+        GameObject.Find("Lane" + move.TargetIndex).GetComponent<LaneInfo>().UnitOnLane = SelectedCharacter;
 
         move.Agent.GetComponent<Character>().AvailableStamina -= move.StaminaCost;
 
@@ -505,8 +508,6 @@ public class BattleManager : MonoBehaviour
             skill.Target = skill.Agent;
         }
 
-        Debug.Log(skill.Target);
-
         skill.Skill = newSkill;
 
         skill.StaminaCost = StaminaCostSkill(skill.Skill);
@@ -522,8 +523,6 @@ public class BattleManager : MonoBehaviour
         skill.SkillInUse = true;
         SelectedCharacter.GetComponent<Character>().SkillBeingUsed = newSkill;
 
-        CS.ResetSelection();
-
         skill.ActionSpeed = SelectedCharacter.GetComponent<Character>().Speed;
 
         SelectedCharacter.GetComponent<Character>().UsingSkill = true;
@@ -535,6 +534,7 @@ public class BattleManager : MonoBehaviour
         ChoosingSkill = "";
 
         ActionList.Add(skill);
+        CS.ResetSelection();
     }
 
     private void AddAttack(GameObject enemyAgent)

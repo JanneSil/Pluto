@@ -6,6 +6,7 @@ public class LaneInfo : MonoBehaviour {
 
     public int LanePos;
     public bool LaneChosen;
+    public GameObject UnitOnLane;
 
     private SpriteRenderer sr;
     private BattleManager BM;

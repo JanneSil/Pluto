@@ -65,6 +65,17 @@ public class ClickingScript : MonoBehaviour {
                     BM.InfoText.text = "";
                 }
 
+                else if (hit.collider.tag == "Lane" && !BM.SelectingMove)
+                {
+                    if (hit.collider.GetComponent<LaneInfo>().LaneChosen)
+                    {
+                        BM.SelectedCharacter = hit.collider.GetComponent<LaneInfo>().UnitOnLane;
+                        BM.ChooseMove();
+                        ResetSelection();
+                    }
+
+                }
+
                 else if (hit.collider.tag == "Player")
                 {
                     ResetSelection();
@@ -90,7 +101,6 @@ public class ClickingScript : MonoBehaviour {
                 else if (hit.collider.tag == "Enemy" && CharacterClicked && BM.SelectingAttack)
                 {
                     ObjectClicked = false;
-                    //Marker.SetActive(ObjectClicked);
                     BM.SelectingAttack = false;
 
                     if (TempEnemyUnitHolder != null)
@@ -100,8 +110,9 @@ public class ClickingScript : MonoBehaviour {
 
                     EnemyCharacterClicked = true;
                     TempEnemyUnitHolder = hit.collider.gameObject;
-                    //Debug.Log("Enemy clicked");
                     hit.collider.GetComponent<Character>().CharacterClick();
+                    BM.InfoText.text = "";
+                    BM.SelectedCharacter.GetComponent<Character>().Attacking = true;
                     if (BM.ChoosingSkill.Length > 0)
                     {
                         BM.AddSkill(BM.ChoosingSkill);
@@ -111,9 +122,10 @@ public class ClickingScript : MonoBehaviour {
                         BM.AddAttack();
                     }
 
-                    BM.InfoText.text = "";
-                    //BM.SelectedCharacter.GetComponent<Character>().ActionPoints -= 2;
-                    BM.SelectedCharacter.GetComponent<Character>().Attacking = true;
+                    ResetSelection();
+                }
+                else
+                {
                     ResetSelection();
                 }
 
@@ -131,6 +143,12 @@ public class ClickingScript : MonoBehaviour {
 
     public void ResetSelection()
     {
+
+        if (BM.SelectedCharacter != null)
+        {
+            foreach (SpriteRenderer r in BM.SelectedCharacter.GetComponentsInChildren<SpriteRenderer>())
+                r.enabled = false;
+        }
         ObjectClicked = false;
         BM.SelectingAttack = false;
         BM.SelectingMove = false;
@@ -140,7 +158,7 @@ public class ClickingScript : MonoBehaviour {
         BM.InfoText.text = "";
         UI.SelectAttack = false;
         UI.SelectSkill = false;
-        //Marker.SetActive(ObjectClicked);
+        BM.SelectedCharacter = null;
 
         if (TempUnitHolder != null)
         {

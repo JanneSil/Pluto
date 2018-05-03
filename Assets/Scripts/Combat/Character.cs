@@ -79,6 +79,7 @@ public class Character : MonoBehaviour
     public GameObject gameObjectToMove;
     public Vector3 gameObjectOriginalPosition;
     public Vector3 gameObjectTargetPosition;
+    [HideInInspector]
     public float speed;
     public bool HasToMove;
     Camera cam;
@@ -89,6 +90,9 @@ public class Character : MonoBehaviour
     {
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        GetComponent<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
+        foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+            r.enabled = false;
 
         //Debug
         Alive = true;
@@ -126,12 +130,12 @@ public class Character : MonoBehaviour
             StaminaPoints = 0;
         }
 
-        if (!UnitChosen && Player)
-        {
-            foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
-                r.enabled = false;
-            //sprite.enabled = false;
-        }
+        //if (!UnitChosen && Player)
+        //{
+        //    foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+        //        r.enabled = false;
+        //    //sprite.enabled = false;
+        //}
         //else if (!UnitChosen && !Player)
         //{
         //    //sprite.color = Color.red;
@@ -139,15 +143,13 @@ public class Character : MonoBehaviour
 
         if (BM.SelectingAttack && !Player && doOnce)
         {
-            foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
-                r.enabled = true;
             doOnce = false;
             //sprite.enabled = false;
         }
-        else if (!BM.SelectingAttack && !Player && !doOnce)
+        if (!BM.SelectingAttack && !Player && !doOnce)
         {
-               foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
-                   r.enabled = false;
+            foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+                r.enabled = false;
             doOnce = true;
             //sprite.color = Color.red;
         }
@@ -242,7 +244,14 @@ public class Character : MonoBehaviour
         BM.ChooseCharacter(LanePos, Player, IsTanking);
         UnitChosen = true;
         foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+        {
             r.enabled = true;
+            if (Player)
+            {
+                r.color = Color.green;
+            }
+            
+        }
         //sprite.color = Color.green;
     }
 
@@ -280,15 +289,29 @@ public class Character : MonoBehaviour
 
         //Factoring critical hit
         //Attack deals double the damage by a random factor, critical chance-% = Dexterity / 100
-        if (Random.Range(0, 100) < Dexterity)
+        if (Dexterity > 50)
+        {
+            if (Random.Range(100, 200) <= Dexterity * 2)
+            {
+                damageOutput = damageOutput * 3;
+                criticalHit = true;
+                Debug.Log("2x CRITICAL HIT PERFORMED BY: " + gameObject);
+            }
+            else
+            {
+                damageOutput = damageOutput * 2;
+            }
+        }
+        else if (Random.Range(0, 100) <= Dexterity * 2)
         {
             damageOutput = damageOutput * 2;
+
             criticalHit = true;
 
             Debug.Log("CRITICAL HIT PERFORMED BY: " + gameObject);
         }
 
-        //Damage is dealt to strenght and stamina points by a random factor affected by attackers dexterity
+        //Damage is dealt to strength and stamina points by a random factor affected by attackers dexterity
         //Damage to strength = Damage output * Random number between 0 and 25 * Attacker Dexterity / 100
         //Rest from damage output is dealt to stamina
         strengthPortion = (Random.Range(0, 25) + Dexterity) / 100f;
