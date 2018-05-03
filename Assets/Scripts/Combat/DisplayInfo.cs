@@ -139,9 +139,9 @@ public class DisplayInfo : MonoBehaviour {
                             {
                                 r.enabled = false;
                             }
-
+                            doOnceThird = true;
                         }
-                        doOnceThird = true;
+
                     }
                     if (doOnceThird)
                     {
@@ -155,7 +155,15 @@ public class DisplayInfo : MonoBehaviour {
                             }
                             
                         }
+                        GetInfo(hit.collider.gameObject);
+                        hoverInfo.SetActive(true);
                     }
+
+                    transform.position = Input.mousePosition + offset;
+                    infoText.text = "Strength: " + strength +
+                        " Stamina: " + stamina +
+                        " Speed: " + speed +
+                        " Dexterity: " + dexterity;
                     doOnceThird = false;
                 }
                 else if (doOnceThird == false && BM.SelectedCharacter != hit.collider.gameObject)
@@ -172,6 +180,7 @@ public class DisplayInfo : MonoBehaviour {
                         }
                     }
                     doOnceThird = true;
+                    hoverInfo.SetActive(false);
                     tempGameObjectThree = null;
                 }
 
