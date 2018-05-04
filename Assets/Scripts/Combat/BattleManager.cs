@@ -1118,7 +1118,7 @@ public class BattleManager : MonoBehaviour
 
                                     foreach (SpriteMeshInstance spritemesh in components)
                                     {
-                                        spritemesh.sortingLayerName = "Lane" + (ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos + 1);
+                                        spritemesh.sortingLayerName = "Lane" + (ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos);
                                     }
                                 }
                                 else

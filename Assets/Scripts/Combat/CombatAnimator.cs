@@ -40,7 +40,7 @@ public class CombatAnimator : MonoBehaviour
     public void CameraMove(Vector3 targetPosition, float size)
     {
         float tempX = targetPosition.x;
-        float tempY = targetPosition.y;
+        float tempY = targetPosition.y + 0.5f;
 
         if (tempY < -2.3f)
         {
