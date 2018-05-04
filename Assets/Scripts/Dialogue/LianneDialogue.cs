@@ -5,36 +5,39 @@ using UnityEngine.UI;
 
 public class LianneDialogue : MonoBehaviour {
 
-    public int LianneQuestStage = 10;
-
     private CityManager MC;
+    private GameController GC;
 
     private void Start()
     {
         MC = GameObject.Find("GameManager").GetComponent<CityManager>();
+        GC = GameObject.Find("GameController").GetComponent<GameController>();
     }
 
     public void UpdateDialogue()
     {
-        if (LianneQuestStage == 10)
+        if (GC.GameState == 10)
         {
-            MC.DialogueText.text = "Lianne: Hey.";
-            LianneQuestStage = 20;
+            MC.DialogueText.text = "Lianne: Ibofang, my greatest warrior, my oldest son. I cherish the moments we meet." + 
+                " Your creator, your only loving god, your only god, asks of you. No… Orders you to kill once more. The madness has breached my borders. They are making my land and my people sick.";
+            GC.GameState = 20;
             return;
         }
-        if (LianneQuestStage == 20)
+        if (GC.GameState == 20)
         {
-            MC.DialogueText.text = "Lianne: Hey..";
-            LianneQuestStage = 30;
+            MC.DialogueText.text = "Ibofang: Ok :P";
+            GC.GameState = 30;
             return;
         }
-        if (LianneQuestStage == 30)
+        if (GC.GameState == 30)
         {
-            MC.DialogueText.text = "Lianne: Hey...";
-            LianneQuestStage = 40;
+            MC.DialogueText.text = "...";
+            MC.DialogueBox.SetActive(false);
+            MC.InDialogue = false;
+            MC.DialogueText.text = "";
             return;
         }
-        if (LianneQuestStage == 40)
+        if (GC.GameState == 40)
         {
             MC.DialogueText.text = "...";
             MC.DialogueBox.SetActive(false);

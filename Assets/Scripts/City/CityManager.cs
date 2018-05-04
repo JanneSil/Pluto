@@ -18,6 +18,7 @@ public class CityManager : MonoBehaviour
     public GameObject DialogueBox;
 
     private LianneDialogue LD;
+    private GameController GC;
 
     private void Start()
     {
@@ -29,12 +30,24 @@ public class CityManager : MonoBehaviour
         exit = GameObject.Find("CityExit");
         DialogueBox = GameObject.Find("Dialogue");
         DialogueText = DialogueBox.GetComponentInChildren<Text>();
+        LD = GameObject.Find("Lianne").GetComponent<LianneDialogue>();
+        GC = GameObject.Find("GameController").GetComponent<GameController>();
         DialogueText.text = "";
-        DialogueBox.SetActive(true);
         exit.SetActive(false);
         lianne = GameObject.Find("Lianne");
         storedClickable = lianne;
-        ClickableClick(lianne);
+        if (GC.GameState == 0)
+        {
+            DialogueBox.SetActive(true);
+            ClickableClick(lianne);
+            GC.GameState = 10;
+        }
+        if (GC.GameState == 30)
+        {
+            DialogueBox.SetActive(true);
+            DialogueText.text = "Wwww";
+            GC.GameState = 40;
+        }
 
     }
 

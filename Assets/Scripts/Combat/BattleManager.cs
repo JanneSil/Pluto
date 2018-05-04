@@ -158,6 +158,11 @@ public class BattleManager : MonoBehaviour
             }
         }
 
+        if(gameOver)
+        {
+            StartCoroutine(LoadScene("CityScene"));
+        }
+
     }
     public void ChooseAttack(string skill)
     {
@@ -769,6 +774,7 @@ public class BattleManager : MonoBehaviour
 
         InfoText = infoTextObject.GetComponent<Text>();
         InfoText.text = "";
+        gameOver = false;
 
         attackButton.SetActive(false);//Setting buttons inactive at start in code seems arbitrary
         defendButton.SetActive(false);
@@ -1126,6 +1132,13 @@ public class BattleManager : MonoBehaviour
                                 else
                                 {
                                     ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
+
+                                    components = ActionList[nextActionIndex].Agent.GetComponentsInChildren<SpriteMeshInstance>();
+
+                                    foreach (SpriteMeshInstance spritemesh in components)
+                                    {
+                                        spritemesh.sortingLayerName = "Lane" + (ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos);
+                                    }
                                 }
 
                                 if (PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos] != null)
@@ -1215,6 +1228,15 @@ public class BattleManager : MonoBehaviour
                                 foreach (SpriteMeshInstance spritemesh in components)
                                 {
                                     spritemesh.sortingLayerName = "Lane" + ActionList[nextActionIndex].Agent.GetComponent<Character>().LanePos;
+                                }
+                            }
+                            else
+                            {
+                                components = ActionList[nextActionIndex].Agent.GetComponentsInChildren<SpriteMeshInstance>();
+
+                                foreach (SpriteMeshInstance spritemesh in components)
+                                {
+                                    spritemesh.sortingLayerName = "Lane" + (ActionList[nextActionIndex].Agent.GetComponent<Character>().LanePos);
                                 }
                             }
                         }
