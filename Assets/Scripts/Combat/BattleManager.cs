@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Anima2D;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -147,6 +148,7 @@ public class BattleManager : MonoBehaviour
                 gameOver = true;
                 InfoText.text = "You Win!";
                 endTurnButton.SetActive(false);
+
             }
             if (PlayerLanes[0] == null && PlayerLanes[1] == null && PlayerLanes[2] == null && PlayerLanes[3] == null && PlayerLanes[4] == null && PlayerLanes[5] == null)
             {
@@ -1118,7 +1120,7 @@ public class BattleManager : MonoBehaviour
 
                                     foreach (SpriteMeshInstance spritemesh in components)
                                     {
-                                        spritemesh.sortingLayerName = "Lane" + (ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos);
+                                        spritemesh.sortingLayerName = "Lane" + (ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos + 1);
                                     }
                                 }
                                 else
@@ -1470,5 +1472,14 @@ public class BattleManager : MonoBehaviour
             }
         }
 
+    }
+    IEnumerator LoadScene(string scene)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
     }
 }

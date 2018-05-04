@@ -42,18 +42,18 @@ public class CombatAnimator : MonoBehaviour
         float tempX = targetPosition.x;
         float tempY = targetPosition.y + 0.5f;
 
-        if (tempY < -2.3f)
-        {
-            tempY = -2.3f;
-        }
-        if (tempX < -4)
-        {
-            tempX = -4;
-        }
-        if (tempX > 3.7)
-        {
-            tempX = 3.7f;
-        }
+        //if (tempY < -2.3f)
+        //{
+        //    tempY = -2.3f;
+        //}
+        //if (tempX < -4)
+        //{
+        //    tempX = -4;
+        //}
+        //if (tempX > 3.7)
+        //{
+        //    tempX = 3.7f;
+        //}
 
         cameraTargetPos = new Vector3(tempX, tempY, -10);
         cameraTargetSize = size;

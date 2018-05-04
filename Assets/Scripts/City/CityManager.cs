@@ -9,6 +9,7 @@ public class CityManager : MonoBehaviour
 
     private GameObject exit;
     private GameObject storedClickable;
+    private GameObject lianne;
     private bool leavingCity;
 
     [HideInInspector]
@@ -31,6 +32,9 @@ public class CityManager : MonoBehaviour
         DialogueText.text = "";
         DialogueBox.SetActive(true);
         exit.SetActive(false);
+        lianne = GameObject.Find("Lianne");
+        storedClickable = lianne;
+        ClickableClick(lianne);
 
     }
 
@@ -48,7 +52,8 @@ public class CityManager : MonoBehaviour
 
                 if (hit.collider.tag == "Clickable" && !InDialogue)
                 {
-
+                    storedClickable = hit.collider.gameObject;
+                    ClickableClick(hit.collider.gameObject);
                 }
 
             }
@@ -65,7 +70,9 @@ public class CityManager : MonoBehaviour
     {
         InDialogue = true;
 
-        if (clickable.GetComponent<ClickableInfo>().ClickableType == "Exit" && LD.LianneQuestStage == 40)
+        Debug.Log(clickable.GetComponent<ClickableInfo>().ClickableType);
+
+        if (clickable.GetComponent<ClickableInfo>().ClickableType == "Exit")
         {
             exit.SetActive(true);
         }

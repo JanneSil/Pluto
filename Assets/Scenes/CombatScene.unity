@@ -2898,18 +2898,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemyLanes:
-  - {fileID: 1772008945367684, guid: a31bde2d325f26143921040c64587fe0, type: 2}
+  - {fileID: 1024573871714840, guid: 9415b61f20885c84e8e58595020a8e8b, type: 2}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 1772008945367684, guid: a31bde2d325f26143921040c64587fe0, type: 2}
+  - {fileID: 1024573871714840, guid: 9415b61f20885c84e8e58595020a8e8b, type: 2}
   - {fileID: 0}
-  - {fileID: 1772008945367684, guid: a31bde2d325f26143921040c64587fe0, type: 2}
+  - {fileID: 1024573871714840, guid: 9415b61f20885c84e8e58595020a8e8b, type: 2}
   PlayerLanes:
   - {fileID: 0}
-  - {fileID: 1264864777651994, guid: d0347ce4af3172948aba2c624fb30d89, type: 2}
-  - {fileID: 1264864777651994, guid: d0347ce4af3172948aba2c624fb30d89, type: 2}
+  - {fileID: 1080120120883368, guid: bf76f05778d4a28479804680e595f9fe, type: 2}
+  - {fileID: 1925266825833754, guid: 4570ec9b70b6980479579532042999be, type: 2}
+  - {fileID: 1018564403782480, guid: 7dee2955ac6593e46a9a4751599400bc, type: 2}
   - {fileID: 0}
-  - {fileID: 1264864777651994, guid: d0347ce4af3172948aba2c624fb30d89, type: 2}
   - {fileID: 0}
   EnemyTankLanes:
   - {fileID: 0}
@@ -2955,7 +2955,7 @@ MonoBehaviour:
   TurnDelay: 3
   TurnDelayRemaining: 0
   TurnDelayOn: 0
-  CameraAttackSize: 3
+  CameraAttackSize: 2
 --- !u!4 &515580478
 Transform:
   m_ObjectHideFlags: 0
@@ -3001,7 +3001,7 @@ MonoBehaviour:
   CameraSpeed: 10
   MoveMargin: 0.05
   MoveSpeed: 60
-  AttackingOffset: {x: 3, y: 0, z: 0}
+  AttackingOffset: {x: 2, y: 0, z: 0}
 --- !u!1 &533331297
 GameObject:
   m_ObjectHideFlags: 0
@@ -5474,7 +5474,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 131881421}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &978298976
 BoxCollider:
