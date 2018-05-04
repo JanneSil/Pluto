@@ -90,7 +90,6 @@ public class Character : MonoBehaviour
     {
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        GetComponent<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
         foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
         {
             if (r.gameObject.name == "Target")
@@ -98,6 +97,17 @@ public class Character : MonoBehaviour
                 r.enabled = false;
             }
         }
+        if (Player)
+        {
+            gameObject.transform.Find("Attack").gameObject.SetActive(false);
+            transform.Find("Normal").GetComponent<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
+
+        }
+        else
+        {
+            GetComponent<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
+        }
+        SortLayers(gameObject, LanePos);
 
         //Debug
         Alive = true;
@@ -674,9 +684,14 @@ public class Character : MonoBehaviour
         moveMargin = margin;
         moveSpeed = speed;
     }
-    private void SortLayers(GameObject agent, int targetIndex)
+    public void SortLayers(GameObject agent, int targetIndex)
     {
         components = agent.GetComponentsInChildren<SpriteMeshInstance>();
+
+        foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+        {
+            r.sortingLayerName = "Lane" + targetIndex;
+        }
 
         foreach (SpriteMeshInstance spritemesh in components)
         {
@@ -706,6 +721,11 @@ public class Character : MonoBehaviour
         {
             if (BM.TurnDelayRemaining <= 0.1)
             {
+                if (Player)
+                {
+                    transform.Find("Normal").gameObject.SetActive(true);
+                    transform.Find("Attack").gameObject.SetActive(false);
+                }
                 moveTargetPos = moveStartPos;
             }
             else

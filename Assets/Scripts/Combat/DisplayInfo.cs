@@ -132,7 +132,8 @@ public class DisplayInfo : MonoBehaviour {
                     {
                         if (!doOnceSecond)
                         {
-                            foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
+                            tempGameObjectTwo = hit.collider.gameObject.GetComponent<LaneInfo>().UnitOnLane;
+                            foreach (SpriteRenderer r in tempGameObjectTwo.GetComponentsInChildren<SpriteRenderer>())
                             {
                                 if (r.gameObject.name == "Target")
                                 {
@@ -140,7 +141,6 @@ public class DisplayInfo : MonoBehaviour {
                                 }
 
                             }
-                            tempGameObjectTwo = hit.collider.gameObject;
                         }
                         doOnceSecond = true;
                     }
@@ -148,7 +148,7 @@ public class DisplayInfo : MonoBehaviour {
                     {
                         if (tempGameObjectTwo != hit.collider.gameObject)
                         {
-                            foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
+                            foreach (SpriteRenderer r in tempGameObjectTwo.GetComponentsInChildren<SpriteRenderer>())
                             {
                                 if (r.gameObject.name == "Target")
                                 {
@@ -165,7 +165,7 @@ public class DisplayInfo : MonoBehaviour {
                 {
                         if (tempGameObjectTwo != hit.collider.gameObject)
                         {
-                        foreach (SpriteRenderer r in tempGameObject.GetComponentsInChildren<SpriteRenderer>())
+                        foreach (SpriteRenderer r in tempGameObjectTwo.GetComponentsInChildren<SpriteRenderer>())
                         {
                             if (r.gameObject.name == "Target")
                             {

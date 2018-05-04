@@ -228,7 +228,8 @@ public class BattleManager : MonoBehaviour
         if (SelectedCharacter.GetComponent<Character>().Defending == true)
         {
             SelectedCharacter.GetComponent<Character>().Defending = false;
-            SelectedCharacter.GetComponent<Animator>().SetBool("RaiseGuard", false);
+            //SelectedCharacter.GetComponent<Animator>().SetBool("RaiseGuard", false);
+            SelectedCharacter.transform.Find("Normal").GetComponent<Animator>().SetBool("RaiseGuard", false);
             SelectedCharacter.GetComponent<Character>().DefendingStamina = 0;
             SelectedCharacter.GetComponent<Character>().ActionPoints += 2;
             SelectedCharacter.GetComponent<Character>().AvailableStamina += 10;
@@ -241,7 +242,8 @@ public class BattleManager : MonoBehaviour
         }
         //Sets character to defend, reduces action points, resets selection
         SelectedCharacter.GetComponent<Character>().Defending = true;
-        SelectedCharacter.GetComponent<Animator>().SetBool("RaiseGuard", true);
+        //SelectedCharacter.GetComponent<Animator>().SetBool("RaiseGuard", true);
+        SelectedCharacter.transform.Find("Normal").GetComponent<Animator>().SetBool("RaiseGuard", true);
         SelectedCharacter.GetComponent<Character>().DefendingStamina = 10;
         SelectedCharacter.GetComponent<Character>().ActionPoints -= 2;
         SelectedCharacter.GetComponent<Character>().AvailableStamina -= 10;
@@ -803,7 +805,7 @@ public class BattleManager : MonoBehaviour
                 PlayerLanes[i] = Instantiate(PlayerLanes[i], PlayerLanePos[i], transform.rotation) as GameObject;
                 PlayerLanes[i].GetComponent<Character>().LanePos = i;
                 PlayerLanes[i].GetComponent<Character>().Player = true;
-                components = PlayerLanes[i].GetComponentsInChildren<SpriteMeshInstance>();
+                components = PlayerLanes[i].transform.Find("Normal").GetComponentsInChildren<SpriteMeshInstance>();
 
                 foreach (SpriteMeshInstance spritemesh in components)
                 {
@@ -832,7 +834,7 @@ public class BattleManager : MonoBehaviour
                 PlayerLanes[i].GetComponent<Character>().ActionPoints = 4;
                 PlayerLanes[i].GetComponent<Character>().Attacking = false;
                 PlayerLanes[i].GetComponent<Character>().Defending = false;
-                PlayerLanes[i].GetComponent<Animator>().SetBool("RaiseGuard", false);
+                PlayerLanes[i].transform.Find("Normal").GetComponent<Animator>().SetBool("RaiseGuard", false);
                 PlayerLanes[i].GetComponent<Character>().Moving = false;
                 PlayerLanes[i].GetComponent<Character>().Resting = false;
                 PlayerLanes[i].GetComponent<Character>().UsingSkill = false;
@@ -859,7 +861,8 @@ public class BattleManager : MonoBehaviour
                 PlayerTankLanes[i].GetComponent<Character>().ActionPoints = 4;
                 PlayerTankLanes[i].GetComponent<Character>().Attacking = false;
                 PlayerTankLanes[i].GetComponent<Character>().Defending = false;
-                PlayerTankLanes[i].GetComponent<Animator>().SetBool("RaiseGuard", false);
+                //PlayerTankLanes[i].GetComponent<Animator>().SetBool("RaiseGuard", false);
+                PlayerTankLanes[i].transform.Find("Normal").GetComponent<Animator>().SetBool("RaiseGuard", false);
                 PlayerTankLanes[i].GetComponent<Character>().Moving = false;
                 PlayerTankLanes[i].GetComponent<Character>().Resting = false;
                 PlayerTankLanes[i].GetComponent<Character>().SwitchingPlaces = false;
@@ -1069,7 +1072,15 @@ public class BattleManager : MonoBehaviour
                             if (!characterAnimated)
                             {
                                 characterAnimated = true;
-                                ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
+                                if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Player)
+                                {
+                                    ActionList[nextActionIndex].Agent.transform.Find("Normal").gameObject.SetActive(false);
+                                    ActionList[nextActionIndex].Agent.transform.Find("Attack").gameObject.SetActive(true);
+                                }
+                                else
+                                {
+                                    ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
+                                }
 
                                 if (PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos] != null)
                                 {
@@ -1079,8 +1090,16 @@ public class BattleManager : MonoBehaviour
                                 {
                                     if (ActionList[nextActionIndex].Target != ActionList[nextActionIndex].Agent)
                                     {
-                                        ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                        if (ActionList[nextActionIndex].Target.GetComponent<Character>().Player)
+                                        {
+                                            ActionList[nextActionIndex].Target.transform.Find("Normal").GetComponent<Animator>().SetTrigger("TakeHit");
+                                        }
+                                        else
+                                        {
+                                            ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                        }
                                     }
+
                                 }
                                 CA.CameraMove(EnemyLanePos[ActionList[nextActionIndex].Agent.GetComponent<Character>().LanePos], CameraAttackSize);
                             }
@@ -1090,7 +1109,22 @@ public class BattleManager : MonoBehaviour
                             if (characterAnimated == false)
                             {
                                 characterAnimated = true;
-                                ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
+                                if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Player)
+                                {
+                                    ActionList[nextActionIndex].Agent.transform.Find("Normal").gameObject.SetActive(false);
+                                    ActionList[nextActionIndex].Agent.transform.Find("Attack").gameObject.SetActive(true);
+
+                                    components = ActionList[nextActionIndex].Agent.transform.Find("Attack").GetComponentsInChildren<SpriteMeshInstance>();
+
+                                    foreach (SpriteMeshInstance spritemesh in components)
+                                    {
+                                        spritemesh.sortingLayerName = "Lane" + (ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos + 1);
+                                    }
+                                }
+                                else
+                                {
+                                    ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
+                                }
 
                                 if (PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos] != null)
                                 {
@@ -1100,9 +1134,18 @@ public class BattleManager : MonoBehaviour
                                 {
                                     if (ActionList[nextActionIndex].Target != ActionList[nextActionIndex].Agent)
                                     {
-                                        ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                        if (ActionList[nextActionIndex].Target.GetComponent<Character>().Player)
+                                        {
+                                            ActionList[nextActionIndex].Target.transform.Find("Normal").GetComponent<Animator>().SetTrigger("TakeHit");
+                                        }
+                                        else
+                                        {
+                                            ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                        }
                                     }
+
                                 }
+
                                 CA.CameraMove(ActionList[nextActionIndex].Target.transform.position + new Vector3(0,1), CameraAttackSize);
                             }
 
@@ -1150,6 +1193,10 @@ public class BattleManager : MonoBehaviour
                         ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= ActionList[nextActionIndex].StaminaCost;
                         TurnDelayOn = false;
                     }
+                    if (ActionList[nextActionIndex].Agent == null)
+                    {
+                        TurnDelayRemaining = 0;
+                    }
 
                     if (TurnDelayRemaining <= 0)
                     {
@@ -1158,6 +1205,17 @@ public class BattleManager : MonoBehaviour
                         cameraWait = ActionDelay * 0.2f;
                         characterMoved = false;
                         characterAnimated = false;
+                        if (ActionList[nextActionIndex].Agent != null)
+                        {
+                            if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Player)
+                            {
+                                components = ActionList[nextActionIndex].Agent.transform.Find("Attack").GetComponentsInChildren<SpriteMeshInstance>();
+                                foreach (SpriteMeshInstance spritemesh in components)
+                                {
+                                    spritemesh.sortingLayerName = "Lane" + ActionList[nextActionIndex].Agent.GetComponent<Character>().LanePos;
+                                }
+                            }
+                        }
                         CA.CameraReset();
                         nextActionIndex += 1;
                         TurnDelayRemaining = TurnDelay;
@@ -1168,6 +1226,12 @@ public class BattleManager : MonoBehaviour
                 {
                     actionDelayRemaining -= Time.deltaTime;
                     cameraWait -= Time.deltaTime;
+
+                    if (ActionList[nextActionIndex].Agent == null)
+                    {
+                        actionDelayRemaining = 0f;
+                        cameraWait = 0f;
+                    }
                 }
             }
 

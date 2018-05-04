@@ -16,6 +16,8 @@ public class CityManager : MonoBehaviour
     public bool InDialogue;
     public GameObject DialogueBox;
 
+    private LianneDialogue LD;
+
     private void Start()
     {
         Initialize();
@@ -27,8 +29,9 @@ public class CityManager : MonoBehaviour
         DialogueBox = GameObject.Find("Dialogue");
         DialogueText = DialogueBox.GetComponentInChildren<Text>();
         DialogueText.text = "";
-        DialogueBox.SetActive(false);
+        DialogueBox.SetActive(true);
         exit.SetActive(false);
+
     }
 
     void Update()
@@ -45,8 +48,7 @@ public class CityManager : MonoBehaviour
 
                 if (hit.collider.tag == "Clickable" && !InDialogue)
                 {
-                    storedClickable = hit.collider.gameObject;
-                    ClickableClick(hit.collider.gameObject);
+
                 }
 
             }
@@ -63,7 +65,7 @@ public class CityManager : MonoBehaviour
     {
         InDialogue = true;
 
-        if (clickable.GetComponent<ClickableInfo>().ClickableType == "Exit")
+        if (clickable.GetComponent<ClickableInfo>().ClickableType == "Exit" && LD.LianneQuestStage == 40)
         {
             exit.SetActive(true);
         }
