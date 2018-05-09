@@ -18,6 +18,8 @@ public class Character : MonoBehaviour
     public bool UnitChosen;
     public bool IsTanking;
 
+    [Header("Info: ")]
+    public string Name;
     public string Class;
 
     [Header("Points: ")]
@@ -690,7 +692,14 @@ public class Character : MonoBehaviour
 
         foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
         {
-            r.sortingLayerName = "Lane" + targetIndex;
+            if (r.sortingLayerName == "EffectLayer")
+            {
+                continue;
+            }
+            else
+            {
+                r.sortingLayerName = "Lane" + targetIndex;
+            }
         }
 
         foreach (SpriteMeshInstance spritemesh in components)

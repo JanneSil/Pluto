@@ -27,7 +27,7 @@ public class ClickingScript : MonoBehaviour {
     private void Start()
     {
         BM = GetComponent<BattleManager>();
-        UI = GameObject.Find("CombatButtons").GetComponent<CombatUIScript>();
+        UI = GameObject.Find("CombatWheelHolder").GetComponent<CombatUIScript>();
 
         //Marker.SetActive(false);
     }

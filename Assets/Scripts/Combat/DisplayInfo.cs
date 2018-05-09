@@ -16,6 +16,7 @@ public class DisplayInfo : MonoBehaviour {
     private GameObject tempGameObjectThree;
     private Color color;
 
+    private string characterName;
     private int strength;
     private int stamina;
     private int speed;
@@ -75,7 +76,8 @@ public class DisplayInfo : MonoBehaviour {
                         }
                     }
                     transform.position = Input.mousePosition + offset;
-                    infoText.text = "Strength: " + strength + 
+                    infoText.text = characterName +
+                        "\nStrength: " + strength + 
                         " Stamina: " + stamina +
                         " Speed: " + speed +
                         " Dexterity: " + dexterity;
@@ -210,7 +212,16 @@ public class DisplayInfo : MonoBehaviour {
                             }
                             
                         }
+
+                        GetInfo(hit.collider.gameObject);
+                        hoverInfo.SetActive(true);
                     }
+                    transform.position = Input.mousePosition + offset;
+                    infoText.text = characterName +
+                        "\nStrength: " + strength +
+                        " Stamina: " + stamina +
+                        " Speed: " + speed +
+                        " Dexterity: " + dexterity;
                     doOnceThird = false;
                 }
                 else if (doOnceThird == false && BM.SelectedCharacter != hit.collider.gameObject)
@@ -230,6 +241,7 @@ public class DisplayInfo : MonoBehaviour {
                         }
                     }
                     doOnceThird = true;
+                    hoverInfo.SetActive(false);
                     tempGameObjectThree = null;
                 }
 
@@ -240,6 +252,7 @@ public class DisplayInfo : MonoBehaviour {
 
     void GetInfo(GameObject target)
     {
+        characterName = target.GetComponent<Character>().Name;
         strength = target.GetComponent<Character>().StrengthPoints;
         stamina = target.GetComponent<Character>().StaminaPoints;
         speed = target.GetComponent<Character>().Speed;

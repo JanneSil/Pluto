@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 212408838111704032}
   - component: {fileID: 95619287002925928}
   - component: {fileID: 114252554129219120}
+  - component: {fileID: 65680254471415632}
   m_Layer: 0
   m_Name: Vita
   m_TagString: Player
@@ -2935,8 +2936,20 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 11.3129635, y: 13.706712, z: 1}
-  m_Center: {x: 0, y: 5.3957243, z: 0}
+  m_Size: {x: 2.1007626, y: 11.5604725, z: 1}
+  m_Center: {x: 0.70391023, y: 5.884418, z: 0}
+--- !u!65 &65680254471415632
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1018564403782480}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7.8910913, y: 10.10746, z: 1}
+  m_Center: {x: -0.15594363, y: 4.242893, z: 0}
 --- !u!95 &95109647709264296
 Animator:
   serializedVersion: 3
@@ -3472,6 +3485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitChosen: 0
   IsTanking: 0
+  Name: Vita
   Class: 
   ActionPoints: 4
   StrengthPoints: 100

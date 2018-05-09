@@ -11,14 +11,15 @@ public class CityManager : MonoBehaviour
     private GameObject storedClickable;
     private GameObject lianne;
     private bool leavingCity;
+    private int lianneStage;
 
     [HideInInspector]
     public Text DialogueText;
     public bool InDialogue;
     public GameObject DialogueBox;
 
-    private LianneDialogue LD;
     private GameController GC;
+    private DialogueTrigger DT;
 
     private void Start()
     {
@@ -28,26 +29,20 @@ public class CityManager : MonoBehaviour
     private void Initialize()
     {
         exit = GameObject.Find("CityExit");
-        DialogueBox = GameObject.Find("Dialogue");
+        DialogueBox = GameObject.Find("OldDialogue");
         DialogueText = DialogueBox.GetComponentInChildren<Text>();
-        LD = GameObject.Find("Lianne").GetComponent<LianneDialogue>();
         GC = GameObject.Find("GameController").GetComponent<GameController>();
         DialogueText.text = "";
         exit.SetActive(false);
         lianne = GameObject.Find("Lianne");
         storedClickable = lianne;
-        if (GC.GameState == 0)
-        {
-            DialogueBox.SetActive(true);
-            ClickableClick(lianne);
-            GC.GameState = 10;
-        }
-        if (GC.GameState == 30)
-        {
-            DialogueBox.SetActive(true);
-            DialogueText.text = "Wwww";
-            GC.GameState = 40;
-        }
+        DialogueBox.SetActive(false);
+
+        //if (GC.GameState == 0)
+        //{
+        //    GC.GameState = 10;
+        //    ClickableClick(lianne);
+        //}
 
     }
 
@@ -81,9 +76,9 @@ public class CityManager : MonoBehaviour
 
     private void ClickableClick(GameObject clickable)
     {
-        InDialogue = true;
+        //InDialogue = true;
 
-        Debug.Log(clickable.GetComponent<ClickableInfo>().ClickableType);
+        //Debug.Log(clickable.GetComponent<ClickableInfo>().ClickableType);
 
         if (clickable.GetComponent<ClickableInfo>().ClickableType == "Exit")
         {
@@ -91,18 +86,20 @@ public class CityManager : MonoBehaviour
         }
         else if (clickable.GetComponent<ClickableInfo>().ClickableType == "Lianne")
         {
-            DialogueBox.SetActive(true);
-            DialogueText.text = "You find Lianne.";
+            if (GC.GameState > 10)
+            {
+                return;
+            }
+            GC.GameState += 10;
+            lianneStage += 1;
+            DT = GameObject.Find("Lianne"+ lianneStage).GetComponent<DialogueTrigger>();
+            DT.TriggerDialogue();
         }
     }
 
 
     public void DialogueUpdate()
     {
-        if (storedClickable.GetComponent<ClickableInfo>().ClickableType == "Lianne")
-        {
-            storedClickable.GetComponent<LianneDialogue>().UpdateDialogue();
-        }
         if (leavingCity)
         {
             leavingCity = false;

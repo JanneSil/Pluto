@@ -11,6 +11,8 @@ public class LaneInfo : MonoBehaviour {
     private SpriteRenderer sr;
     private BattleManager BM;
 
+    private Color color = new Color(255F, 255F, 255F, 0.72F);
+
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -39,7 +41,7 @@ public class LaneInfo : MonoBehaviour {
             {
                 if (!LaneChosen)
                 {
-                    sr.color = Color.green;
+                    sr.color = color;
                 }
             }
         }

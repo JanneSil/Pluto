@@ -54,6 +54,8 @@ public class BattleManager : MonoBehaviour
 
     public Text InfoText;
 
+    private GameObject combatWheel;
+
     //Turn variables
     public bool actionTurn;
     private bool characterMoved = false;
@@ -753,22 +755,23 @@ public class BattleManager : MonoBehaviour
     {
         CA = GetComponent<CombatAnimator>();
         CS = GameObject.Find("BattleManager").GetComponent<ClickingScript>();
-        UI = GameObject.Find("CombatButtons").GetComponent<CombatUIScript>();
+        UI = GameObject.Find("CombatWheelHolder").GetComponent<CombatUIScript>();
         canvas = GameObject.Find("Canvas");
         TurnDelayRemaining = TurnDelay;
         actionDelayRemaining = ActionDelay;
         //movementTurnDelayRemaining = MovementTurnDelay;
+        combatWheel = GameObject.Find("CombatWheel");
 
         selectAttackButton = GameObject.Find("SelectAttackAction");
-        selectSkillButton = GameObject.Find("SelectSkillButton");
-        tankSkillButton = GameObject.Find("TankSkillButton");
+        //selectSkillButton = GameObject.Find("SelectSkillButton");
+        tankSkillButton = GameObject.Find("Skill1ButtonWheel");
 
-        attackButton = GameObject.Find("AttackButton");
-        defendButton = GameObject.Find("DefendButton");
+        attackButton = GameObject.Find("AttackButtonWheel");
+        defendButton = GameObject.Find("RaiseGuardButtonWheel");
         endTurnButton = GameObject.Find("EndTurnButton");
-        moveButton = GameObject.Find("MoveButton");
+        moveButton = GameObject.Find("MoveButtonWheel");
         resetButton = GameObject.Find("ResetButton");
-        restButton = GameObject.Find("RestButton");
+        restButton = GameObject.Find("RestButtonWheel");
         infoTextObject = GameObject.Find("InfoText");
         skillButtons = GameObject.Find("Skills");
 
@@ -776,15 +779,15 @@ public class BattleManager : MonoBehaviour
         InfoText.text = "";
         gameOver = false;
 
-        attackButton.SetActive(false);//Setting buttons inactive at start in code seems arbitrary
-        defendButton.SetActive(false);
-        endTurnButton.SetActive(false);
-        moveButton.SetActive(false);
-        resetButton.SetActive(false);
-        restButton.SetActive(false);
+        //attackButton.SetActive(false);
+        //defendButton.SetActive(false);
+        //endTurnButton.SetActive(false);
+        //moveButton.SetActive(false);
+        //resetButton.SetActive(false);
+        //restButton.SetActive(false);
         actionTurn = false;
         movementTurn = false;
-
+        combatWheel.SetActive(false);
         playerTurn = true;
 
 
@@ -1328,84 +1331,85 @@ public class BattleManager : MonoBehaviour
         if (CS.CharacterClicked && !SelectingAttack && !SelectingMove)
         {
             //Display attack button
-            selectAttackButton.SetActive(true);
+            //selectAttackButton.SetActive(true);
+            combatWheel.SetActive(true);
 
-            if (UI.SelectAttack && !UI.SelectSkill)
-            {
-                attackButton.SetActive(true);
-                selectSkillButton.SetActive(true);
-                moveButton.SetActive(false);
-                restButton.SetActive(false);
-                defendButton.SetActive(false);
-            }
-            else if (UI.SelectAttack && UI.SelectSkill)
-            {
-                attackButton.SetActive(false);
-            }
-            else
-            {
-                attackButton.SetActive(false);
-                selectSkillButton.SetActive(false);
-                UI.SelectSkill = false;
-                defendButton.SetActive(true);
-                moveButton.SetActive(true);
-                restButton.SetActive(true);
-            }
+            //if (UI.SelectAttack && !UI.SelectSkill)
+            //{
+            //    attackButton.SetActive(true);
+            //    selectSkillButton.SetActive(true);
+            //    moveButton.SetActive(false);
+            //    restButton.SetActive(false);
+            //    defendButton.SetActive(false);
+            //}
+            //else if (UI.SelectAttack && UI.SelectSkill)
+            //{
+            //    attackButton.SetActive(false);
+            //}
+            //else
+            //{
+            //    attackButton.SetActive(false);
+            //    selectSkillButton.SetActive(false);
+            //    UI.SelectSkill = false;
+            //    defendButton.SetActive(true);
+            //    moveButton.SetActive(true);
+            //    restButton.SetActive(true);
+            //}
 
 
-            if (!SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack)
+            if (!SelectedCharacter.GetComponent<Character>().Attacking && !UI.SelectAttack)
             {
-                attackButton.GetComponent<Image>().color = Color.green;
+                attackButton.GetComponent<Image>().color = Color.white;
             }
-            else if (SelectedCharacter.GetComponent<Character>().Attacking && UI.SelectAttack && SelectedCharacter.GetComponent<Character>().UsingSkill == false)
+            else 
             {
-                attackButton.GetComponent<Image>().color = Color.black;
-            }
-
-            if (UI.SelectSkill)
-            {
-                skillButtons.SetActive(true);
-            }
-            else
-            {
-                skillButtons.SetActive(false);
+                attackButton.GetComponent<Image>().color = Color.gray;
             }
 
-            if (SelectedCharacter.GetComponent<Character>().UsingSkill)
-            {
-                selectSkillButton.GetComponent<Image>().color = Color.black;
-            }
-            else
-            {
-                selectSkillButton.GetComponent<Image>().color = Color.green;
-            }
+            //if (UI.SelectSkill)
+            //{
+            //    skillButtons.SetActive(true);
+            //}
+            //else
+            //{
+            //    skillButtons.SetActive(false);
+            //}
 
-            if (SelectedCharacter.GetComponent<Character>().Attacking || SelectedCharacter.GetComponent<Character>().UsingSkill)
-            {
-                selectAttackButton.GetComponent<Image>().color = Color.black;
-            }
-            else
-            {
-                selectAttackButton.GetComponent<Image>().color = Color.yellow;
-            }
+            //if (SelectedCharacter.GetComponent<Character>().UsingSkill)
+            //{
+            //    selectSkillButton.GetComponent<Image>().color = Color.black;
+            //}
+            //else
+            //{
+            //    selectSkillButton.GetComponent<Image>().color = Color.gray;
+            //}
+
+            //if (SelectedCharacter.GetComponent<Character>().Attacking || SelectedCharacter.GetComponent<Character>().UsingSkill)
+            //{
+            //    selectAttackButton.GetComponent<Image>().color = Color.black;
+            //}
+            //else
+            //{
+            //    selectAttackButton.GetComponent<Image>().color = Color.yellow;
+            //}
             if (SelectedCharacter.GetComponent<Character>().SkillBeingUsed == "TankSkill")
             {
-                tankSkillButton.GetComponent<Image>().color = Color.black;
+                tankSkillButton.GetComponent<Image>().color = Color.gray;
             }
             else
             {
-                tankSkillButton.GetComponent<Image>().color = Color.green;
+                tankSkillButton.GetComponent<Image>().color = Color.white;
             }
 
             //Display defend button
             if (!SelectedCharacter.GetComponent<Character>().Defending)
             {
-                defendButton.GetComponent<Image>().color = Color.green;
+                defendButton.GetComponent<Image>().color = Color.white;
             }
 
             else if (SelectedCharacter.GetComponent<Character>().Defending)
             {
-                defendButton.GetComponent<Image>().color = Color.black;
+                defendButton.GetComponent<Image>().color = Color.gray;
             }
 
 
@@ -1413,38 +1417,57 @@ public class BattleManager : MonoBehaviour
             //True if character is not already moving, has enough action points and has enough unused stamina to atleast move a single lane factoring in the characters speed stat
             if (!SelectedCharacter.GetComponent<Character>().Moving)
             {
-                moveButton.GetComponent<Image>().color = Color.green;
+                moveButton.GetComponent<Image>().color = Color.white;
             }
             else if (SelectedCharacter.GetComponent<Character>().Moving)
             {
-                moveButton.GetComponent<Image>().color = Color.black;
+                moveButton.GetComponent<Image>().color = Color.gray;
             }
 
             //Display rest button
             if (!SelectedCharacter.GetComponent<Character>().Resting)
             {
-                restButton.GetComponent<Image>().color = Color.green;
+                restButton.GetComponent<Image>().color = Color.white;
             }
             else if (SelectedCharacter.GetComponent<Character>().Resting)
             {
-                restButton.GetComponent<Image>().color = Color.black;
+                restButton.GetComponent<Image>().color = Color.gray;
             }
 
         }
         else
         {
-            selectAttackButton.SetActive(false);
-            attackButton.SetActive(false);
-            defendButton.SetActive(false);
-            moveButton.SetActive(false);
-            restButton.SetActive(false);
-            skillButtons.SetActive(false);
-            selectSkillButton.SetActive(false);
+            //selectAttackButton.SetActive(false);
+            //attackButton.SetActive(false);
+            //defendButton.SetActive(false);
+            //moveButton.SetActive(false);
+            //restButton.SetActive(false);
+            //skillButtons.SetActive(false);
+            //selectSkillButton.SetActive(false);
 
+            combatWheel.SetActive(false);
             UI.SelectAttack = false;
             UI.SelectSkill = false;
         }
 
+        //if (CS.CharacterClicked && !SelectingAttack && !SelectingMove)
+        //{
+        //    combatWheel.SetActive(true);
+        //}
+        //else
+        //{
+        //    selectAttackButton.SetActive(false);
+        //    attackButton.SetActive(false);
+        //    defendButton.SetActive(false);
+        //    moveButton.SetActive(false);
+        //    restButton.SetActive(false);
+        //    skillButtons.SetActive(false);
+        //    selectSkillButton.SetActive(false);
+
+        //    UI.SelectAttack = false;
+        //    UI.SelectSkill = false;
+        //    combatWheel.SetActive(false);
+        //}
         //Display reset and end turn button
         if (playerTurn && !gameOver)
         {
