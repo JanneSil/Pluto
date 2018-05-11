@@ -78,6 +78,7 @@ public class BattleManager : MonoBehaviour
     private int tempIntHolder;
     private bool once;
     private bool removeMovement;
+    private bool doOnceActionHighlight;
 
     //UI buttons
     private GameObject selectAttackButton;
@@ -1059,6 +1060,7 @@ public class BattleManager : MonoBehaviour
         playerTurn = false;
 
         actionDelayRemaining = ActionDelay;
+        cameraWait = ActionDelay * 1f;
         actionsDone = 0;
         nextActionIndex = 0;
 
@@ -1075,6 +1077,29 @@ public class BattleManager : MonoBehaviour
                 //Dead characters actions do not move the camera or the character, also if character has no stamina at this point action is not performed.
                 if (ActionList[nextActionIndex].Agent != null && ActionList[nextActionIndex].Target != null && ActionList[nextActionIndex].StaminaCost <= ActionList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints)
                 {
+                    if (!doOnceActionHighlight)
+                    {
+                        foreach (SpriteRenderer r in ActionList[nextActionIndex].Agent.GetComponentsInChildren<SpriteRenderer>())
+                        {
+                            if (r.gameObject.name == "Target")
+                            {
+                                r.color = Color.green;
+                                r.enabled = true;
+                            }
+
+                        }
+                        foreach (SpriteRenderer r in ActionList[nextActionIndex].Target.GetComponentsInChildren<SpriteRenderer>())
+                        {
+                            if (r.gameObject.name == "Target")
+                            {
+                                r.color = Color.red;
+                                r.enabled = true;
+                            }
+
+                        }
+                        doOnceActionHighlight = true;
+                    }
+
                     //Camera wait time has passed
                     if (cameraWait <= 0)
                     {
@@ -1220,9 +1245,10 @@ public class BattleManager : MonoBehaviour
                     {
                         actionDelayRemaining = ActionDelay;
                         actionsDone += 1;
-                        cameraWait = ActionDelay * 0.2f;
+                        cameraWait = ActionDelay * 1f;
                         characterMoved = false;
                         characterAnimated = false;
+                        doOnceActionHighlight = false;
                         if (ActionList[nextActionIndex].Agent != null)
                         {
                             if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Player)
@@ -1240,6 +1266,26 @@ public class BattleManager : MonoBehaviour
                                 foreach (SpriteMeshInstance spritemesh in components)
                                 {
                                     spritemesh.sortingLayerName = "Lane" + (ActionList[nextActionIndex].Agent.GetComponent<Character>().LanePos);
+                                }
+                            }
+
+                            foreach (SpriteRenderer r in ActionList[nextActionIndex].Agent.GetComponentsInChildren<SpriteRenderer>())
+                            {
+                                if (r.gameObject.name == "Target")
+                                {
+                                    r.enabled = false;
+                                }
+
+                            }
+                            if (ActionList[nextActionIndex].Target != null)
+                            {
+                                foreach (SpriteRenderer r in ActionList[nextActionIndex].Target.GetComponentsInChildren<SpriteRenderer>())
+                                {
+                                    if (r.gameObject.name == "Target")
+                                    {
+                                        r.enabled = false;
+                                    }
+
                                 }
                             }
                         }
@@ -1271,6 +1317,7 @@ public class BattleManager : MonoBehaviour
                     ActionList.Clear();
                     CA.CameraReset();
                     PlayerTurn();
+
                 }
                 else
                 {

@@ -307,7 +307,13 @@ public class Character : MonoBehaviour
         }
 
         //Attacker damage output
-        damageOutput = ((float)StrengthPoints / 2) * (1 - distanceReduction * (1 - (float)Speed / 100));
+        //damageOutput = ((float)StrengthPoints / 2) * (1 - distanceReduction * (1 - (float)Speed / 100));
+
+        int number = Random.Range(2, 5);
+
+        damageOutput = (((float)StrengthPoints / number));
+        damageOutput = (damageOutput * (1 - distanceReduction * (1 - (float)Speed / 100)));
+
 
         //Factoring critical hit
         //Attack deals double the damage by a random factor, critical chance-% = Dexterity / 100
@@ -334,13 +340,18 @@ public class Character : MonoBehaviour
         }
 
         //Damage is dealt to strength and stamina points by a random factor affected by attackers dexterity
-        //Damage to strength = Damage output * Random number between 0 and 25 * Attacker Dexterity / 100
+        //Damage to strength = DamageOutput * (Random number between 0 and 25 - Attacker Dexterity) / 100
         //Rest from damage output is dealt to stamina
-        strengthPortion = (Random.Range(0, 25) + Dexterity) / 100f;
+        strengthPortion = (Dexterity - Random.Range(0, 25)) / 100f;
         if (strengthPortion > 1)
         {
             strengthPortion = 1;
         }
+        if (strengthPortion < 0)
+        {
+            strengthPortion = 0;
+        }
+        Debug.Log(strengthPortion);
         damageToStrength = damageOutput * strengthPortion;
         damageToStamina = damageOutput * (1 - strengthPortion);
 

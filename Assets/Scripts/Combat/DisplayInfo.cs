@@ -92,6 +92,7 @@ public class DisplayInfo : MonoBehaviour {
                             if (r.gameObject.name == "Target")
                             {
                                 r.enabled = false;
+                                r.color = Color.black;
                             }
 
                         }
