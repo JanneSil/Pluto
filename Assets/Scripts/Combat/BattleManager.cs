@@ -48,6 +48,7 @@ public class BattleManager : MonoBehaviour
 
     public GameObject SelectedCharacter;
     public GameObject SelectedEnemyCharacter;
+    public GameObject Ibofang;
 
     public int SelectedLanePos;
 
@@ -64,6 +65,7 @@ public class BattleManager : MonoBehaviour
     private bool movementTurn;
     public bool playerTurn;
     public bool SuccesfulAttack;
+    private bool temporaryActionTurn;
 
     public float ActionDelay;
     public float MovementTurnDelay;
@@ -76,6 +78,7 @@ public class BattleManager : MonoBehaviour
 
     private int actionsDone;
     private int nextActionIndex;
+    private int temporaryActions;
     private int tempIntHolder;
     private bool once;
     private bool removeMovement;
@@ -83,6 +86,10 @@ public class BattleManager : MonoBehaviour
     public GameObject IbofangTarget1;
     public GameObject IbofangTarget2;
     public GameObject IbofangTarget3;
+
+    private GameObject tempTurnAgent;
+    private GameObject tempTurnTarget;
+
 
     //UI buttons
     private GameObject selectAttackButton;
@@ -117,6 +124,7 @@ public class BattleManager : MonoBehaviour
         ActionTurnUpdate();
         MovementTurnUpdate();
         CheckCombatResult();
+        PerformOneAction();
     }
 
     //Character functions
@@ -1048,11 +1056,15 @@ public class BattleManager : MonoBehaviour
 
                 foreach (GameObject lane in Lanes)
                 {
-                    if (MovementList[nextActionIndex].TargetIndex == lane.GetComponent<LaneInfo>().LanePos)
+                    if (MovementList[nextActionIndex].TargetIndex == lane.GetComponent<LaneInfo>().LanePos && lane.GetComponent<LaneInfo>().TargetedByIbofang)
                     {
                         if (EnemyLanes[lane.GetComponent<LaneInfo>().LanePos] != null)
                         {
                             lane.GetComponent<LaneInfo>().TargetedByIbofang = false;
+                            tempTurnAgent = Ibofang;
+                            tempTurnTarget = EnemyLanes[lane.GetComponent<LaneInfo>().LanePos];
+                            temporaryActionTurn = true;
+
                         }
                     }
                 }
@@ -1075,7 +1087,7 @@ public class BattleManager : MonoBehaviour
                 movementTurnDelayRemaining -= Time.deltaTime;
             }
 
-            if (actionsDone == MovementList.Count && !MovementList[tempIntHolder].Agent.GetComponent<Character>().HasToMove && movementTurnDelayRemaining <= 0)
+            if (actionsDone == MovementList.Count && !MovementList[tempIntHolder].Agent.GetComponent<Character>().HasToMove && movementTurnDelayRemaining <= 0 && !temporaryActionTurn)
             {
                 movementTurnDelayRemaining = 0;
 
@@ -1357,6 +1369,200 @@ public class BattleManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void PerformOneAction()
+    {
+
+        if (temporaryActionTurn)
+        {
+                if (!doOnceActionHighlight)
+                {
+                    foreach (SpriteRenderer r in tempTurnAgent.GetComponentsInChildren<SpriteRenderer>())
+                    {
+                        if (r.gameObject.name == "Target")
+                        {
+                            r.color = Color.green;
+                            r.enabled = true;
+                        }
+
+                    }
+                    foreach (SpriteRenderer r in tempTurnTarget.GetComponentsInChildren<SpriteRenderer>())
+                    {
+                        if (r.gameObject.name == "Target")
+                        {
+                            r.color = Color.red;
+                            r.enabled = true;
+                        }
+
+                    }
+                actionDelayRemaining = ActionDelay;
+                cameraWait = ActionDelay * 1f;
+                doOnceActionHighlight = true;
+                }
+
+                //Camera wait time has passed
+                if (cameraWait <= 0)
+                {
+
+                    if (!characterAnimated)
+                    {
+                        characterAnimated = true;
+                        if (tempTurnAgent.GetComponent<Character>().Player)
+                        {
+                        tempTurnAgent.transform.Find("Normal").gameObject.SetActive(false);
+                        tempTurnAgent.transform.Find("Attack").gameObject.SetActive(true);
+                        components = tempTurnAgent.transform.Find("Attack").GetComponentsInChildren<SpriteMeshInstance>();
+
+                        foreach (SpriteMeshInstance spritemesh in components)
+                        {
+                            spritemesh.sortingLayerName = "Lane" + (tempTurnTarget.GetComponent<Character>().LanePos + 1);
+                        }
+                    }
+                        else
+                        {
+                        tempTurnAgent.GetComponent<Animator>().SetTrigger("Attacking");
+                        }
+
+                        if (PlayerTankLanes[tempTurnTarget.GetComponent<Character>().LanePos] != null)
+                        {
+                            PlayerTankLanes[tempTurnTarget.GetComponent<Character>().LanePos].GetComponent<Animator>().SetTrigger("TakeHit");
+                        }
+                        else
+                        {
+                            if (tempTurnTarget != tempTurnAgent)
+                            {
+                                if (tempTurnTarget.GetComponent<Character>().Player)
+                                {
+                                tempTurnTarget.transform.Find("Normal").GetComponent<Animator>().SetTrigger("TakeHit");
+                                }
+                                else
+                                {
+                                tempTurnTarget.GetComponent<Animator>().SetTrigger("TakeHit");
+                                }
+                            }
+
+                        }
+                        CA.CameraMove(EnemyLanePos[tempTurnTarget.GetComponent<Character>().LanePos], CameraAttackSize);
+                    }
+
+                }
+
+                //Character hasn't moved
+                if (!characterMoved && cameraWait <= 0)
+                {
+                    CA.MoveAttack(tempTurnAgent, tempTurnTarget, ActionDelay * 0.9f);
+                    characterMoved = true;
+                    TurnDelayOn = true;
+                }
+
+
+                //Action is performed if delay has passed
+                if (actionDelayRemaining <= 0)
+                {
+                    TurnDelayRemaining -= Time.deltaTime;
+                    //Dead characters actions are not performed, also if character has no stamina at this point action is not performed.
+                    if (tempTurnAgent != null && TurnDelayOn)
+                    {
+                    tempTurnAgent.GetComponent<Character>().CalculateDamage(tempTurnTarget);
+                    tempTurnAgent.GetComponent<Character>().DealDamage(tempTurnTarget, 2);
+                    TurnDelayOn = false;
+                    }
+                    if (tempTurnAgent == null)
+                    {
+                        TurnDelayRemaining = 0;
+                    }
+
+                    if (TurnDelayRemaining <= 0)
+                    {
+                    actionDelayRemaining = ActionDelay;
+                    temporaryActions = 1;
+                        cameraWait = ActionDelay * 1f;
+                        characterMoved = false;
+                        characterAnimated = false;
+                        doOnceActionHighlight = false;
+
+
+                    if (tempTurnAgent != null)
+                        {
+                            if (tempTurnAgent.GetComponent<Character>().Player)
+                            {
+                                components = tempTurnAgent.transform.Find("Attack").GetComponentsInChildren<SpriteMeshInstance>();
+                                foreach (SpriteMeshInstance spritemesh in components)
+                                {
+                                    spritemesh.sortingLayerName = "Lane" + tempTurnAgent.GetComponent<Character>().LanePos;
+                                }
+                            }
+
+                            else
+                            {
+                                components = tempTurnAgent.GetComponentsInChildren<SpriteMeshInstance>();
+
+                                foreach (SpriteMeshInstance spritemesh in components)
+                                {
+                                    spritemesh.sortingLayerName = "Lane" + (tempTurnAgent.GetComponent<Character>().LanePos);
+                                }
+                            }
+
+                        foreach (SpriteRenderer r in tempTurnAgent.GetComponentsInChildren<SpriteRenderer>())
+                            {
+                                if (r.gameObject.name == "Target")
+                                {
+                                    r.enabled = false;
+                                }
+
+                            }
+                            if (tempTurnTarget != null)
+                            {
+                                foreach (SpriteRenderer r in tempTurnTarget.GetComponentsInChildren<SpriteRenderer>())
+                                {
+                                    if (r.gameObject.name == "Target")
+                                    {
+                                        r.enabled = false;
+                                    }
+
+                                }
+                            }
+                        }
+
+                    CA.CameraReset();
+                   TurnDelayRemaining = TurnDelay;
+                }
+
+                }
+                else
+                {
+                    actionDelayRemaining -= Time.deltaTime;
+                    cameraWait -= Time.deltaTime;
+
+                    if (ActionList[nextActionIndex].Agent == null)
+                    {
+                        actionDelayRemaining = 0f;
+                        cameraWait = 0f;
+                    }
+                }
+
+
+                if (temporaryActions == 1)
+                {
+                    if (cameraWait <= 0)
+                    {
+                    Debug.Log("hello");
+                    actionDelayRemaining = 0;
+                    temporaryActionTurn = false;
+                    temporaryActions = 0;
+                    CA.CameraReset();
+                    return;
+
+                    }
+                    else
+                    {
+                        cameraWait -= Time.deltaTime;
+                    }
+                }
+            
+        }
+ 
     }
 
     //UI functions

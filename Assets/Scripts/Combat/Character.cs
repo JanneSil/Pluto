@@ -94,6 +94,11 @@ public class Character : MonoBehaviour
     {
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+
+        if (Name == "Ibofang")
+        {
+            BM.Ibofang = gameObject;
+        }
         foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
         {
             if (r.gameObject.name == "Target")
@@ -303,7 +308,7 @@ public class Character : MonoBehaviour
     }
 
     //Damage calculation
-    private void CalculateDamage(GameObject target)
+    public void CalculateDamage(GameObject target)
     {
 
         //Attacker damgage output = (Attacker strenght / 2) * (1 - Distance reduction * (1 - Attacker speed / 100))
@@ -422,7 +427,7 @@ public class Character : MonoBehaviour
         if (damageToStamina < 0) damageToStamina = 0;
     }
 
-    private void DealDamage(GameObject target, int damageMultiplier)
+    public void DealDamage(GameObject target, int damageMultiplier)
     {
 
         if (!target.GetComponent<Character>().IsTanking)

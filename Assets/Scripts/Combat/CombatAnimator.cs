@@ -91,7 +91,7 @@ public class CombatAnimator : MonoBehaviour
     //Character functions
     public void MoveAttack(GameObject agent, GameObject target, float pause)
     {
-        if (agent.GetComponent<Character>().UsingSkill)
+        if (agent.GetComponent<Character>().UsingSkill && agent.GetComponent<Character>().Class == "Tank")
         {
             agent.GetComponent<Character>().SetMove(BM.EnemyLanePos[agent.GetComponent<Character>().LanePos] - AttackingOffset, pause, MoveSpeed, MoveMargin);
         }
