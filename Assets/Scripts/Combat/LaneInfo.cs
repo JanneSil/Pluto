@@ -10,6 +10,7 @@ public class LaneInfo : MonoBehaviour {
     public bool TargetedByIbofang;
 
     private SpriteRenderer sr;
+    private SpriteRenderer ibofangSR;
     private BattleManager BM;
 
     private Color color = new Color(255F, 255F, 255F, 0.72F);
@@ -17,6 +18,15 @@ public class LaneInfo : MonoBehaviour {
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
+        {
+            if (r.gameObject.name == "IbofangTarget")
+            {
+                ibofangSR = r;
+                r.enabled = false;
+            }
+
+        }
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
     }
 
@@ -29,6 +39,15 @@ public class LaneInfo : MonoBehaviour {
         else if(!BM.SelectingMove)
         {
             sr.color = Color.white;
+        }
+
+        if (TargetedByIbofang)
+        {
+            ibofangSR.enabled = true;
+        }
+        else
+        {
+            ibofangSR.enabled = false;
         }
 
         if (!BM.playerTurn)

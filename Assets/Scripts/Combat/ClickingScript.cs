@@ -46,8 +46,36 @@ public class ClickingScript : MonoBehaviour {
             if (Physics.Raycast(ray, out hit, 1000))
             {
 
-                if (hit.collider.tag == "Lane" && CharacterClicked && BM.SelectingMove)
+                if (hit.collider.tag == "Lane" && CharacterClicked && !BM.SelectingMove && BM.ChoosingSkill == "IbofangSkill")
                 {
+                    if (BM.IbofangTarget1 == null)
+                    {
+                        BM.IbofangTarget1 = hit.collider.gameObject;
+                    }
+                    else if (BM.IbofangTarget2 == null)
+                    {
+                        BM.IbofangTarget2 = hit.collider.gameObject;
+                    }
+                    else if (BM.IbofangTarget3 == null)
+                    {
+                        BM.IbofangTarget3 = hit.collider.gameObject;
+                    }
+
+                    if (BM.IbofangTarget1 != null && BM.IbofangTarget2 != null && BM.IbofangTarget3 != null)
+                    {
+                        ObjectClicked = false;
+                        BM.SelectingAttack = false;
+                        BM.InfoText.text = "";
+                        BM.SelectedCharacter.GetComponent<Character>().Attacking = true;
+                        BM.AddSkill(BM.ChoosingSkill);
+                        ResetSelection();
+                    }
+
+                }
+
+                else if (hit.collider.tag == "Lane" && CharacterClicked && BM.SelectingMove)
+                {
+
                     BM.SuccesfulAttack = false;
                     ObjectClicked = true;
                     EnemyCharacterClicked = false;
@@ -100,6 +128,10 @@ public class ClickingScript : MonoBehaviour {
 
                 else if (hit.collider.tag == "Enemy" && CharacterClicked && BM.SelectingAttack)
                 {
+                    if (BM.ChoosingSkill == "IbofangSkill")
+                    {
+                        return;
+                    }
                     ObjectClicked = false;
                     BM.SelectingAttack = false;
 
@@ -165,6 +197,9 @@ public class ClickingScript : MonoBehaviour {
         UI.SelectAttack = false;
         UI.SelectSkill = false;
         BM.SelectedCharacter = null;
+        BM.IbofangTarget1 = null;
+        BM.IbofangTarget2 = null;
+        BM.IbofangTarget3 = null;
 
         if (TempUnitHolder != null)
         {

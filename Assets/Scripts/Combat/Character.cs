@@ -11,6 +11,8 @@ public class Character : MonoBehaviour
 
     private GameObject staminaBar;
     private GameObject healthBar;
+    private GameObject statusBar;
+    private int currentStatusBarLoc;
 
     private Text healthText;
     private Text staminaText;
@@ -122,6 +124,7 @@ public class Character : MonoBehaviour
         staminaPointsMax = StaminaPoints;
 
         AvailableStamina = StaminaPoints;
+        currentStatusBarLoc = 10;
 
         GetStatusBars();
     }
@@ -176,27 +179,45 @@ public class Character : MonoBehaviour
             //sprite.color = Color.red;
         }
 
+        if (statusBar != null && Player)
+        {
+            if (currentStatusBarLoc != LanePos)
+            {
+                statusBar.transform.position = GameObject.Find("Canvas/LifeBars/LaneIndicators/Lane" + LanePos).transform.position;
+                currentStatusBarLoc = LanePos;
+            }
+        }
+
+        if (statusBar != null && !Player)
+        {
+            if (currentStatusBarLoc != LanePos)
+            {
+                statusBar.transform.position = GameObject.Find("Canvas/LifeBars/LaneIndicatorsEnemy/Lane" + LanePos).transform.position;
+                currentStatusBarLoc = LanePos;
+            }
+        }
+
         //Update UI elements
         if (healthBar != null)
         {
             healthBar.GetComponent<Slider>().value = ((float)StrengthPoints / (float)strengthPointsMax);
-            healthBar.transform.position = new Vector3(healthBar.transform.position.x, screenPos.y + 180, healthBar.transform.position.z);
+            //healthBar.transform.position = new Vector3(healthBar.transform.position.x, screenPos.y + 180, healthBar.transform.position.z);
         }
         if (staminaBar != null)
         {
             staminaBar.GetComponent<Slider>().value = ((float)StaminaPoints / (float)staminaPointsMax);
-            staminaBar.transform.position = new Vector3(staminaBar.transform.position.x, screenPos.y + 180, staminaBar.transform.position.z);
+            //staminaBar.transform.position = new Vector3(staminaBar.transform.position.x, screenPos.y + 180, staminaBar.transform.position.z);
         }
-        if (healthText != null)
-        {
-            //healthText.text = StrengthPoints + "/" + strengthPointsMax;
-            healthText.text = "";
-        }
-        if (staminaText != null)
-        {
-            //staminaText.text = StaminaPoints + "/" + staminaPointsMax;
-            staminaText.text = "";
-        }
+        //if (healthText != null)
+        //{
+        //    //healthText.text = StrengthPoints + "/" + strengthPointsMax;
+        //    healthText.text = "";
+        //}
+        //if (staminaText != null)
+        //{
+        //    //staminaText.text = StaminaPoints + "/" + staminaPointsMax;
+        //    staminaText.text = "";
+        //}
 
         //Death, consider moving to damaging method
         if (StrengthPoints <= 0)
@@ -243,19 +264,23 @@ public class Character : MonoBehaviour
     {
         if (Player)
         {
-            healthBar = GameObject.Find("Canvas/LifeBars/PlayerHealthBar" + LanePos);
-            staminaBar = GameObject.Find("Canvas/StaminaBars/PlayerStaminaBar" + LanePos);
-            healthText = GameObject.Find("Canvas/LifeBars/PlayerHealthBar" + LanePos + "/HealthText").GetComponent<Text>();
-            staminaText = GameObject.Find("Canvas/StaminaBars/PlayerStaminaBar" + LanePos + "/StaminaText").GetComponent<Text>();
+            healthBar = GameObject.Find("Canvas/LifeBars/" + Name + "/PlayerHealthBar");
+            staminaBar = GameObject.Find("Canvas/LifeBars/" + Name + "/PlayerStaminaBar");
+            statusBar = GameObject.Find("Canvas/LifeBars/" + Name);
+            //healthText = GameObject.Find("Canvas/LifeBars/PlayerHealthBar" + LanePos + "/HealthText").GetComponent<Text>();
+            //staminaText = GameObject.Find("Canvas/StaminaBars/PlayerStaminaBar" + LanePos + "/StaminaText").GetComponent<Text>();
+            statusBar.SetActive(true);
             healthBar.SetActive(true);
             staminaBar.SetActive(true);
         }
         else
         {
-            healthBar = GameObject.Find("Canvas/LifeBars/EnemyHealthBar" + LanePos);
-            staminaBar = GameObject.Find("Canvas/StaminaBars/EnemyStaminaBar" + LanePos);
-            healthText = GameObject.Find("Canvas/LifeBars/EnemyHealthBar" + LanePos + "/HealthText").GetComponent<Text>();
-            staminaText = GameObject.Find("Canvas/StaminaBars/EnemyStaminaBar" + LanePos + "/StaminaText").GetComponent<Text>();
+            healthBar = GameObject.Find("Canvas/LifeBars/" + Name + LanePos + "/PlayerHealthBar");
+            staminaBar = GameObject.Find("Canvas/LifeBars/" + Name + LanePos + "/PlayerStaminaBar");
+            statusBar = GameObject.Find("Canvas/LifeBars/" + Name + LanePos);
+            //healthText = GameObject.Find("Canvas/LifeBars/EnemyHealthBar" + LanePos + "/HealthText").GetComponent<Text>();
+            //staminaText = GameObject.Find("Canvas/StaminaBars/EnemyStaminaBar" + LanePos + "/StaminaText").GetComponent<Text>();
+            statusBar.SetActive(true);
             healthBar.SetActive(true);
             staminaBar.SetActive(true);
         }
@@ -351,7 +376,6 @@ public class Character : MonoBehaviour
         {
             strengthPortion = 0;
         }
-        Debug.Log(strengthPortion);
         damageToStrength = damageOutput * strengthPortion;
         damageToStamina = damageOutput * (1 - strengthPortion);
 
@@ -674,6 +698,23 @@ public class Character : MonoBehaviour
                 }
             }
 
+        }
+        if (Skill == "IbofangSkill")
+        {
+            foreach (GameObject lane in BM.Lanes)
+            {
+                if (lane.GetComponent<LaneInfo>().TargetedByIbofang)
+                {
+                    if (BM.EnemyLanes[lane.GetComponent<LaneInfo>().LanePos] != null)
+                    {
+                        lane.GetComponent<LaneInfo>().TargetedByIbofang = false;
+                        CalculateDamage(BM.EnemyLanes[lane.GetComponent<LaneInfo>().LanePos]);
+                        DealDamage(BM.EnemyLanes[lane.GetComponent<LaneInfo>().LanePos], 2);
+                    }
+                }
+            }
+    
+            Debug.Log("Skillss");
         }
 
         else if (Skill == "")
