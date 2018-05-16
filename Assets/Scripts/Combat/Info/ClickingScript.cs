@@ -51,14 +51,17 @@ public class ClickingScript : MonoBehaviour {
                     if (BM.IbofangTarget1 == null)
                     {
                         BM.IbofangTarget1 = hit.collider.gameObject;
+                        BM.IbofangTarget1.GetComponent<LaneInfo>().tempTargetByIbofang = true;
                     }
                     else if (BM.IbofangTarget2 == null)
                     {
                         BM.IbofangTarget2 = hit.collider.gameObject;
+                        BM.IbofangTarget2.GetComponent<LaneInfo>().tempTargetByIbofang = true;
                     }
                     else if (BM.IbofangTarget3 == null)
                     {
                         BM.IbofangTarget3 = hit.collider.gameObject;
+                        BM.IbofangTarget3.GetComponent<LaneInfo>().tempTargetByIbofang = true;
                     }
 
                     if (BM.IbofangTarget1 != null && BM.IbofangTarget2 != null && BM.IbofangTarget3 != null)
@@ -197,9 +200,34 @@ public class ClickingScript : MonoBehaviour {
         UI.SelectAttack = false;
         UI.SelectSkill = false;
         BM.SelectedCharacter = null;
-        BM.IbofangTarget1 = null;
-        BM.IbofangTarget2 = null;
-        BM.IbofangTarget3 = null;
+
+        foreach (GameObject r in BM.Lanes)
+        {
+            if (r.GetComponentInChildren<SpriteRenderer>().gameObject.name == "LaneColor")
+            {
+                if (!r.GetComponent<LaneInfo>().LaneChosen)
+                {
+                        r.GetComponentInChildren<SpriteRenderer>().enabled = false;
+                }
+            }
+
+        }
+
+        if (BM.IbofangTarget1 != null)
+        {
+            BM.IbofangTarget1.GetComponent<LaneInfo>().tempTargetByIbofang = false;
+            BM.IbofangTarget1 = null;
+        }
+        if (BM.IbofangTarget2 != null)
+        {
+            BM.IbofangTarget2.GetComponent<LaneInfo>().tempTargetByIbofang = false;
+            BM.IbofangTarget2 = null;
+        }
+        if (BM.IbofangTarget3 != null)
+        {
+            BM.IbofangTarget3.GetComponent<LaneInfo>().tempTargetByIbofang = false;
+            BM.IbofangTarget3 = null;
+        }
 
         if (TempUnitHolder != null)
         {

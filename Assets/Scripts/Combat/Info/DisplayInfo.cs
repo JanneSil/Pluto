@@ -10,10 +10,12 @@ public class DisplayInfo : MonoBehaviour {
     private bool doOnce;
     private bool doOnceSecond;
     private bool doOnceThird;
+    private bool doOnceLane;
     private Text infoText;
     private GameObject tempGameObject;
     private GameObject tempGameObjectTwo;
     private GameObject tempGameObjectThree;
+    private GameObject tempLaneChosen;
     private Color color;
 
     private string characterName;
@@ -23,8 +25,18 @@ public class DisplayInfo : MonoBehaviour {
     private int dexterity;
     public Vector3 offset;
 
+    private Color greenColor = Color.green;
+    private Color greenOtherColor = Color.green;
+    private Color grayColor = Color.gray;
+    private Color redColor = Color.red;
+
     // Use this for initialization
     void Start () {
+
+        greenColor.a = 0.40f;
+        grayColor.a = 0.40f;
+        redColor.a = 0.40f;
+        greenOtherColor.a = 0.60f;
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         hoverInfo = GameObject.Find("HoverInfo");
         infoText = hoverInfo.GetComponentInChildren<Text>();
@@ -40,7 +52,7 @@ public class DisplayInfo : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (BM.playerTurn)
+        if (BM.playerTurn && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
 
             if (Physics.Raycast(ray, out hit, 1000))
@@ -131,6 +143,70 @@ public class DisplayInfo : MonoBehaviour {
 
                 if (hit.collider.tag == "Lane")
                 {
+                    if (BM.ChoosingSkill == "" && BM.SelectingAttack)
+                    {
+                        return;
+                    }
+                    if (!doOnceLane)
+                    {
+                        tempLaneChosen = hit.collider.gameObject;
+                        foreach (SpriteRenderer r in tempLaneChosen.GetComponentsInChildren<SpriteRenderer>())
+                        {
+                            if (r.gameObject.name == "LaneColor")
+                            {
+                                if (!tempLaneChosen.GetComponent<LaneInfo>().LaneChosen)
+                                {
+                                    if (!BM.SelectingMove)
+                                    {
+                                        r.enabled = true;
+                                        r.color = greenColor;
+                                    }
+                                    else
+                                    {
+                                        if (BM.SelectedCharacter.GetComponent<Character>().LanePos != tempLaneChosen.GetComponent<LaneInfo>().LanePos)
+                                        {
+                                            r.enabled = true;
+                                            r.color = greenOtherColor;
+                                        }
+                                    }
+
+                                }
+                            }
+
+                        }
+                        doOnceLane = true;
+                    }
+                    else if(doOnceLane)
+                    {
+                        if (tempLaneChosen != hit.collider.gameObject)
+                        {
+                            foreach (SpriteRenderer r in tempLaneChosen.GetComponentsInChildren<SpriteRenderer>())
+                            {
+                                if (r.gameObject.name == "LaneColor")
+                                {
+                                    if (!tempLaneChosen.GetComponent<LaneInfo>().LaneChosen)
+                                    {
+                                        if (!BM.SelectingMove)
+                                        {
+                                            r.enabled = false;
+                                            r.color = greenColor;
+                                        }
+                                        else
+                                        {
+                                            if (BM.SelectedCharacter.GetComponent<Character>().LanePos != tempLaneChosen.GetComponent<LaneInfo>().LanePos)
+                                            {
+                                                r.enabled = true;
+                                                r.color = greenColor;
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+                            doOnceLane = false;
+                        }
+                    }
+
                     if (hit.collider.gameObject.GetComponent<LaneInfo>().LaneChosen)
                     {
                         if (!doOnceSecond)
@@ -177,8 +253,39 @@ public class DisplayInfo : MonoBehaviour {
 
                         }
                     }
+                    doOnceSecond = false;
 
-                        doOnceSecond = false;
+                }
+                else if (doOnceLane)
+                {
+                    if (true)
+                    {
+                        foreach (SpriteRenderer r in tempLaneChosen.GetComponentsInChildren<SpriteRenderer>())
+                        {
+                            if (r.gameObject.name == "LaneColor")
+                            {
+                                if (!tempLaneChosen.GetComponent<LaneInfo>().LaneChosen)
+                                {
+                                    if (!BM.SelectingMove)
+                                    {
+                                        r.enabled = false;
+                                        r.color = greenColor;
+                                    }
+                                    else
+                                    {
+                                        if (BM.SelectedCharacter.GetComponent<Character>().LanePos != tempLaneChosen.GetComponent<LaneInfo>().LanePos)
+                                        {
+                                            r.enabled = true;
+                                            r.color = greenColor;
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        }
+                        doOnceLane = false;
+                    }
                 }
 
                 if (hit.collider.tag == "Player")

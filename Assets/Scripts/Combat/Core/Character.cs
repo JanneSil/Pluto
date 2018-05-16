@@ -230,7 +230,7 @@ public class Character : MonoBehaviour
             Die();
         }
 
-        if (BM.actionTurn)
+        if (BM.actionTurn || BM.TemporaryActionTurn)
         {
             moveUpdate();
         }
@@ -252,8 +252,8 @@ public class Character : MonoBehaviour
     {
         Alive = false;
 
-        healthBar.SetActive(false);
-        staminaBar.SetActive(false);
+        statusBar.SetActive(false);
+
         if (Player)
         {
             BM.PlayerLanes[LanePos] = null;
@@ -719,7 +719,6 @@ public class Character : MonoBehaviour
                 }
             }
     
-            Debug.Log("Skillss");
         }
 
         else if (Skill == "")

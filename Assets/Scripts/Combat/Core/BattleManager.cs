@@ -65,7 +65,7 @@ public class BattleManager : MonoBehaviour
     private bool movementTurn;
     public bool playerTurn;
     public bool SuccesfulAttack;
-    private bool temporaryActionTurn;
+    public bool TemporaryActionTurn;
 
     public float ActionDelay;
     public float MovementTurnDelay;
@@ -204,6 +204,20 @@ public class BattleManager : MonoBehaviour
             }
 
             SelectedCharacter.GetComponent<Character>().Attacking = false;
+            if (SelectedCharacter == Ibofang && SelectedCharacter.GetComponent<Character>().UsingSkill)
+            {
+                foreach (GameObject lane in Lanes)
+                {
+                    if (lane.GetComponent<LaneInfo>().TargetedByIbofang)
+                    {
+                        lane.GetComponent<LaneInfo>().TargetedByIbofang = false;
+                    }
+                }
+                SelectedCharacter.GetComponent<Character>().ActionPoints += 3;
+                SelectedCharacter.GetComponent<Character>().SkillBeingUsed = "";
+                SelectedCharacter.GetComponent<Character>().UsingSkill = false;
+
+            }
 
             //if (skill == "")
             //{
@@ -521,6 +535,7 @@ public class BattleManager : MonoBehaviour
                 }
 
             }
+
             SelectedCharacter.GetComponent<Character>().ActionPoints += 3;
             SelectedCharacter.GetComponent<Character>().UsingSkill = false;
             SelectedCharacter.GetComponent<Character>().SkillBeingUsed = "";
@@ -564,12 +579,17 @@ public class BattleManager : MonoBehaviour
 
         ChoosingSkill = "";
 
-        ActionList.Add(skill);
         if (newSkill == "IbofangSkill")
         {
+            skill.IbofangSkill = true;
             IbofangTarget1.GetComponent<LaneInfo>().TargetedByIbofang = true;
             IbofangTarget2.GetComponent<LaneInfo>().TargetedByIbofang = true;
             IbofangTarget3.GetComponent<LaneInfo>().TargetedByIbofang = true;
+            //ActionList.Add(skill);
+        }
+        else
+        {
+            ActionList.Add(skill);
         }
 
         CS.ResetSelection();
@@ -1031,6 +1051,10 @@ public class BattleManager : MonoBehaviour
         if (movementTurn)
         {
             //Movement is performed if delay has passed and its index is not out of bounds
+            if (TemporaryActionTurn)
+            {
+                return;
+            }
             if (MovementList.Count == 0)
             {
                 movementTurnDelayRemaining = 0;
@@ -1038,12 +1062,15 @@ public class BattleManager : MonoBehaviour
                 ActionTurn();
                 return;
             }
-            else if (MovementList[tempIntHolder].Agent == null)
+            if (MovementList.Count != actionsDone)
             {
-                tempIntHolder = nextActionIndex;
+                if (MovementList[tempIntHolder].Agent == null)
+                {
+                    tempIntHolder = nextActionIndex;
+                }
             }
 
-            else if (nextActionIndex < MovementList.Count && movementTurnDelayRemaining <= 0)
+            if (nextActionIndex < MovementList.Count && movementTurnDelayRemaining <= 0)
             {
                 if (!MovementList[nextActionIndex].Agent.GetComponent<Character>().Player && once == false)
                 {
@@ -1063,7 +1090,7 @@ public class BattleManager : MonoBehaviour
                             lane.GetComponent<LaneInfo>().TargetedByIbofang = false;
                             tempTurnAgent = Ibofang;
                             tempTurnTarget = EnemyLanes[lane.GetComponent<LaneInfo>().LanePos];
-                            temporaryActionTurn = true;
+                            TemporaryActionTurn = true;
 
                         }
                     }
@@ -1074,12 +1101,15 @@ public class BattleManager : MonoBehaviour
                 {
                     MovementList[nextActionIndex].OtherAgent.GetComponent<Character>().StaminaPoints -= MovementList[nextActionIndex].StaminaCost;
                 }
-
                 actionsDone += 1;
                 nextActionIndex += 1;
                 if (actionsDone == MovementList.Count)
                 {
                     movementTurnDelayRemaining = MovementTurnDelay;
+                }
+                if (TemporaryActionTurn)
+                {
+                    return;
                 }
             }
             else
@@ -1087,14 +1117,35 @@ public class BattleManager : MonoBehaviour
                 movementTurnDelayRemaining -= Time.deltaTime;
             }
 
-            if (actionsDone == MovementList.Count && !MovementList[tempIntHolder].Agent.GetComponent<Character>().HasToMove && movementTurnDelayRemaining <= 0 && !temporaryActionTurn)
+            if (actionsDone == MovementList.Count && movementTurnDelayRemaining <= 0 && !TemporaryActionTurn)
             {
-                movementTurnDelayRemaining = 0;
 
-                MovementList.Clear();
-
-                ActionTurn();
+                if (MovementList[tempIntHolder] != null)
+                {
+                    if (MovementList[tempIntHolder].Agent != null)
+                    {
+                        if (!MovementList[tempIntHolder].Agent.GetComponent<Character>().HasToMove)
+                        {
+                            movementTurnDelayRemaining = 0;
+                            MovementList.Clear();
+                            ActionTurn();
+                        }
+                    }
+                    else
+                    {
+                        movementTurnDelayRemaining = 0;
+                        MovementList.Clear();
+                        ActionTurn();
+                    }
+                }
+                else
+                {
+                    movementTurnDelayRemaining = 0;
+                    MovementList.Clear();
+                    ActionTurn();
+                }
             }
+
         }
     }
     private void ActionTurn()
@@ -1104,6 +1155,7 @@ public class BattleManager : MonoBehaviour
         playerTurn = false;
 
         actionDelayRemaining = ActionDelay;
+        TurnDelayRemaining = TurnDelay;
         cameraWait = ActionDelay * 1f;
         actionsDone = 0;
         nextActionIndex = 0;
@@ -1160,6 +1212,7 @@ public class BattleManager : MonoBehaviour
                                 else
                                 {
                                     ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
+                                    ActionList[nextActionIndex].Agent.GetComponent<AudioSource>().Play();
                                 }
 
                                 if (PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos] != null)
@@ -1204,6 +1257,7 @@ public class BattleManager : MonoBehaviour
                                 else
                                 {
                                     ActionList[nextActionIndex].Agent.GetComponent<Animator>().SetTrigger("Attacking");
+                                    ActionList[nextActionIndex].Agent.GetComponent<AudioSource>().Play();
 
                                     components = ActionList[nextActionIndex].Agent.GetComponentsInChildren<SpriteMeshInstance>();
 
@@ -1232,7 +1286,7 @@ public class BattleManager : MonoBehaviour
                                     }
 
                                 }
-
+                                Debug.Log("Camera Moving");
                                 CA.CameraMove(ActionList[nextActionIndex].Target.transform.position + new Vector3(0,1), CameraAttackSize);
                             }
 
@@ -1269,7 +1323,8 @@ public class BattleManager : MonoBehaviour
                         }
                         else if (ActionList[nextActionIndex].SkillInUse)
                         {
-                            ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Skill);
+
+                           ActionList[nextActionIndex].Agent.GetComponent<Character>().PerformSkill(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Skill);
                         }
                         else
                         {
@@ -1374,7 +1429,7 @@ public class BattleManager : MonoBehaviour
     private void PerformOneAction()
     {
 
-        if (temporaryActionTurn)
+        if (TemporaryActionTurn)
         {
                 if (!doOnceActionHighlight)
                 {
@@ -1397,12 +1452,13 @@ public class BattleManager : MonoBehaviour
 
                     }
                 actionDelayRemaining = ActionDelay;
-                cameraWait = ActionDelay * 1f;
+                TurnDelayRemaining = TurnDelay;
+                cameraWait = ActionDelay * 0.5f;
                 doOnceActionHighlight = true;
-                }
+            }
 
-                //Camera wait time has passed
-                if (cameraWait <= 0)
+            //Camera wait time has passed
+            if (cameraWait <= 0)
                 {
 
                     if (!characterAnimated)
@@ -1443,7 +1499,7 @@ public class BattleManager : MonoBehaviour
                             }
 
                         }
-                        CA.CameraMove(EnemyLanePos[tempTurnTarget.GetComponent<Character>().LanePos], CameraAttackSize);
+                    CA.CameraMove(EnemyLanePos[tempTurnTarget.GetComponent<Character>().LanePos], CameraAttackSize);
                     }
 
                 }
@@ -1452,7 +1508,7 @@ public class BattleManager : MonoBehaviour
                 if (!characterMoved && cameraWait <= 0)
                 {
                     CA.MoveAttack(tempTurnAgent, tempTurnTarget, ActionDelay * 0.9f);
-                    characterMoved = true;
+                characterMoved = true;
                     TurnDelayOn = true;
                 }
 
@@ -1460,7 +1516,7 @@ public class BattleManager : MonoBehaviour
                 //Action is performed if delay has passed
                 if (actionDelayRemaining <= 0)
                 {
-                    TurnDelayRemaining -= Time.deltaTime;
+                TurnDelayRemaining -= Time.deltaTime;
                     //Dead characters actions are not performed, also if character has no stamina at this point action is not performed.
                     if (tempTurnAgent != null && TurnDelayOn)
                     {
@@ -1472,15 +1528,11 @@ public class BattleManager : MonoBehaviour
                     {
                         TurnDelayRemaining = 0;
                     }
-
                     if (TurnDelayRemaining <= 0)
                     {
                     actionDelayRemaining = ActionDelay;
                     temporaryActions = 1;
                         cameraWait = ActionDelay * 1f;
-                        characterMoved = false;
-                        characterAnimated = false;
-                        doOnceActionHighlight = false;
 
 
                     if (tempTurnAgent != null)
@@ -1534,12 +1586,6 @@ public class BattleManager : MonoBehaviour
                 {
                     actionDelayRemaining -= Time.deltaTime;
                     cameraWait -= Time.deltaTime;
-
-                    if (ActionList[nextActionIndex].Agent == null)
-                    {
-                        actionDelayRemaining = 0f;
-                        cameraWait = 0f;
-                    }
                 }
 
 
@@ -1547,10 +1593,13 @@ public class BattleManager : MonoBehaviour
                 {
                     if (cameraWait <= 0)
                     {
-                    Debug.Log("hello");
                     actionDelayRemaining = 0;
-                    temporaryActionTurn = false;
+                    TurnDelayRemaining = 0;
+                    TemporaryActionTurn = false;
                     temporaryActions = 0;
+                    doOnceActionHighlight = false;
+                    characterMoved = false;
+                    characterAnimated = false;
                     CA.CameraReset();
                     return;
 
@@ -1619,7 +1668,7 @@ public class BattleManager : MonoBehaviour
             combatWheel.SetActive(true);
 
 
-            if (!SelectedCharacter.GetComponent<Character>().Attacking && !UI.SelectAttack)
+            if ((!SelectedCharacter.GetComponent<Character>().Attacking || SelectedCharacter.GetComponent<Character>().UsingSkill) && !UI.SelectAttack)
             {
                 attackButton.GetComponent<Image>().color = Color.white;
             }
