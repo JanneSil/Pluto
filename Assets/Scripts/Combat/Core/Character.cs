@@ -110,6 +110,7 @@ public class Character : MonoBehaviour
         if (Player)
         {
             gameObject.transform.Find("Attack").gameObject.SetActive(false);
+            gameObject.transform.Find("Ability").gameObject.SetActive(false);
             transform.Find("Normal").GetComponent<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
 
         }
@@ -255,6 +256,8 @@ public class Character : MonoBehaviour
         Alive = false;
 
         statusBar.SetActive(false);
+
+       transform.Find("Normal").gameObject.GetComponent<AudioSource>().Play();
 
         if (Name == "Ibofang")
         {
@@ -811,6 +814,7 @@ public class Character : MonoBehaviour
                 {
                     transform.Find("Normal").gameObject.SetActive(true);
                     transform.Find("Attack").gameObject.SetActive(false);
+                    transform.Find("Ability").gameObject.SetActive(false);
                 }
                 moveTargetPos = moveStartPos;
             }

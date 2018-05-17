@@ -106,6 +106,7 @@ public class BattleManager : MonoBehaviour
     //private GameObject resetButton;
     private GameObject restButton;
     private GameObject ibofangSkillButton;
+    private Color newColor = Color.white;
 
     //UI other
     public float CameraAttackSize;
@@ -159,13 +160,14 @@ public class BattleManager : MonoBehaviour
     //Combat functions
     private void CheckCombatResult()
     {
-        if (playerTurn)
+        if (playerTurn && !gameOver)
         {
             if (EnemyLanes[0] == null && EnemyLanes[1] == null && EnemyLanes[2] == null && EnemyLanes[3] == null && EnemyLanes[4] == null && EnemyLanes[5] == null)
             {
                 gameOver = true;
                 InfoText.text = "You Win!";
                 endTurnButton.SetActive(false);
+                GameObject.Find("GameOver").gameObject.GetComponent<AudioSource>().Play();
 
             }
             if (PlayerLanes[0] == null && PlayerLanes[1] == null && PlayerLanes[2] == null && PlayerLanes[3] == null && PlayerLanes[4] == null && PlayerLanes[5] == null)
@@ -173,6 +175,7 @@ public class BattleManager : MonoBehaviour
                 gameOver = true;
                 InfoText.text = "You Lose!";
                 endTurnButton.SetActive(false);
+                GameObject.Find("GameOver").gameObject.GetComponent<AudioSource>().Play();
             }
         }
 
@@ -832,6 +835,7 @@ public class BattleManager : MonoBehaviour
         movementTurn = false;
         combatWheel.SetActive(false);
         playerTurn = true;
+        newColor.a = 0.20f;
 
 
         //Initialize enemy lanes
@@ -1245,7 +1249,8 @@ public class BattleManager : MonoBehaviour
                                 if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Player)
                                 {
                                     ActionList[nextActionIndex].Agent.transform.Find("Normal").gameObject.SetActive(false);
-                                    ActionList[nextActionIndex].Agent.transform.Find("Attack").gameObject.SetActive(true);
+                                    ActionList[nextActionIndex].Agent.transform.Find("Ability").gameObject.SetActive(true);
+                                    ActionList[nextActionIndex].Agent.transform.Find("Ability").gameObject.GetComponent<AudioSource>().Play();
                                 }
                                 else
                                 {
@@ -1284,6 +1289,8 @@ public class BattleManager : MonoBehaviour
                                 {
                                     ActionList[nextActionIndex].Agent.transform.Find("Normal").gameObject.SetActive(false);
                                     ActionList[nextActionIndex].Agent.transform.Find("Attack").gameObject.SetActive(true);
+                                    ActionList[nextActionIndex].Agent.transform.Find("Attack").gameObject.GetComponent<AudioSource>().Play();
+                                    ActionList[nextActionIndex].Target.transform.Find("Damage").gameObject.GetComponent<AudioSource>().Play();
 
                                     components = ActionList[nextActionIndex].Agent.transform.Find("Attack").GetComponentsInChildren<SpriteMeshInstance>();
 
@@ -1399,7 +1406,14 @@ public class BattleManager : MonoBehaviour
                         {
                             if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Player)
                             {
-                                components = ActionList[nextActionIndex].Agent.transform.Find("Attack").GetComponentsInChildren<SpriteMeshInstance>();
+                                if (ActionList[nextActionIndex].SkillInUse)
+                                {
+                                    components = ActionList[nextActionIndex].Agent.transform.Find("Ability").GetComponentsInChildren<SpriteMeshInstance>();
+                                }
+                                else
+                                {
+                                    components = ActionList[nextActionIndex].Agent.transform.Find("Attack").GetComponentsInChildren<SpriteMeshInstance>();
+                                }
                                 foreach (SpriteMeshInstance spritemesh in components)
                                 {
                                     spritemesh.sortingLayerName = "Lane" + ActionList[nextActionIndex].Agent.GetComponent<Character>().LanePos;
@@ -1745,6 +1759,37 @@ public class BattleManager : MonoBehaviour
             //Display attack button
             combatWheel.SetActive(true);
 
+            if (SelectedCharacter.GetComponent<Character>().Name == "Ibofang")
+            {
+                if (SelectedCharacter.GetComponent<Character>().SkillBeingUsed == "IbofangSkill")
+                {
+                    ibofangSkillButton.GetComponent<Image>().color = Color.gray;
+                }
+                else
+                {
+                    ibofangSkillButton.GetComponent<Image>().color = Color.white;
+                }
+            }
+            else
+            {
+                ibofangSkillButton.GetComponent<Image>().color = Color.white;
+            }
+
+            if (SelectedCharacter.GetComponent<Character>().Name == "Mors")
+            {
+                if (SelectedCharacter.GetComponent<Character>().SkillBeingUsed == "TankSkill")
+                {
+                    tankSkillButton.GetComponent<Image>().color = Color.gray;
+                }
+                else
+                {
+                    tankSkillButton.GetComponent<Image>().color = Color.white;
+                }
+            }
+            else
+            {
+                tankSkillButton.GetComponent<Image>().color = Color.white;
+            }
 
             if ((!SelectedCharacter.GetComponent<Character>().Attacking || SelectedCharacter.GetComponent<Character>().UsingSkill) && !UI.SelectAttack)
             {
@@ -1755,23 +1800,6 @@ public class BattleManager : MonoBehaviour
                 attackButton.GetComponent<Image>().color = Color.gray;
             }
 
-            if (SelectedCharacter.GetComponent<Character>().SkillBeingUsed == "IbofangSkill")
-            {
-                ibofangSkillButton.GetComponent<Image>().color = Color.gray;
-            }
-            else
-            {
-                ibofangSkillButton.GetComponent<Image>().color = Color.white;
-            }
-
-            if (SelectedCharacter.GetComponent<Character>().SkillBeingUsed == "TankSkill")
-            {
-                tankSkillButton.GetComponent<Image>().color = Color.gray;
-            }
-            else
-            {
-                tankSkillButton.GetComponent<Image>().color = Color.white;
-            }
 
             //Display defend button
             if (!SelectedCharacter.GetComponent<Character>().Defending)

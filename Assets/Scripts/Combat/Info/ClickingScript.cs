@@ -17,6 +17,8 @@ public class ClickingScript : MonoBehaviour {
     public GameObject TempEnemyUnitHolder;
     public bool CharacterClicked;
     public bool EnemyCharacterClicked;
+    private AudioSource AS;
+    public AudioClip ClickSound;
 
     //Doubleclick
     //private bool oneClick;
@@ -28,6 +30,7 @@ public class ClickingScript : MonoBehaviour {
     {
         BM = GetComponent<BattleManager>();
         UI = GameObject.Find("CombatWheelHolder").GetComponent<CombatUIScript>();
+        AS = GameObject.Find("GameManagerAudio").GetComponent<AudioSource>();
 
         //Marker.SetActive(false);
     }
@@ -48,6 +51,7 @@ public class ClickingScript : MonoBehaviour {
 
                 if (hit.collider.tag == "Lane" && CharacterClicked && !BM.SelectingMove && BM.ChoosingSkill == "IbofangSkill")
                 {
+                    AS.PlayOneShot(ClickSound);
                     if (BM.IbofangTarget1 == null)
                     {
                         BM.IbofangTarget1 = hit.collider.gameObject;
@@ -78,7 +82,7 @@ public class ClickingScript : MonoBehaviour {
 
                 else if (hit.collider.tag == "Lane" && CharacterClicked && BM.SelectingMove)
                 {
-
+                    AS.PlayOneShot(ClickSound);
                     BM.SuccesfulAttack = false;
                     ObjectClicked = true;
                     EnemyCharacterClicked = false;
@@ -100,6 +104,7 @@ public class ClickingScript : MonoBehaviour {
                 {
                     if (hit.collider.GetComponent<LaneInfo>().LaneChosen)
                     {
+                        AS.PlayOneShot(ClickSound);
                         BM.SelectedCharacter = hit.collider.GetComponent<LaneInfo>().UnitOnLane;
                         BM.ChooseMove();
                         ResetSelection();
@@ -109,6 +114,7 @@ public class ClickingScript : MonoBehaviour {
 
                 else if (hit.collider.tag == "Player")
                 {
+                    AS.PlayOneShot(ClickSound);
                     ResetSelection();
                     ObjectClicked = false;
                     EnemyCharacterClicked = false;
@@ -142,7 +148,7 @@ public class ClickingScript : MonoBehaviour {
                     {
                         TempEnemyUnitHolder.GetComponent<Character>().UnitChosen = false;
                     }
-
+                    AS.PlayOneShot(ClickSound);
                     EnemyCharacterClicked = true;
                     TempEnemyUnitHolder = hit.collider.gameObject;
                     hit.collider.GetComponent<Character>().CharacterClick();
