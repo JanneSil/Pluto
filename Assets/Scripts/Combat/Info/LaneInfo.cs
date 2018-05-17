@@ -12,13 +12,10 @@ public class LaneInfo : MonoBehaviour {
     private bool doOnce;
     private bool doOnceLaneChoose;
     private bool turnChanging;
-
-    private SpriteRenderer sr;
     private SpriteRenderer ibofangSR;
     private SpriteRenderer laneColor;
     private BattleManager BM;
 
-    private Color color = new Color(255F, 255F, 255F, 0.72F);
     private Color greenColor = Color.green;
     private Color grayColor = Color.gray;
     private Color redColor = Color.red;
@@ -28,8 +25,6 @@ public class LaneInfo : MonoBehaviour {
         greenColor.a = 0.30f;
         grayColor.a = 0.30f;
         redColor.a = 0.30f;
-
-        sr = GetComponent<SpriteRenderer>();
         foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
         {
             if (r.gameObject.name == "IbofangTarget")
@@ -64,7 +59,6 @@ public class LaneInfo : MonoBehaviour {
         {
             if (doOnce)
             {
-                //sr.color = Color.red;
                 laneColor.enabled = true;
                 laneColor.color = redColor;
                 doOnce = false;
@@ -72,7 +66,6 @@ public class LaneInfo : MonoBehaviour {
         }
         else if(!BM.SelectingMove)
         {
-            //sr.color = Color.white;
             if (!doOnce)
             {
                 laneColor.enabled = false;

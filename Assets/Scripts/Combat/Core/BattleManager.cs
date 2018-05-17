@@ -80,6 +80,7 @@ public class BattleManager : MonoBehaviour
     private int nextActionIndex;
     private int temporaryActions;
     private int tempIntHolder;
+    private int turnOrderPortraitCount;
     private bool once;
     private bool removeMovement;
     private bool doOnceActionHighlight;
@@ -90,9 +91,11 @@ public class BattleManager : MonoBehaviour
     private GameObject tempTurnAgent;
     private GameObject tempTurnTarget;
 
+    private Vector3 attackOffset = new Vector3(2,0,0);
+    private Vector3 attackTankOffset = new Vector3(4, 0, 0);
+
 
     //UI buttons
-    private GameObject selectAttackButton;
     private GameObject selectSkillButton;
     private GameObject tankSkillButton;
 
@@ -100,9 +103,8 @@ public class BattleManager : MonoBehaviour
     private GameObject defendButton;
     private GameObject endTurnButton;
     private GameObject moveButton;
-    private GameObject resetButton;
+    //private GameObject resetButton;
     private GameObject restButton;
-    private GameObject skillButtons;
     private GameObject ibofangSkillButton;
 
     //UI other
@@ -726,6 +728,10 @@ public class BattleManager : MonoBehaviour
         {
             return 15;
         }
+        if (skill == "IbofangSkill")
+        {
+            return 25;
+        }
         else
         {
             return 0;
@@ -807,33 +813,21 @@ public class BattleManager : MonoBehaviour
         canvas = GameObject.Find("Canvas");
         TurnDelayRemaining = TurnDelay;
         actionDelayRemaining = ActionDelay;
-        //movementTurnDelayRemaining = MovementTurnDelay;
         combatWheel = GameObject.Find("CombatWheel");
-
-        selectAttackButton = GameObject.Find("SelectAttackAction");
-        //selectSkillButton = GameObject.Find("SelectSkillButton");
         tankSkillButton = GameObject.Find("Skill1ButtonWheel");
 
         attackButton = GameObject.Find("AttackButtonWheel");
         defendButton = GameObject.Find("RaiseGuardButtonWheel");
         endTurnButton = GameObject.Find("EndTurnButton");
         moveButton = GameObject.Find("MoveButtonWheel");
-        resetButton = GameObject.Find("ResetButton");
+        //resetButton = GameObject.Find("ResetButton");
         restButton = GameObject.Find("RestButtonWheel");
         infoTextObject = GameObject.Find("InfoText");
-        skillButtons = GameObject.Find("Skills");
         ibofangSkillButton = GameObject.Find("Skill3ButtonWheel");
 
         InfoText = infoTextObject.GetComponent<Text>();
         InfoText.text = "";
         gameOver = false;
-
-        //attackButton.SetActive(false);
-        //defendButton.SetActive(false);
-        //endTurnButton.SetActive(false);
-        //moveButton.SetActive(false);
-        //resetButton.SetActive(false);
-        //restButton.SetActive(false);
         actionTurn = false;
         movementTurn = false;
         combatWheel.SetActive(false);
@@ -885,10 +879,31 @@ public class BattleManager : MonoBehaviour
                 if (PlayerLanes[i].GetComponent<Character>().Resting)
                 {
                     PlayerLanes[i].GetComponent<Character>().StaminaPoints += 20;
+                    if(PlayerLanes[i].GetComponent<Character>().Name == "Ibofang")
+                    {
+                        //nothing
+                    }
+                    else
+                    {
+                        InstantiateDamageNumber(0, 20, PlayerLanes[i].transform, false, true);
+                    }
                 }
                 else if (PlayerLanes[i].GetComponent<Character>().Defending)
                 {
                     PlayerLanes[i].GetComponent<Character>().StaminaPoints -= PlayerLanes[i].GetComponent<Character>().DefendingStamina;
+                }
+                if (PlayerLanes[i].GetComponent<Character>().Name == "Ibofang")
+                {
+                    PlayerLanes[i].GetComponent<Character>().StaminaPoints += 15;
+                    PlayerLanes[i].GetComponent<Character>().StrengthPoints += 5;
+                    if (PlayerLanes[i].GetComponent<Character>().Resting)
+                    {
+                        InstantiateDamageNumber(5, 35, PlayerLanes[i].transform, false, true);
+                    }
+                    else
+                    {
+                        InstantiateDamageNumber(5, 15, PlayerLanes[i].transform, false, true);
+                    }
                 }
 
                 PlayerLanes[i].GetComponent<Character>().ActionPoints = 4;
@@ -912,6 +927,7 @@ public class BattleManager : MonoBehaviour
                 if (PlayerTankLanes[i].GetComponent<Character>().Resting)
                 {
                     PlayerTankLanes[i].GetComponent<Character>().StaminaPoints += 20;
+                    InstantiateDamageNumber(0, 20, PlayerTankLanes[i].transform, false, true);
                 }
                 else if (PlayerTankLanes[i].GetComponent<Character>().Defending)
                 {
@@ -921,7 +937,6 @@ public class BattleManager : MonoBehaviour
                 PlayerTankLanes[i].GetComponent<Character>().ActionPoints = 4;
                 PlayerTankLanes[i].GetComponent<Character>().Attacking = false;
                 PlayerTankLanes[i].GetComponent<Character>().Defending = false;
-                //PlayerTankLanes[i].GetComponent<Animator>().SetBool("RaiseGuard", false);
                 PlayerTankLanes[i].transform.Find("Normal").GetComponent<Animator>().SetBool("RaiseGuard", false);
                 PlayerTankLanes[i].GetComponent<Character>().Moving = false;
                 PlayerTankLanes[i].GetComponent<Character>().Resting = false;
@@ -968,6 +983,7 @@ public class BattleManager : MonoBehaviour
                     if (EnemyLanes[i].GetComponent<Character>().Resting)
                     {
                         EnemyLanes[i].GetComponent<Character>().StaminaPoints += 20;
+                        InstantiateDamageNumber(0, 20, EnemyLanes[i].transform, false, true);
                     }
 
                     EnemyLanes[i].GetComponent<Character>().ActionPoints = 4;
@@ -1004,7 +1020,6 @@ public class BattleManager : MonoBehaviour
             {
                 if (EnemyLanes[i].GetComponent<Character>().AvailableStamina < 10)
                 {
-                    Debug.Log("Enemy is Resting");
                     EnemyRest(EnemyLanes[i]);
                 }
                 if (EnemyLanes[i].GetComponent<Character>().Targeted && EnemyLanes[i].GetComponent<Character>().ActionPoints >= 2)
@@ -1014,7 +1029,6 @@ public class BattleManager : MonoBehaviour
                     {
                         if (randomValue >= 0.3f)
                         {
-                            Debug.Log("Enemy defended");
                             EnemyDefend(EnemyLanes[i]);
                         }
                     }
@@ -1022,7 +1036,6 @@ public class BattleManager : MonoBehaviour
                     {
                         if (randomValue >= 0.7f)
                         {
-                            Debug.Log("Enemy defended");
                             EnemyDefend(EnemyLanes[i]);
                         }
                     }
@@ -1081,12 +1094,26 @@ public class BattleManager : MonoBehaviour
                 tempIntHolder = nextActionIndex;
                 MovementList[nextActionIndex].Agent.GetComponent<Character>().SwitchPlaces(MovementList[nextActionIndex].Agent.GetComponent<Character>().LanePos, MovementList[nextActionIndex].TargetIndex);
 
+                bool onetime = false;
                 foreach (GameObject lane in Lanes)
                 {
+                    if (Ibofang.GetComponent<Character>().StaminaPoints < StaminaCostSkill("IbofangSkill"))
+                    {
+                        Debug.Log("Not Enough Stamina for Ibofang intercept");
+                        break;
+                    }
                     if (MovementList[nextActionIndex].TargetIndex == lane.GetComponent<LaneInfo>().LanePos && lane.GetComponent<LaneInfo>().TargetedByIbofang)
                     {
                         if (EnemyLanes[lane.GetComponent<LaneInfo>().LanePos] != null)
                         {
+                            if (!onetime)
+                            {
+                                if (Ibofang != null)
+                                {
+                                    Ibofang.GetComponent<Character>().StaminaPoints -= StaminaCostSkill("IbofangSkill");
+                                }
+                                onetime = true;
+                            }
                             lane.GetComponent<LaneInfo>().TargetedByIbofang = false;
                             tempTurnAgent = Ibofang;
                             tempTurnTarget = EnemyLanes[lane.GetComponent<LaneInfo>().LanePos];
@@ -1096,6 +1123,7 @@ public class BattleManager : MonoBehaviour
                     }
                 }
 
+                onetime = false;
                 MovementList[nextActionIndex].Agent.GetComponent<Character>().StaminaPoints -= MovementList[nextActionIndex].StaminaCost;
                 if (MovementList[nextActionIndex].OtherAgent != null)
                 {
@@ -1162,6 +1190,16 @@ public class BattleManager : MonoBehaviour
 
         //Sorts action list accronding to the action speed and executes the action list's actions
         ActionList.Sort((x, y) => -1 * x.ActionSpeed.CompareTo(y.ActionSpeed));//Sorts actions int DESC order by action's speed
+        turnOrderPortraitCount = ActionList.Count;
+
+        for (int i = 0; i < ActionList.Count; ++i)
+        {
+            GameObject currentObject = GameObject.Find("TurnOrderPos" + (i + 2));
+            Image currentPortrait = GameObject.Find("Portrait" + ActionList[i].Agent.GetComponent<Character>().Name).GetComponent<Image>();
+            currentPortrait.enabled = true;
+            currentPortrait.transform.position = currentObject.transform.position;
+        }
+
     }
     private void ActionTurnUpdate()
     {
@@ -1269,7 +1307,7 @@ public class BattleManager : MonoBehaviour
 
                                 if (PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos] != null)
                                 {
-                                    PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos].GetComponent<Animator>().SetTrigger("TakeHit");
+                                    PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos].transform.Find("Normal").GetComponent<Animator>().SetTrigger("TakeHit");
                                 }
                                 else
                                 {
@@ -1286,7 +1324,6 @@ public class BattleManager : MonoBehaviour
                                     }
 
                                 }
-                                Debug.Log("Camera Moving");
                                 CA.CameraMove(ActionList[nextActionIndex].Target.transform.position + new Vector3(0,1), CameraAttackSize);
                             }
 
@@ -1298,12 +1335,22 @@ public class BattleManager : MonoBehaviour
                     {
                         if (ActionList[nextActionIndex].SkillInUse)
                         {
-                            CA.MoveAttack(ActionList[nextActionIndex].Agent, null, ActionDelay * 0.9f);
+                            CA.MoveAttack(ActionList[nextActionIndex].Agent, null, ActionDelay * 0.9f, attackOffset);
+                        }
+                        else if (ActionList[nextActionIndex].Agent.GetComponent<Character>().Player)
+                        {
+                            CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f, attackOffset);
                         }
                         else
                         {
-                            
-                            CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f);
+                            if (PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos] != null)
+                            {
+                                CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f, attackTankOffset);
+                            }
+                            else
+                            {
+                                CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f, attackOffset);
+                            }
                         }
                         characterMoved = true;
                         TurnDelayOn = true;
@@ -1389,6 +1436,19 @@ public class BattleManager : MonoBehaviour
                             }
                         }
                         CA.CameraReset();
+                        Image thisPortrait = GameObject.Find("Portrait" + ActionList[nextActionIndex].Agent.GetComponent<Character>().Name).GetComponent<Image>();
+                        thisPortrait.enabled = false;
+                        //GameObject currentObject;
+                        //GameObject currentTempPortrait;
+
+                        //for (int i = 1; i < turnOrderPortraitCount; ++i)
+                        //{
+                        //    currentObject = GameObject.Find("TurnOrderPos" + i);
+                        //    currentTempPortrait = GameObject.Find("Portrait" + ActionList[nextActionIndex + i].Agent.GetComponent<Character>().Name);
+                        //    currentTempPortrait.transform.position = currentObject.transform.position;
+
+                        //}
+                        turnOrderPortraitCount -= 1;
                         nextActionIndex += 1;
                         TurnDelayRemaining = TurnDelay;
                     }
@@ -1507,7 +1567,7 @@ public class BattleManager : MonoBehaviour
                 //Character hasn't moved
                 if (!characterMoved && cameraWait <= 0)
                 {
-                    CA.MoveAttack(tempTurnAgent, tempTurnTarget, ActionDelay * 0.9f);
+                    CA.MoveAttack(tempTurnAgent, tempTurnTarget, ActionDelay * 0.9f, attackOffset);
                 characterMoved = true;
                     TurnDelayOn = true;
                 }
@@ -1615,7 +1675,7 @@ public class BattleManager : MonoBehaviour
     }
 
     //UI functions
-    public void InstantiateDamageNumber(int dmgToStr, int dmgToSta, Transform targetLocation, bool crit)
+    public void InstantiateDamageNumber(int dmgToStr, int dmgToSta, Transform targetLocation, bool crit, bool heal)
     {
         DamageNumber dN;
         DamageNumber dNInstance;
@@ -1632,6 +1692,24 @@ public class BattleManager : MonoBehaviour
         dNInstance.transform.position = screenPosition;
 
         t = dNInstance.GetComponent<Text>();
+        if (dmgToStr < 1 && heal)
+        {
+            t.text = "+" + dmgToSta;
+            t.color = Color.green;
+            return;
+        }
+        else if (dmgToSta < 1 && heal)
+        {
+            t.text = "+" + dmgToStr;
+            t.color = Color.green;
+            return;
+        }
+        else if (heal)
+        {
+            t.text = "+" + dmgToStr + "(" + dmgToSta + ")";
+            t.color = Color.green;
+            return;
+        }
 
         if (dmgToStr < 1)
         {
@@ -1741,12 +1819,12 @@ public class BattleManager : MonoBehaviour
         if (playerTurn && !gameOver)
         {
             endTurnButton.SetActive(true);
-            resetButton.SetActive(true);
+            //resetButton.SetActive(true);
         }
         else
         {
             endTurnButton.SetActive(false);
-            resetButton.SetActive(false);
+            //resetButton.SetActive(false);
         }
     }
 

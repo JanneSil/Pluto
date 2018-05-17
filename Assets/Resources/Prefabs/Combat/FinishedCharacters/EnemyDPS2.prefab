@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114844209643826230}
   - component: {fileID: 82046559927699048}
   m_Layer: 0
-  m_Name: EnemyDPS
+  m_Name: EnemyDPS2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1000,7 +1000,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 42883e2e621b4ff46be2cf47c807c232, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 777e891eb7dcd9244bf11e9bb00a15c8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1523,7 +1523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitChosen: 0
   IsTanking: 0
-  Name: EnemyDPS
+  Name: EnemyDPS2
   Class: 
   ActionPoints: 4
   StrengthPoints: 100
@@ -2075,9 +2075,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -727269289
-  m_SortingLayer: 6
-  m_SortingOrder: -1
+  m_SortingLayerID: -2089667811
+  m_SortingLayer: 5
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 5d4a2c9d29e244fbe8f0b61d69a47af3, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0

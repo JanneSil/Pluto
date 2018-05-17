@@ -89,21 +89,21 @@ public class CombatAnimator : MonoBehaviour
     }
 
     //Character functions
-    public void MoveAttack(GameObject agent, GameObject target, float pause)
+    public void MoveAttack(GameObject agent, GameObject target, float pause, Vector3 Offsett)
     {
         if (agent.GetComponent<Character>().UsingSkill)
         {
-            agent.GetComponent<Character>().SetMove(BM.EnemyLanePos[agent.GetComponent<Character>().LanePos] - AttackingOffset, pause, MoveSpeed, MoveMargin);
+            agent.GetComponent<Character>().SetMove(BM.EnemyLanePos[agent.GetComponent<Character>().LanePos] - Offsett, pause, MoveSpeed, MoveMargin);
         }
         //Player character
         else if (agent.GetComponent<Character>().Player)
         {
-            agent.GetComponent<Character>().SetMove(BM.EnemyLanePos[target.GetComponent<Character>().LanePos] - AttackingOffset, pause, MoveSpeed, MoveMargin);
+            agent.GetComponent<Character>().SetMove(BM.EnemyLanePos[target.GetComponent<Character>().LanePos] - Offsett, pause, MoveSpeed, MoveMargin);
         }
         //Enemy character
         else
         {
-            agent.GetComponent<Character>().SetMove(BM.PlayerLanePos[target.GetComponent<Character>().LanePos] + AttackingOffset, pause, MoveSpeed, MoveMargin);
+            agent.GetComponent<Character>().SetMove(BM.PlayerLanePos[target.GetComponent<Character>().LanePos] + Offsett, pause, MoveSpeed, MoveMargin);
         }
     }
 }

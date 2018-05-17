@@ -86,14 +86,15 @@ public class Character : MonoBehaviour
     [HideInInspector]
     public float speed;
     public bool HasToMove;
-    Camera cam;
+    //Camera cam;
     private bool doOnce;
+    private bool layerSortBool;
 
     //Unity functions
     void Start()
     {
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
-        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        //cam = GameObject.Find("Main Camera").GetComponent<Camera>();
 
         if (Name == "Ibofang")
         {
@@ -135,7 +136,16 @@ public class Character : MonoBehaviour
     }
     void Update()
     {
-        Vector3 screenPos = cam.WorldToScreenPoint(gameObject.transform.position);
+        if (!IsTanking && !layerSortBool && BM.playerTurn)
+        {
+            SortLayers(gameObject, LanePos);
+            layerSortBool = true;
+        }
+        if (!BM.playerTurn)
+        {
+            layerSortBool = false;
+        }
+        //Vector3 screenPos = cam.WorldToScreenPoint(gameObject.transform.position);
 
         //Clamp stremgth and stamina points
         if (StrengthPoints > strengthPointsMax)
@@ -155,21 +165,9 @@ public class Character : MonoBehaviour
             StaminaPoints = 0;
         }
 
-        //if (!UnitChosen && Player)
-        //{
-        //    foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
-        //        r.enabled = false;
-        //    //sprite.enabled = false;
-        //}
-        //else if (!UnitChosen && !Player)
-        //{
-        //    //sprite.color = Color.red;
-        //}
-
         if (BM.SelectingAttack && !Player && doOnce)
         {
             doOnce = false;
-            //sprite.enabled = false;
         }
         if (!BM.SelectingAttack && !Player && !doOnce)
         {
@@ -181,14 +179,20 @@ public class Character : MonoBehaviour
                 }
             }
             doOnce = true;
-            //sprite.color = Color.red;
         }
 
         if (statusBar != null && Player)
         {
             if (currentStatusBarLoc != LanePos)
             {
-                statusBar.transform.position = GameObject.Find("Canvas/LifeBars/LaneIndicators/Lane" + LanePos).transform.position;
+                if (IsTanking)
+                {
+                    statusBar.transform.position = GameObject.Find("Canvas/LifeBars/LaneIndicators/TankLane" + LanePos).transform.position;
+                }
+                else
+                {
+                    statusBar.transform.position = GameObject.Find("Canvas/LifeBars/LaneIndicators/Lane" + LanePos).transform.position;
+                }
                 currentStatusBarLoc = LanePos;
             }
         }
@@ -206,12 +210,10 @@ public class Character : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.GetComponent<Slider>().value = ((float)StrengthPoints / (float)strengthPointsMax);
-            //healthBar.transform.position = new Vector3(healthBar.transform.position.x, screenPos.y + 180, healthBar.transform.position.z);
         }
         if (staminaBar != null)
         {
             staminaBar.GetComponent<Slider>().value = ((float)StaminaPoints / (float)staminaPointsMax);
-            //staminaBar.transform.position = new Vector3(staminaBar.transform.position.x, screenPos.y + 180, staminaBar.transform.position.z);
         }
         //if (healthText != null)
         //{
@@ -254,6 +256,17 @@ public class Character : MonoBehaviour
 
         statusBar.SetActive(false);
 
+        if (Name == "Ibofang")
+        {
+            foreach (GameObject lane in BM.Lanes)
+            {
+                if (lane.GetComponent<LaneInfo>().TargetedByIbofang)
+                {
+                    lane.GetComponent<LaneInfo>().TargetedByIbofang = false;
+                }
+            }
+        }
+
         if (Player)
         {
             BM.PlayerLanes[LanePos] = null;
@@ -280,9 +293,9 @@ public class Character : MonoBehaviour
         }
         else
         {
-            healthBar = GameObject.Find("Canvas/LifeBars/" + Name + LanePos + "/PlayerHealthBar");
-            staminaBar = GameObject.Find("Canvas/LifeBars/" + Name + LanePos + "/PlayerStaminaBar");
-            statusBar = GameObject.Find("Canvas/LifeBars/" + Name + LanePos);
+            healthBar = GameObject.Find("Canvas/LifeBars/" + Name + "/PlayerHealthBar");
+            staminaBar = GameObject.Find("Canvas/LifeBars/" + Name + "/PlayerStaminaBar");
+            statusBar = GameObject.Find("Canvas/LifeBars/" + Name);
             //healthText = GameObject.Find("Canvas/LifeBars/EnemyHealthBar" + LanePos + "/HealthText").GetComponent<Text>();
             //staminaText = GameObject.Find("Canvas/StaminaBars/EnemyStaminaBar" + LanePos + "/StaminaText").GetComponent<Text>();
             statusBar.SetActive(true);
@@ -353,7 +366,7 @@ public class Character : MonoBehaviour
             {
                 damageOutput = damageOutput * 3;
                 criticalHit = true;
-                Debug.Log("2x CRITICAL HIT PERFORMED BY: " + gameObject);
+                //Debug.Log("2x CRITICAL HIT PERFORMED BY: " + gameObject);
             }
             else
             {
@@ -366,7 +379,7 @@ public class Character : MonoBehaviour
 
             criticalHit = true;
 
-            Debug.Log("CRITICAL HIT PERFORMED BY: " + gameObject);
+            //Debug.Log("CRITICAL HIT PERFORMED BY: " + gameObject);
         }
 
         //Damage is dealt to strength and stamina points by a random factor affected by attackers dexterity
@@ -441,11 +454,11 @@ public class Character : MonoBehaviour
 
             if (target.GetComponent<Character>().IsTanking)
             {
-                BM.InstantiateDamageNumber((int)0, (int)damageToStamina * damageMultiplier, target.transform, criticalHit);
+                BM.InstantiateDamageNumber((int)0, (int)damageToStamina * damageMultiplier, target.transform, criticalHit, false);
             }
             else
             {
-                BM.InstantiateDamageNumber((int)damageToStrength * damageMultiplier, (int)damageToStamina * damageMultiplier, target.transform, criticalHit);
+                BM.InstantiateDamageNumber((int)damageToStrength * damageMultiplier, (int)damageToStamina * damageMultiplier, target.transform, criticalHit, false);
             }
         }
         else
@@ -457,11 +470,11 @@ public class Character : MonoBehaviour
 
             if (target.GetComponent<Character>().IsTanking)
             {
-                BM.InstantiateDamageNumber((int)(staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform, criticalHit);
+                BM.InstantiateDamageNumber((int)(staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform, criticalHit, false);
             }
             else
             {
-                BM.InstantiateDamageNumber((int)((damageToStrength * damageMultiplier) + staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform, criticalHit);
+                BM.InstantiateDamageNumber((int)((damageToStrength * damageMultiplier) + staminaOverkill), (int)(Mathf.Abs((damageToStamina * damageMultiplier) - staminaOverkill)), target.transform, criticalHit, false);
             }
 
         }
@@ -484,7 +497,8 @@ public class Character : MonoBehaviour
                     IsTanking = true;
                     BM.PlayerTankLanes[startIndex] = null;
 
-                    BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.8f, 0, 0);
+                    SortLayers(BM.PlayerTankLanes[targetIndex], targetIndex);
                 }
                 else if (BM.PlayerLanes[targetIndex] != null && BM.PlayerTankLanes[targetIndex] != null)
                 {
@@ -495,11 +509,11 @@ public class Character : MonoBehaviour
                     LanePos = targetIndex;
                     BM.PlayerTankLanes[startIndex] = targetGO;
                     BM.PlayerTankLanes[startIndex].GetComponent<Character>().LanePos = startIndex;
-                    BM.PlayerTankLanes[startIndex].transform.position = BM.PlayerLanePos[startIndex] + new Vector3(1.5f, 0, 0);
-                    BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    BM.PlayerTankLanes[startIndex].transform.position = BM.PlayerLanePos[startIndex] + new Vector3(1.8f, 0, 0);
+                    BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.8f, 0, 0);
 
-                    SortLayers(BM.PlayerLanes[targetIndex], targetIndex);
-                    SortLayers(BM.PlayerLanes[startIndex], startIndex);
+                    SortLayers(BM.PlayerTankLanes[targetIndex], targetIndex);
+                    SortLayers(BM.PlayerTankLanes[startIndex], startIndex);
                 }
                 else
                 {
@@ -527,10 +541,11 @@ public class Character : MonoBehaviour
                     BM.PlayerLanes[startIndex] = null;
 
                     gameObjectOriginalPosition = BM.PlayerLanePos[startIndex];
-                    gameObjectTargetPosition = BM.PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    gameObjectTargetPosition = BM.PlayerLanePos[targetIndex] + new Vector3(1.8f, 0, 0);
                     gameObjectToMove = BM.PlayerTankLanes[targetIndex];
                     HasToMove = true;
 
+                    SortLayers(BM.PlayerTankLanes[targetIndex], targetIndex);
                     //BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
                 }
                 else if (BM.PlayerLanes[targetIndex] != null && BM.PlayerTankLanes[targetIndex] != null)
@@ -546,7 +561,9 @@ public class Character : MonoBehaviour
                     BM.PlayerLanes[startIndex].GetComponent<Character>().IsTanking = false;
 
                     BM.PlayerLanes[startIndex].transform.position = BM.PlayerLanePos[startIndex];
-                    BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.5f, 0, 0);
+                    BM.PlayerTankLanes[targetIndex].transform.position = BM.PlayerLanePos[targetIndex] + new Vector3(1.8f, 0, 0);
+                    SortLayers(BM.PlayerLanes[startIndex], targetIndex);
+                    SortLayers(BM.PlayerTankLanes[targetIndex], targetIndex);
                 }
                 else
                 {
@@ -621,7 +638,7 @@ public class Character : MonoBehaviour
             //if (BM.EnemyLanes[targetIndex] != null)
             //{
                 //GameObject startGO = BM.EnemyLanes[startIndex];
-                GameObject targetGO = BM.EnemyLanes[targetIndex];
+               // GameObject targetGO = BM.EnemyLanes[targetIndex];
 
             //    BM.EnemyLanes[targetIndex] = startGO;
             //    LanePos = targetIndex;
@@ -749,6 +766,10 @@ public class Character : MonoBehaviour
         foreach (SpriteRenderer r in GetComponentsInChildren<SpriteRenderer>())
         {
             if (r.sortingLayerName == "EffectLayer")
+            {
+                continue;
+            }
+            if (r.sortingLayerName == "BehindLanes")
             {
                 continue;
             }

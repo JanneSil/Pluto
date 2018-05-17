@@ -8,7 +8,7 @@ public class CityManager : MonoBehaviour
 {
 
     private GameObject exit;
-    private GameObject storedClickable;
+    //private GameObject storedClickable;
     private GameObject lianne;
     private bool leavingCity;
     private int lianneStage;
@@ -35,7 +35,7 @@ public class CityManager : MonoBehaviour
         DialogueText.text = "";
         exit.SetActive(false);
         lianne = GameObject.Find("Lianne");
-        storedClickable = lianne;
+        //storedClickable = lianne;
         DialogueBox.SetActive(false);
 
         //if (GC.GameState == 0)
@@ -60,7 +60,7 @@ public class CityManager : MonoBehaviour
 
                 if (hit.collider.tag == "Clickable" && !InDialogue)
                 {
-                    storedClickable = hit.collider.gameObject;
+                    //storedClickable = hit.collider.gameObject;
                     ClickableClick(hit.collider.gameObject);
                 }
 
