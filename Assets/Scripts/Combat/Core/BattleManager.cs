@@ -1510,6 +1510,8 @@ public class BattleManager : MonoBehaviour
 
                     if (ActionList[nextActionIndex].Agent == null)
                     {
+                        Image thisPortrait = GameObject.Find("Portrait" + ActionList[nextActionIndex].Agent.GetComponent<Character>().Name).GetComponent<Image>();
+                        thisPortrait.enabled = false;
                         actionDelayRemaining = 0f;
                         cameraWait = 0f;
                     }
