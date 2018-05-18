@@ -8,6 +8,7 @@ public class DialogueManager : MonoBehaviour {
 	public Text nameText;
     private string firstName;
     private string otherName;
+    private string skipToThis;
     private bool OtherSpeaker;
 	public Text dialogueText;
 
@@ -18,23 +19,40 @@ public class DialogueManager : MonoBehaviour {
     private Queue<string> otherSentences;
     private GameObject nextDialogue;
     private Image blackScreenDialogue;
+    private GameObject skipButton;
+    private GameObject skipDebugButton;
 
     private Image ibofangIcon;
     private Image lianneIcon;
 
     // Use this for initialization
-    void Start () {
-		sentences = new Queue<string>();
+    void Start ()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        sentences = new Queue<string>();
         otherSentences = new Queue<string>();
         blackScreenDialogue = GameObject.Find("BlackscreenDialogue").GetComponent<Image>();
         GC = GameObject.Find("GameController").GetComponent<GameController>();
         lianneIcon = GameObject.Find("LianneIcon").GetComponent<Image>();
         ibofangIcon = GameObject.Find("IbofangIcon").GetComponent<Image>();
+        skipButton = GameObject.Find("SkipButton");
+        skipDebugButton = GameObject.Find("SkipDialogueDebug");
+        skipButton.SetActive(false);
+        skipDebugButton.SetActive(false);
     }
 
 	public void StartDialogue (Dialogue dialogue)
 	{
         animator.SetBool("IsOpen", true);
+        if (skipDebugButton == null)
+        {
+            skipDebugButton = GameObject.Find("SkipDialogueDebug");
+        }
+        skipDebugButton.SetActive(true);
 
         OtherSpeaker = dialogue.AnotherSpeaker;
         if (dialogue.NextDialogue != null)
@@ -51,8 +69,10 @@ public class DialogueManager : MonoBehaviour {
         GameObject.Find(firstName + "Icon").GetComponent<Image>().enabled = true;
         sentences.Clear();
         otherSentences.Clear();
+        skipToThis = dialogue.DialogueToSkipTo;
 
-		foreach (string sentence in dialogue.sentences)
+
+        foreach (string sentence in dialogue.sentences)
 		{
             sentences.Enqueue(sentence);
 		}
@@ -65,11 +85,20 @@ public class DialogueManager : MonoBehaviour {
             }
         }
 
+
         DisplayNextSentence();
 	}
 
 	public void DisplayNextSentence ()
 	{
+        if (skipToThis != "")
+        {
+            skipButton.SetActive(true);
+        }
+        else
+        {
+            skipButton.SetActive(false);
+        }
 		if (sentences.Count == 0)
 		{
             if (OtherSpeaker && otherSentences.Count != 0)
@@ -88,6 +117,11 @@ public class DialogueManager : MonoBehaviour {
             {
                 if (nextDialogue != null)
                 {
+                    GameObject.Find(firstName + "Icon").GetComponent<Image>().enabled = false;
+                    if (OtherSpeaker)
+                    {
+                        GameObject.Find(otherName + "Icon").GetComponent<Image>().enabled = false;
+                    }
                     StartDialogue(nextDialogue.GetComponent<DialogueTrigger>().dialogue);
                     return;
                 }
@@ -117,11 +151,13 @@ public class DialogueManager : MonoBehaviour {
 
 	void EndDialogue()
 	{
-		animator.SetBool("IsOpen", false);
+        skipDebugButton.SetActive(false);
+        animator.SetBool("IsOpen", false);
         blackScreenDialogue.color = Color.clear;
         blackScreenDialogue.gameObject.SetActive(false);
 
-        if (GC.GameState < 10)
+
+        if (GC.GameState == 10)
         {
             GameObject.Find("Music").GetComponent<AudioSource>().Play();
             GameObject.Find("Ambient").GetComponent<AudioSource>().Play();
@@ -129,6 +165,26 @@ public class DialogueManager : MonoBehaviour {
 
 
 
+    }
+
+    public void Skip()
+    {
+        GameObject.Find(firstName + "Icon").GetComponent<Image>().enabled = false;
+        if (OtherSpeaker)
+        {
+            GameObject.Find(otherName + "Icon").GetComponent<Image>().enabled = false;
+        }
+        GameObject.Find(skipToThis).GetComponent<DialogueTrigger>().TriggerDialogue();
+    }
+    public void SkipDebug()
+    {
+        Debug.Log("Dialogue Skipped!");
+        GameObject.Find(firstName + "Icon").GetComponent<Image>().enabled = false;
+        if (OtherSpeaker)
+        {
+            GameObject.Find(otherName + "Icon").GetComponent<Image>().enabled = false;
+        }
+        GameObject.Find("Mors6").GetComponent<DialogueTrigger>().TriggerDialogue();
     }
 
 }

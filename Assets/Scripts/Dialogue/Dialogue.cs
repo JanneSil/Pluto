@@ -7,6 +7,7 @@ public class Dialogue {
 
 	public string Name;
     public string OtherName;
+    public string DialogueToSkipTo;
     public bool AnotherSpeaker;
     public GameObject NextDialogue;
 

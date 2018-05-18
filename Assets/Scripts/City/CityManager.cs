@@ -17,6 +17,7 @@ public class CityManager : MonoBehaviour
     public Text DialogueText;
     public bool InDialogue;
     public GameObject DialogueBox;
+    private GameObject mapUI;
 
     private GameController GC;
     private DialogueTrigger DT;
@@ -35,6 +36,10 @@ public class CityManager : MonoBehaviour
     private Image blackScreen;
     private Image blackScreenDialogue;
 
+    private float musicStart = 0f;
+    private float musicFade = 2f;
+    private bool startingMusic;
+
     private void Start()
     {
         Initialize();
@@ -52,12 +57,13 @@ public class CityManager : MonoBehaviour
         //storedClickable = lianne;
         DialogueBox.SetActive(false);
         AS = GameObject.Find("Music").GetComponent<AudioSource>();
+        mapUI = GameObject.Find("MapUI");
+        mapUI.SetActive(false);
 
         blackScreen = GameObject.Find("Blackscreen").GetComponent<Image>();
         blackScreenDialogue = GameObject.Find("BlackscreenDialogue").GetComponent<Image>();
 
         AS.PlayOneShot(FootSteps);
-
 
         if (GC.GameState < 10)
         {
@@ -113,6 +119,19 @@ public class CityManager : MonoBehaviour
             }
         }
 
+        if (!startingMusic && GC.GameState == 20)
+        {
+            if (musicStart < 1)
+            {
+                musicStart += Time.deltaTime / musicFade;
+            }
+            else
+            {
+                GameObject.Find("Stultus1").GetComponent<DialogueTrigger>().TriggerDialogue();
+                startingMusic = true;
+            }
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -148,11 +167,14 @@ public class CityManager : MonoBehaviour
 
         if (clickable.GetComponent<ClickableInfo>().ClickableType == "Exit")
         {
-            exit.SetActive(true);
+            mapUI.SetActive(true);
+            leavingCity = true;
+            DialogueBox.SetActive(true);
+            exit.SetActive(false);
         }
         else if (clickable.GetComponent<ClickableInfo>().ClickableType == "Lianne")
         {
-            if (GC.GameState > 10)
+            if (GC.GameState >= 10)
             {
                 return;
             }
@@ -178,13 +200,17 @@ public class CityManager : MonoBehaviour
     {
         if (exited)
         {
+            mapUI.SetActive(true);
             leavingCity = true;
             DialogueBox.SetActive(true);
-            DialogueText.text = "Prepare for combat.";
+            //DialogueText.text = "Prepare for combat.";
             exit.SetActive(false);
         }
         else
         {
+            mapUI.SetActive(false);
+            leavingCity = false;
+            DialogueBox.SetActive(false);
             exit.SetActive(false);
             InDialogue = false;
         }

@@ -10,6 +10,7 @@ public class BattleManager : MonoBehaviour
     private CombatAnimator CA;
     private ClickingScript CS;
     private CombatUIScript UI;
+    private GameController GC;
 
     private bool gameOver = false;
     private GameObject tempUnit;
@@ -84,6 +85,7 @@ public class BattleManager : MonoBehaviour
     private bool once;
     private bool removeMovement;
     private bool doOnceActionHighlight;
+    private bool gameResultDone;
     public GameObject IbofangTarget1;
     public GameObject IbofangTarget2;
     public GameObject IbofangTarget3;
@@ -112,6 +114,7 @@ public class BattleManager : MonoBehaviour
     private float musicStart = 0f;
     private float musicFade = 5f;
     private bool startingMusic;
+    private bool gameOverBool;
 
     public float CameraAttackSize;
 
@@ -185,6 +188,7 @@ public class BattleManager : MonoBehaviour
                 InfoText.text = "You Win!";
                 endTurnButton.SetActive(false);
                 GameObject.Find("GameOver").gameObject.GetComponent<AudioSource>().Play();
+                musicStart = 0;
 
             }
             if (PlayerLanes[0] == null && PlayerLanes[1] == null && PlayerLanes[2] == null && PlayerLanes[3] == null && PlayerLanes[4] == null && PlayerLanes[5] == null)
@@ -193,12 +197,24 @@ public class BattleManager : MonoBehaviour
                 InfoText.text = "You Lose!";
                 endTurnButton.SetActive(false);
                 GameObject.Find("GameOver").gameObject.GetComponent<AudioSource>().Play();
+                musicStart = 0;
             }
         }
 
-        if(gameOver)
+
+
+        if (gameOver)
         {
-            StartCoroutine(LoadScene("CityScene"));
+            if (musicStart < 1)
+            {
+                musicStart += Time.deltaTime / musicFade;
+            }
+            else
+            {
+                gameOver = false;
+                GC.GameState += 10;
+                StartCoroutine(LoadScene("CityScene"));
+            }
         }
 
     }
@@ -829,7 +845,8 @@ public class BattleManager : MonoBehaviour
         CA = GetComponent<CombatAnimator>();
         CS = GameObject.Find("BattleManager").GetComponent<ClickingScript>();
         UI = GameObject.Find("CombatWheelHolder").GetComponent<CombatUIScript>();
-        
+        GC = GameObject.Find("GameController").GetComponent<GameController>();
+
         canvas = GameObject.Find("Canvas");
         TurnDelayRemaining = TurnDelay;
         actionDelayRemaining = ActionDelay;
