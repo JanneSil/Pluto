@@ -109,6 +109,10 @@ public class BattleManager : MonoBehaviour
     private Color newColor = Color.white;
 
     //UI other
+    private float musicStart = 0f;
+    private float musicFade = 5f;
+    private bool startingMusic;
+
     public float CameraAttackSize;
 
     private float cameraWait;
@@ -123,6 +127,19 @@ public class BattleManager : MonoBehaviour
     }
     private void Update()
     {
+        if (!startingMusic)
+        {
+            if (musicStart < 1)
+            {
+                musicStart += Time.deltaTime / musicFade;
+            }
+            else
+            {
+                GameObject.Find("CombatMusic").GetComponent<AudioSource>().Play();
+                startingMusic = true;
+            }
+        }
+
         displayActionButtons();
         ActionTurnUpdate();
         MovementTurnUpdate();
@@ -838,6 +855,7 @@ public class BattleManager : MonoBehaviour
         newColor.a = 0.20f;
 
 
+
         //Initialize enemy lanes
         for (int i = 0; i < EnemyLanes.Length; ++i)
         {
@@ -1542,6 +1560,7 @@ public class BattleManager : MonoBehaviour
                         {
                         tempTurnAgent.transform.Find("Normal").gameObject.SetActive(false);
                         tempTurnAgent.transform.Find("Attack").gameObject.SetActive(true);
+                        tempTurnAgent.transform.Find("Attack").gameObject.GetComponent<AudioSource>().Play();
                         components = tempTurnAgent.transform.Find("Attack").GetComponentsInChildren<SpriteMeshInstance>();
 
                         foreach (SpriteMeshInstance spritemesh in components)

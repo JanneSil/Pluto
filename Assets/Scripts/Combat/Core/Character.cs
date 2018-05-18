@@ -89,6 +89,9 @@ public class Character : MonoBehaviour
     //Camera cam;
     private bool doOnce;
     private bool layerSortBool;
+    private bool fading;
+    private float fadingDuration = 3f;
+    private float fadingVariable = 0f;
 
     //Unity functions
     void Start()
@@ -233,6 +236,25 @@ public class Character : MonoBehaviour
             Die();
         }
 
+        if (fading)
+        {
+            foreach (SpriteMeshInstance spritemesh in components)
+            {
+                spritemesh.color = Color.Lerp(Color.red, Color.clear, fadingVariable);
+            }
+
+            if (fadingVariable < 1)
+            {
+                fadingVariable += Time.deltaTime / fadingDuration;
+            }
+            else
+            {
+                fading = false;
+                Destroy(gameObject);
+            }
+
+        }
+
         if (BM.actionTurn || BM.TemporaryActionTurn)
         {
             moveUpdate();
@@ -253,11 +275,14 @@ public class Character : MonoBehaviour
 
     private void Die()
     {
+        if (Alive)
+        {
+            transform.Find("Normal").GetComponent<AudioSource>().Play();
+        }
         Alive = false;
 
         statusBar.SetActive(false);
 
-       transform.Find("Normal").gameObject.GetComponent<AudioSource>().Play();
 
         if (Name == "Ibofang")
         {
@@ -279,7 +304,18 @@ public class Character : MonoBehaviour
             BM.EnemyLanes[LanePos] = null;
         }
 
-        Destroy(gameObject);
+        components = GetComponentsInChildren<SpriteMeshInstance>();
+
+        foreach (SpriteMeshInstance spritemesh in components)
+        {
+            spritemesh.color = Color.red;  
+        }
+
+        fading = true;
+
+
+
+        //Destroy(gameObject);
     }
     private void GetStatusBars()
     {

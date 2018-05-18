@@ -6,20 +6,30 @@ using UnityEngine.UI;
 public class DialogueManager : MonoBehaviour {
 
 	public Text nameText;
+    private string firstName;
     private string otherName;
     private bool OtherSpeaker;
 	public Text dialogueText;
 
 	public Animator animator;
 
+    private GameController GC;
 	private Queue<string> sentences;
     private Queue<string> otherSentences;
     private GameObject nextDialogue;
+    private Image blackScreenDialogue;
+
+    private Image ibofangIcon;
+    private Image lianneIcon;
 
     // Use this for initialization
     void Start () {
 		sentences = new Queue<string>();
         otherSentences = new Queue<string>();
+        blackScreenDialogue = GameObject.Find("BlackscreenDialogue").GetComponent<Image>();
+        GC = GameObject.Find("GameController").GetComponent<GameController>();
+        lianneIcon = GameObject.Find("LianneIcon").GetComponent<Image>();
+        ibofangIcon = GameObject.Find("IbofangIcon").GetComponent<Image>();
     }
 
 	public void StartDialogue (Dialogue dialogue)
@@ -37,6 +47,8 @@ public class DialogueManager : MonoBehaviour {
         }
 
         nameText.text = dialogue.Name;
+        firstName = dialogue.Name;
+        GameObject.Find(firstName + "Icon").GetComponent<Image>().enabled = true;
         sentences.Clear();
         otherSentences.Clear();
 
@@ -64,6 +76,10 @@ public class DialogueManager : MonoBehaviour {
             {
                 string othersentence = otherSentences.Dequeue();
                 nameText.text = otherName;
+                GameObject.Find(firstName + "Icon").GetComponent<Image>().enabled = false;
+                GameObject.Find(otherName + "Icon").GetComponent<Image>().enabled = true;
+                ibofangIcon.enabled = true;
+
                 StopAllCoroutines();
                 StartCoroutine(TypeSentence(othersentence));
                 return;
@@ -102,6 +118,17 @@ public class DialogueManager : MonoBehaviour {
 	void EndDialogue()
 	{
 		animator.SetBool("IsOpen", false);
-	}
+        blackScreenDialogue.color = Color.clear;
+        blackScreenDialogue.gameObject.SetActive(false);
+
+        if (GC.GameState < 10)
+        {
+            GameObject.Find("Music").GetComponent<AudioSource>().Play();
+            GameObject.Find("Ambient").GetComponent<AudioSource>().Play();
+        }
+
+
+
+    }
 
 }

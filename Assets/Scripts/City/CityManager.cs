@@ -21,6 +21,20 @@ public class CityManager : MonoBehaviour
     private GameController GC;
     private DialogueTrigger DT;
 
+    private AudioSource AS;
+    public AudioClip ClickSound;
+    public AudioClip FootSteps;
+
+    private float gameStart = 0f;
+    private float gameFade = 4f;
+    private bool gameStarting;
+    private bool fading;
+    private float fadingVariable = 0f;
+    private float fadingDuration = 4f;
+
+    private Image blackScreen;
+    private Image blackScreenDialogue;
+
     private void Start()
     {
         Initialize();
@@ -37,17 +51,68 @@ public class CityManager : MonoBehaviour
         lianne = GameObject.Find("Lianne");
         //storedClickable = lianne;
         DialogueBox.SetActive(false);
+        AS = GameObject.Find("Music").GetComponent<AudioSource>();
 
-        //if (GC.GameState == 0)
-        //{
-        //    GC.GameState = 10;
-        //    ClickableClick(lianne);
-        //}
+        blackScreen = GameObject.Find("Blackscreen").GetComponent<Image>();
+        blackScreenDialogue = GameObject.Find("BlackscreenDialogue").GetComponent<Image>();
+
+        AS.PlayOneShot(FootSteps);
+
+
+        if (GC.GameState < 10)
+        {
+            blackScreen.enabled = true;
+            blackScreenDialogue.enabled = true;
+        }
 
     }
 
     void Update()
     {
+        if (!gameStarting && GC.GameState < 10)
+        {
+            if (gameStart < 1)
+            {
+                gameStart += Time.deltaTime / gameFade;
+            }
+            else
+            {
+                AS.Stop();
+                fading = true;
+                gameStarting = true;
+                GC.GameState += 10;
+                lianneStage += 1;
+                blackScreen.gameObject.SetActive(false);
+                DT = GameObject.Find("Lianne" + lianneStage).GetComponent<DialogueTrigger>();
+                DT.TriggerDialogue();
+
+                //    //blackScreen.color = Color.clear;
+                //    if (!fading)
+                //    {
+                //        AS.Stop();
+
+                //       blackScreen.color = Color.Lerp(Color.black, Color.clear, fadingVariable);
+
+
+                //        if (fadingVariable < 1)
+                //        {
+                //            fadingVariable += Time.deltaTime / fadingDuration;
+                //        }
+                //        else
+                //        {
+                //            fading = true;
+                //            gameStarting = true;
+                //            GC.GameState += 10;
+                //            lianneStage += 1;
+                //            blackScreen.gameObject.SetActive(false);
+                //            DT = GameObject.Find("Lianne" + lianneStage).GetComponent<DialogueTrigger>();
+                //            DT.TriggerDialogue();
+                //        }
+
+                //    }
+            }
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -60,6 +125,7 @@ public class CityManager : MonoBehaviour
 
                 if (hit.collider.tag == "Clickable" && !InDialogue)
                 {
+                    AS.PlayOneShot(ClickSound);
                     //storedClickable = hit.collider.gameObject;
                     ClickableClick(hit.collider.gameObject);
                 }
@@ -68,7 +134,7 @@ public class CityManager : MonoBehaviour
 
             else
             {
-                Debug.Log("Nothing Clicked ");
+                //Debug.Log("Nothing Clicked ");
             }
         }
 
