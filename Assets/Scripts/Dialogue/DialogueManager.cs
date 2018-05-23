@@ -145,12 +145,20 @@ public class DialogueManager : MonoBehaviour {
 		foreach (char letter in sentence.ToCharArray())
 		{
 			dialogueText.text += letter;
-			yield return null;
+            yield return new WaitForSeconds(0.01f);
+            yield return null;
 		}
 	}
 
 	void EndDialogue()
 	{
+        GameObject.Find(firstName + "Icon").GetComponent<Image>().enabled = false;
+
+        if (OtherSpeaker)
+        {
+            GameObject.Find(otherName + "Icon").GetComponent<Image>().enabled = false;
+        }
+
         skipDebugButton.SetActive(false);
         animator.SetBool("IsOpen", false);
         blackScreenDialogue.color = Color.clear;

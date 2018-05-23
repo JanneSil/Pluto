@@ -213,7 +213,7 @@ public class BattleManager : MonoBehaviour
             {
                 gameOver = false;
                 GC.GameState += 10;
-                StartCoroutine(LoadScene("CityScene"));
+                GC.FadeToLevel(0);
             }
         }
 
@@ -845,7 +845,10 @@ public class BattleManager : MonoBehaviour
         CA = GetComponent<CombatAnimator>();
         CS = GameObject.Find("BattleManager").GetComponent<ClickingScript>();
         UI = GameObject.Find("CombatWheelHolder").GetComponent<CombatUIScript>();
-        GC = GameObject.Find("GameController").GetComponent<GameController>();
+        if (GameObject.Find("GameController"))
+        {
+            GC = GameObject.Find("GameController").GetComponent<GameController>();
+        }
 
         canvas = GameObject.Find("Canvas");
         TurnDelayRemaining = TurnDelay;
@@ -1296,6 +1299,7 @@ public class BattleManager : MonoBehaviour
                                 if (PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos] != null)
                                 {
                                     PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos].GetComponent<Animator>().SetTrigger("TakeHit");
+                                    PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos].transform.Find("DamageSprite").gameObject.GetComponent<Animator>().SetTrigger("BloodFade");
                                 }
                                 else
                                 {
@@ -1304,10 +1308,12 @@ public class BattleManager : MonoBehaviour
                                         if (ActionList[nextActionIndex].Target.GetComponent<Character>().Player)
                                         {
                                             ActionList[nextActionIndex].Target.transform.Find("Normal").GetComponent<Animator>().SetTrigger("TakeHit");
+                                            ActionList[nextActionIndex].Target.transform.Find("DamageSprite").gameObject.GetComponent<Animator>().SetTrigger("BloodFade");
                                         }
                                         else
                                         {
                                             ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                            ActionList[nextActionIndex].Target.transform.Find("DamageSprite").gameObject.GetComponent<Animator>().SetTrigger("BloodFade");
                                         }
                                     }
 
@@ -1350,6 +1356,7 @@ public class BattleManager : MonoBehaviour
                                 if (PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos] != null)
                                 {
                                     PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos].transform.Find("Normal").GetComponent<Animator>().SetTrigger("TakeHit");
+                                    PlayerTankLanes[ActionList[nextActionIndex].Target.GetComponent<Character>().LanePos].transform.Find("DamageSprite").gameObject.GetComponent<Animator>().SetTrigger("BloodFade");
                                 }
                                 else
                                 {
@@ -1358,10 +1365,12 @@ public class BattleManager : MonoBehaviour
                                         if (ActionList[nextActionIndex].Target.GetComponent<Character>().Player)
                                         {
                                             ActionList[nextActionIndex].Target.transform.Find("Normal").GetComponent<Animator>().SetTrigger("TakeHit");
+                                            ActionList[nextActionIndex].Target.transform.Find("DamageSprite").gameObject.GetComponent<Animator>().SetTrigger("BloodFade");
                                         }
                                         else
                                         {
                                             ActionList[nextActionIndex].Target.GetComponent<Animator>().SetTrigger("TakeHit");
+                                            ActionList[nextActionIndex].Target.transform.Find("DamageSprite").gameObject.GetComponent<Animator>().SetTrigger("BloodFade");
                                         }
                                     }
 
@@ -1930,14 +1939,5 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-    }
-    IEnumerator LoadScene(string scene)
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
-
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
     }
 }

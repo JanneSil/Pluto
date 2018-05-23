@@ -93,12 +93,20 @@ public class Character : MonoBehaviour
     private float fadingDuration = 3f;
     private float fadingVariable = 0f;
 
+    private int temporaryActionPoints;
+    private Image ActionPoint1;
+    private Image ActionPoint2;
+    private Image ActionPoint3;
+    private Image ActionPoint4;
+
     //Unity functions
     void Start()
     {
+
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         //cam = GameObject.Find("Main Camera").GetComponent<Camera>();
 
+        temporaryActionPoints = ActionPoints;
         if (Name == "Ibofang")
         {
             BM.Ibofang = gameObject;
@@ -151,6 +159,47 @@ public class Character : MonoBehaviour
         }
         //Vector3 screenPos = cam.WorldToScreenPoint(gameObject.transform.position);
 
+        if (temporaryActionPoints != ActionPoints && Player)
+        {
+            temporaryActionPoints = ActionPoints;
+
+            if (temporaryActionPoints == 4)
+            {
+                ActionPoint1.enabled = true;
+                ActionPoint2.enabled = true;
+                ActionPoint3.enabled = true;
+                ActionPoint4.enabled = true;
+            }
+            if (temporaryActionPoints == 3)
+            {
+                ActionPoint1.enabled = true;
+                ActionPoint2.enabled = true;
+                ActionPoint3.enabled = true;
+                ActionPoint4.enabled = false;
+            }
+            if (temporaryActionPoints == 2)
+            {
+                ActionPoint1.enabled = true;
+                ActionPoint2.enabled = true;
+                ActionPoint3.enabled = false;
+                ActionPoint4.enabled = false;
+            }
+            if (temporaryActionPoints == 1)
+            {
+                ActionPoint1.enabled = true;
+                ActionPoint2.enabled = false;
+                ActionPoint3.enabled = false;
+                ActionPoint4.enabled = false;
+            }
+            if (temporaryActionPoints == 0)
+            {
+                ActionPoint1.enabled = false;
+                ActionPoint2.enabled = false;
+                ActionPoint3.enabled = false;
+                ActionPoint4.enabled = false;
+            }
+        }
+
         //Clamp stremgth and stamina points
         if (StrengthPoints > strengthPointsMax)
         {
@@ -184,6 +233,8 @@ public class Character : MonoBehaviour
             }
             doOnce = true;
         }
+
+
 
         if (statusBar != null && Player)
         {
@@ -219,16 +270,14 @@ public class Character : MonoBehaviour
         {
             staminaBar.GetComponent<Slider>().value = ((float)StaminaPoints / (float)staminaPointsMax);
         }
-        //if (healthText != null)
-        //{
-        //    //healthText.text = StrengthPoints + "/" + strengthPointsMax;
-        //    healthText.text = "";
-        //}
-        //if (staminaText != null)
-        //{
-        //    //staminaText.text = StaminaPoints + "/" + staminaPointsMax;
-        //    staminaText.text = "";
-        //}
+        if (healthText != null)
+        {
+            healthText.text = StrengthPoints + "/" + strengthPointsMax;
+        }
+        if (staminaText != null)
+        {
+            staminaText.text = StaminaPoints + "/" + staminaPointsMax;
+        }
 
         //Death, consider moving to damaging method
         if (StrengthPoints <= 0)
@@ -324,22 +373,31 @@ public class Character : MonoBehaviour
             healthBar = GameObject.Find("Canvas/LifeBars/" + Name + "/PlayerHealthBar");
             staminaBar = GameObject.Find("Canvas/LifeBars/" + Name + "/PlayerStaminaBar");
             statusBar = GameObject.Find("Canvas/LifeBars/" + Name);
-            //healthText = GameObject.Find("Canvas/LifeBars/PlayerHealthBar" + LanePos + "/HealthText").GetComponent<Text>();
-            //staminaText = GameObject.Find("Canvas/StaminaBars/PlayerStaminaBar" + LanePos + "/StaminaText").GetComponent<Text>();
+            ActionPoint1 = GameObject.Find("Canvas/LifeBars/" + Name + "/ActionsPoints/ActionPoint1").GetComponent<Image>();
+            ActionPoint2 = GameObject.Find("Canvas/LifeBars/" + Name + "/ActionsPoints/ActionPoint2").GetComponent<Image>();
+            ActionPoint3 = GameObject.Find("Canvas/LifeBars/" + Name + "/ActionsPoints/ActionPoint3").GetComponent<Image>();
+            ActionPoint4 = GameObject.Find("Canvas/LifeBars/" + Name + "/ActionsPoints/ActionPoint4").GetComponent<Image>();
+
+            ActionPoint1.enabled = true;
+            ActionPoint2.enabled = true;
+            ActionPoint3.enabled = true;
+            ActionPoint4.enabled = true;
             statusBar.SetActive(true);
             healthBar.SetActive(true);
             staminaBar.SetActive(true);
+            healthText = GameObject.Find("Canvas/LifeBars/" + Name + "/HealthText").GetComponent<Text>();
+            staminaText = GameObject.Find("Canvas/LifeBars/" + Name + "/StaminaText").GetComponent<Text>();
         }
         else
         {
             healthBar = GameObject.Find("Canvas/LifeBars/" + Name + "/PlayerHealthBar");
             staminaBar = GameObject.Find("Canvas/LifeBars/" + Name + "/PlayerStaminaBar");
             statusBar = GameObject.Find("Canvas/LifeBars/" + Name);
-            //healthText = GameObject.Find("Canvas/LifeBars/EnemyHealthBar" + LanePos + "/HealthText").GetComponent<Text>();
-            //staminaText = GameObject.Find("Canvas/StaminaBars/EnemyStaminaBar" + LanePos + "/StaminaText").GetComponent<Text>();
             statusBar.SetActive(true);
             healthBar.SetActive(true);
             staminaBar.SetActive(true);
+            healthText = GameObject.Find("Canvas/LifeBars/" + Name + "/HealthText").GetComponent<Text>();
+            staminaText = GameObject.Find("Canvas/LifeBars/" + Name + "/StaminaText").GetComponent<Text>();
         }
     }
 
@@ -352,7 +410,14 @@ public class Character : MonoBehaviour
             r.enabled = true;
             if (Player)
             {
-                r.color = Color.green;
+                if (r.gameObject.name == "bloodParticle")
+                {
+                    
+                }
+                else
+                {
+                    r.color = Color.green;
+                }
             }
             
         }

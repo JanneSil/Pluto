@@ -27,7 +27,7 @@ public class CityManager : MonoBehaviour
     public AudioClip FootSteps;
 
     private float gameStart = 0f;
-    private float gameFade = 4f;
+    private float gameFade = 16f;
     private bool gameStarting;
     private bool fading;
     private float fadingVariable = 0f;
@@ -40,6 +40,14 @@ public class CityManager : MonoBehaviour
     private float musicFade = 2f;
     private bool startingMusic;
 
+    private SpriteRenderer citySelectionFatDude;
+    private SpriteRenderer citySelectionLianne;
+    private SpriteRenderer citySelectionIbofang;
+    private SpriteRenderer citySelectionStore;
+    private SpriteRenderer citySelectionTavern;
+
+    private GameObject tempObject;
+
     private void Start()
     {
         Initialize();
@@ -48,17 +56,28 @@ public class CityManager : MonoBehaviour
     private void Initialize()
     {
         exit = GameObject.Find("CityExit");
-        DialogueBox = GameObject.Find("OldDialogue");
-        DialogueText = DialogueBox.GetComponentInChildren<Text>();
+        //DialogueBox = GameObject.Find("OldDialogue");
+        //DialogueText = DialogueBox.GetComponentInChildren<Text>();
         GC = GameObject.Find("GameController").GetComponent<GameController>();
-        DialogueText.text = "";
+        //DialogueText.text = "";
         exit.SetActive(false);
         lianne = GameObject.Find("Lianne");
         //storedClickable = lianne;
-        DialogueBox.SetActive(false);
+        //DialogueBox.SetActive(false);
         AS = GameObject.Find("Music").GetComponent<AudioSource>();
         mapUI = GameObject.Find("MapUI");
         mapUI.SetActive(false);
+
+        citySelectionFatDude = GameObject.Find("City_Selection_Fatdude").GetComponent<SpriteRenderer>();
+        citySelectionLianne = GameObject.Find("City_Selection_Lianne").GetComponent<SpriteRenderer>();
+        citySelectionIbofang = GameObject.Find("City_Selection_ibo").GetComponent<SpriteRenderer>();
+        citySelectionStore = GameObject.Find("City_Selection_Store").GetComponent<SpriteRenderer>();
+        citySelectionTavern = GameObject.Find("City_Selection_Tavern").GetComponent<SpriteRenderer>();
+        citySelectionFatDude.enabled = false;
+        citySelectionLianne.enabled = false;
+        citySelectionIbofang.enabled = false;
+        citySelectionStore.enabled = false;
+        citySelectionTavern.enabled = false;
 
         blackScreen = GameObject.Find("Blackscreen").GetComponent<Image>();
         blackScreenDialogue = GameObject.Find("BlackscreenDialogue").GetComponent<Image>();
@@ -91,31 +110,6 @@ public class CityManager : MonoBehaviour
                 blackScreen.gameObject.SetActive(false);
                 DT = GameObject.Find("Lianne" + lianneStage).GetComponent<DialogueTrigger>();
                 DT.TriggerDialogue();
-
-                //    //blackScreen.color = Color.clear;
-                //    if (!fading)
-                //    {
-                //        AS.Stop();
-
-                //       blackScreen.color = Color.Lerp(Color.black, Color.clear, fadingVariable);
-
-
-                //        if (fadingVariable < 1)
-                //        {
-                //            fadingVariable += Time.deltaTime / fadingDuration;
-                //        }
-                //        else
-                //        {
-                //            fading = true;
-                //            gameStarting = true;
-                //            GC.GameState += 10;
-                //            lianneStage += 1;
-                //            blackScreen.gameObject.SetActive(false);
-                //            DT = GameObject.Find("Lianne" + lianneStage).GetComponent<DialogueTrigger>();
-                //            DT.TriggerDialogue();
-                //        }
-
-                //    }
             }
         }
 
@@ -142,10 +136,9 @@ public class CityManager : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 1000))
             {
 
-                if (hit.collider.tag == "Clickable" && !InDialogue)
+                if (hit.collider.gameObject.GetComponent<ClickableInfo>() && !InDialogue)
                 {
                     AS.PlayOneShot(ClickSound);
-                    //storedClickable = hit.collider.gameObject;
                     ClickableClick(hit.collider.gameObject);
                 }
 
@@ -157,8 +150,72 @@ public class CityManager : MonoBehaviour
             }
         }
 
+
+        if (Physics.Raycast(ray, out hit, 5000) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            if (tempObject != null)
+            {
+                if (hit.collider.gameObject != tempObject)
+                {
+                    ResetSelect();
+                    tempObject = null;
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+
+            }
+
+            if (hit.collider.tag == "FatDudeHouse" && !InDialogue)
+            {
+                tempObject = hit.collider.gameObject;
+                citySelectionFatDude.enabled = true;
+            }
+            else if (hit.collider.tag == "IbofangHouse" && !InDialogue)
+            {
+                tempObject = hit.collider.gameObject;
+                citySelectionIbofang.enabled = true;
+            }
+            else if (hit.collider.tag == "LianneHouse" && !InDialogue)
+            {
+                tempObject = hit.collider.gameObject;
+                citySelectionLianne.enabled = true;
+            }
+            else if (hit.collider.tag == "Store" && !InDialogue)
+            {
+                tempObject = hit.collider.gameObject;
+                citySelectionStore.enabled = true;
+            }
+            else if (hit.collider.tag == "Tavern" && !InDialogue)
+            {
+                tempObject = hit.collider.gameObject;
+                citySelectionTavern.enabled = true;
+            }
+            else
+            {
+                if (tempObject == null)
+                {
+                    return;
+                }
+                ResetSelect();
+                tempObject = null;
+            }
+
+        }
+
+
     }
 
+    private void ResetSelect()
+    {
+        citySelectionFatDude.enabled = false;
+        citySelectionLianne.enabled = false;
+        citySelectionIbofang.enabled = false;
+        citySelectionStore.enabled = false;
+        citySelectionTavern.enabled = false;
+    }
     private void ClickableClick(GameObject clickable)
     {
         //InDialogue = true;
@@ -167,9 +224,10 @@ public class CityManager : MonoBehaviour
 
         if (clickable.GetComponent<ClickableInfo>().ClickableType == "Exit")
         {
+            ResetSelect();
             mapUI.SetActive(true);
             leavingCity = true;
-            DialogueBox.SetActive(true);
+            //DialogueBox.SetActive(true);
             exit.SetActive(false);
         }
         else if (clickable.GetComponent<ClickableInfo>().ClickableType == "Lianne")
@@ -178,20 +236,43 @@ public class CityManager : MonoBehaviour
             {
                 return;
             }
+            ResetSelect();
             GC.GameState += 10;
             lianneStage += 1;
             DT = GameObject.Find("Lianne"+ lianneStage).GetComponent<DialogueTrigger>();
             DT.TriggerDialogue();
+        }
+        else if (clickable.GetComponent<ClickableInfo>().ClickableType == "Stultus")
+        {
+            if (GC.GameState <= 10)
+            {
+                return;
+            }
+
+            ResetSelect();
+            GC.GameState += 10;
+            DT = GameObject.Find("StultusSecond1").GetComponent<DialogueTrigger>();
+            DT.TriggerDialogue();
+        }
+        else
+        {
+            Debug.Log("Nothing");
         }
     }
 
 
     public void DialogueUpdate()
     {
-        if (leavingCity)
+        if (leavingCity && GC.GameState == 10)
         {
             leavingCity = false;
-            StartCoroutine(LoadScene("CombatScene"));
+            GC.FadeToLevel(1);
+        }
+        else
+        {
+            leavingCity = false;
+            GC.FadeToLevel(2);
+
         }
 
     }
@@ -202,7 +283,7 @@ public class CityManager : MonoBehaviour
         {
             mapUI.SetActive(true);
             leavingCity = true;
-            DialogueBox.SetActive(true);
+            //DialogueBox.SetActive(true);
             //DialogueText.text = "Prepare for combat.";
             exit.SetActive(false);
         }
@@ -210,19 +291,9 @@ public class CityManager : MonoBehaviour
         {
             mapUI.SetActive(false);
             leavingCity = false;
-            DialogueBox.SetActive(false);
+            //DialogueBox.SetActive(false);
             exit.SetActive(false);
             InDialogue = false;
-        }
-    }
-
-    IEnumerator LoadScene(string scene)
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
-
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
         }
     }
 

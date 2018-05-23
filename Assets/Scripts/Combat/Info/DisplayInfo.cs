@@ -11,6 +11,7 @@ public class DisplayInfo : MonoBehaviour {
     private bool doOnceSecond;
     private bool doOnceThird;
     private bool doOnceLane;
+    private bool fixBool;
     private Text infoText;
     private GameObject tempGameObject;
     private GameObject tempGameObjectTwo;
@@ -54,7 +55,6 @@ public class DisplayInfo : MonoBehaviour {
 
         if (BM.playerTurn && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
-
             if (Physics.Raycast(ray, out hit, 1000))
             {
 
@@ -87,7 +87,7 @@ public class DisplayInfo : MonoBehaviour {
 
                         }
                     }
-                    transform.position = Input.mousePosition + offset;
+                    //transform.position = Input.mousePosition + offset;
                     infoText.text = characterName +
                         "\nStrength: " + strength + 
                         " Stamina: " + stamina +
@@ -141,7 +141,7 @@ public class DisplayInfo : MonoBehaviour {
                     doOnce = true;
                 }
 
-                if (hit.collider.tag == "Lane")
+                else if (hit.collider.tag == "Lane")
                 {
                     if (BM.ChoosingSkill == "" && BM.SelectingAttack)
                     {
@@ -288,7 +288,7 @@ public class DisplayInfo : MonoBehaviour {
                     }
                 }
 
-                if (hit.collider.tag == "Player")
+                else if (hit.collider.tag == "Player")
                 {
                     if (tempGameObjectThree != null && tempGameObjectThree != hit.collider.gameObject)
                     {
@@ -314,7 +314,7 @@ public class DisplayInfo : MonoBehaviour {
                             {
                                 r.enabled = true;
                             }
-                            if (tempGameObjectThree != BM.SelectedCharacter)
+                            if (tempGameObjectThree != BM.SelectedCharacter && r.gameObject.name != "bloodParticle")
                             {
                                 r.color = color;
                             }
@@ -323,8 +323,9 @@ public class DisplayInfo : MonoBehaviour {
 
                         GetInfo(hit.collider.gameObject);
                         hoverInfo.SetActive(true);
+                        fixBool = false;
                     }
-                    transform.position = Input.mousePosition + offset;
+                    //transform.position = Input.mousePosition + offset;
                     infoText.text = characterName +
                         "\nStrength: " + strength +
                         " Stamina: " + stamina +
@@ -332,7 +333,7 @@ public class DisplayInfo : MonoBehaviour {
                         " Dexterity: " + dexterity;
                     doOnceThird = false;
                 }
-                else if (doOnceThird == false && BM.SelectedCharacter != hit.collider.gameObject)
+                else if (BM.SelectedCharacter != hit.collider.gameObject)
                 {
                     if (tempGameObjectThree != null)
                     {
