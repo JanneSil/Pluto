@@ -41,6 +41,7 @@ public class BattleManager : MonoBehaviour
     //Lists
     public List<CombatAction> ActionList = new List<CombatAction>();
     private List<CombatAction> MovementList = new List<CombatAction>();
+    private List<CombatAction> turnOrderList = new List<CombatAction>();
 
     //Selection variables
     public bool ChoosingAttack;

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour {
 
+    public CityManager CM;
+
 	public Text nameText;
     private string firstName;
     private string otherName;
@@ -14,6 +16,8 @@ public class DialogueManager : MonoBehaviour {
 
 	public Animator animator;
 
+    private bool AdvancingPlot;
+    private bool exiting;
     private GameController GC;
 	private Queue<string> sentences;
     private Queue<string> otherSentences;
@@ -21,6 +25,7 @@ public class DialogueManager : MonoBehaviour {
     private Image blackScreenDialogue;
     private GameObject skipButton;
     private GameObject skipDebugButton;
+    private Text skipButtonText;
 
     private Image ibofangIcon;
     private Image lianneIcon;
@@ -37,10 +42,12 @@ public class DialogueManager : MonoBehaviour {
         otherSentences = new Queue<string>();
         blackScreenDialogue = GameObject.Find("BlackscreenDialogue").GetComponent<Image>();
         GC = GameObject.Find("GameController").GetComponent<GameController>();
+        CM = GameObject.Find("GameManager").GetComponent<CityManager>();
         lianneIcon = GameObject.Find("LianneIcon").GetComponent<Image>();
         ibofangIcon = GameObject.Find("IbofangIcon").GetComponent<Image>();
         skipButton = GameObject.Find("SkipButton");
         skipDebugButton = GameObject.Find("SkipDialogueDebug");
+        skipButtonText = GameObject.Find("SkipButtonText").GetComponent<Text>();
         skipButton.SetActive(false);
         skipDebugButton.SetActive(false);
     }
@@ -64,6 +71,9 @@ public class DialogueManager : MonoBehaviour {
             nextDialogue = null;
         }
 
+        AdvancingPlot = dialogue.AdvanceGameState;
+        skipButtonText.text = dialogue.SkipAction;
+        exiting = dialogue.exitingCity;
         nameText.text = dialogue.Name;
         firstName = dialogue.Name;
         GameObject.Find(firstName + "Icon").GetComponent<Image>().enabled = true;
@@ -164,11 +174,22 @@ public class DialogueManager : MonoBehaviour {
         blackScreenDialogue.color = Color.clear;
         blackScreenDialogue.gameObject.SetActive(false);
 
+        if (AdvancingPlot)
+        {
+            GC.GameState += 10;
+        }
+
 
         if (GC.GameState == 10)
         {
             GameObject.Find("Music").GetComponent<AudioSource>().Play();
             GameObject.Find("Ambient").GetComponent<AudioSource>().Play();
+            
+        }
+
+        if (exiting)
+        {
+            CM.DialogueUpdate();
         }
 
 

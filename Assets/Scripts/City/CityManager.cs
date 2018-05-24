@@ -65,8 +65,8 @@ public class CityManager : MonoBehaviour
         //storedClickable = lianne;
         //DialogueBox.SetActive(false);
         AS = GameObject.Find("Music").GetComponent<AudioSource>();
-        mapUI = GameObject.Find("MapUI");
-        mapUI.SetActive(false);
+        //mapUI = GameObject.Find("MapUI");
+        //mapUI.SetActive(false);
 
         citySelectionFatDude = GameObject.Find("City_Selection_Fatdude").GetComponent<SpriteRenderer>();
         citySelectionLianne = GameObject.Find("City_Selection_Lianne").GetComponent<SpriteRenderer>();
@@ -81,6 +81,7 @@ public class CityManager : MonoBehaviour
 
         blackScreen = GameObject.Find("Blackscreen").GetComponent<Image>();
         blackScreenDialogue = GameObject.Find("BlackscreenDialogue").GetComponent<Image>();
+        blackScreenDialogue.enabled = false;
 
         AS.PlayOneShot(FootSteps);
 
@@ -225,34 +226,46 @@ public class CityManager : MonoBehaviour
         if (clickable.GetComponent<ClickableInfo>().ClickableType == "Exit")
         {
             ResetSelect();
-            mapUI.SetActive(true);
+            //mapUI.SetActive(true);
             leavingCity = true;
             //DialogueBox.SetActive(true);
-            exit.SetActive(false);
+            exit.SetActive(true);
         }
         else if (clickable.GetComponent<ClickableInfo>().ClickableType == "Lianne")
         {
-            if (GC.GameState >= 10)
+            if (GC.GameState < 10)
+            {
+                ResetSelect();
+                GC.GameState += 10;
+                lianneStage += 1;
+                DT = GameObject.Find("Lianne" + lianneStage).GetComponent<DialogueTrigger>();
+                DT.TriggerDialogue();
+            }
+            else if (GC.GameState == 30)
+            {
+                ResetSelect();
+                DT = GameObject.Find("LianneSecond1").GetComponent<DialogueTrigger>();
+                DT.TriggerDialogue();
+            }
+            else
             {
                 return;
             }
-            ResetSelect();
-            GC.GameState += 10;
-            lianneStage += 1;
-            DT = GameObject.Find("Lianne"+ lianneStage).GetComponent<DialogueTrigger>();
-            DT.TriggerDialogue();
         }
         else if (clickable.GetComponent<ClickableInfo>().ClickableType == "Stultus")
         {
-            if (GC.GameState <= 10)
+            if (GC.GameState == 20)
+            {
+                ResetSelect();
+                GC.GameState += 10;
+                DT = GameObject.Find("StultusSecond1").GetComponent<DialogueTrigger>();
+                DT.TriggerDialogue();
+            }
+            else
             {
                 return;
             }
 
-            ResetSelect();
-            GC.GameState += 10;
-            DT = GameObject.Find("StultusSecond1").GetComponent<DialogueTrigger>();
-            DT.TriggerDialogue();
         }
         else
         {
@@ -281,15 +294,24 @@ public class CityManager : MonoBehaviour
     {
         if (exited)
         {
-            mapUI.SetActive(true);
+            //mapUI.SetActive(true);
             leavingCity = true;
             //DialogueBox.SetActive(true);
             //DialogueText.text = "Prepare for combat.";
             exit.SetActive(false);
+
+            if (GC.GameState == 10)
+            {
+                blackScreenDialogue.gameObject.SetActive(true);
+                blackScreenDialogue.enabled = true;
+                blackScreenDialogue.color = Color.black;
+                DT = GameObject.Find("ExitDialogue1").GetComponent<DialogueTrigger>();
+                DT.TriggerDialogue();
+            }
         }
         else
         {
-            mapUI.SetActive(false);
+            //mapUI.SetActive(false);
             leavingCity = false;
             //DialogueBox.SetActive(false);
             exit.SetActive(false);

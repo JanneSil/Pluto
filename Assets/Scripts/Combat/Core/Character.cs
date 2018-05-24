@@ -12,6 +12,7 @@ public class Character : MonoBehaviour
     private GameObject staminaBar;
     private GameObject healthBar;
     private GameObject statusBar;
+    private GameObject deathIcon;
     private int currentStatusBarLoc;
 
     private Text healthText;
@@ -105,6 +106,8 @@ public class Character : MonoBehaviour
 
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         //cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        deathIcon = transform.Find("deathIcon").gameObject;
+        deathIcon.SetActive(false);
 
         temporaryActionPoints = ActionPoints;
         if (Name == "Ibofang")
@@ -332,6 +335,8 @@ public class Character : MonoBehaviour
 
         statusBar.SetActive(false);
 
+        deathIcon.SetActive(true);
+        deathIcon.GetComponent<SpriteRenderer>().enabled = true;
 
         if (Name == "Ibofang")
         {

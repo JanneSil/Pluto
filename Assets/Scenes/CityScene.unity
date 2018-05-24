@@ -362,6 +362,17 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1256703406}
+  - {fileID: 1431676438}
+  - {fileID: 602279300}
+  - {fileID: 265883862}
+  - {fileID: 655933642}
+  - {fileID: 1570077201}
+  - {fileID: 1483640755}
+  - {fileID: 352828883}
+  - {fileID: 1862446766}
+  - {fileID: 1580955824}
+  - {fileID: 1484960981}
+  - {fileID: 1593082223}
   m_Father: {fileID: 427180677}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -402,8 +413,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -188.29999, y: 45.4}
-  m_SizeDelta: {x: -420, y: -181.4}
+  m_AnchoredPosition: {x: 82.399994, y: 64.7}
+  m_SizeDelta: {x: -370.8, y: -177.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &121183165
 MonoBehaviour:
@@ -426,7 +437,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: b374654f2770fbc499c8462102c02800, type: 3}
-    m_FontSize: 20
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -569,7 +580,10 @@ MonoBehaviour:
     Name: Lianne
     OtherName: Ibofang
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1985850327}
     sentences:
     - Ibofang, my greatest warrior, my oldest son. I cherish the moments we meet.
@@ -581,6 +595,64 @@ MonoBehaviour:
     - The world has changed me, yet itself is persistent and cannot be changed.
     - Lianne, savior, point me to a direction and I will journey to death and back
       - slaughtering every living soul in the way.
+--- !u!1 &250083738
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 250083739}
+  - component: {fileID: 250083740}
+  m_Layer: 5
+  m_Name: LianneSecond1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &250083739
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 250083738}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1673000093}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &250083740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 250083738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Narrator
+    OtherName: 
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 0
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 0}
+    sentences:
+    - No matter how hard you try, you cannot get in.
+    - You know where to go next.
+    OtherSentences: []
 --- !u!1 &259265694
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,13 +702,73 @@ MonoBehaviour:
     Name: Stultus
     OtherName: Ibofang
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 363281730}
     sentences:
-    - We might very well do so, but nevertheless; I am in charge. Come to my hall
-      when you are ready to receive your next contract
+    - 'We might very well do so, but nevertheless; I am in charge. '
+    - Come to my hall when you are ready to receive your next contract.
     OtherSentences:
     - We will be sure to do so.
+--- !u!1 &265883861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 265883862}
+  - component: {fileID: 265883863}
+  m_Layer: 5
+  m_Name: StultusSecond3Bow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &265883862
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 265883861}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &265883863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 265883861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Narrator
+    OtherName: 
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 0
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 1862446765}
+    sentences:
+    - You bow.
+    OtherSentences: []
 --- !u!1 &269855747
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,7 +964,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &289812150
 RectTransform:
   m_ObjectHideFlags: 0
@@ -854,6 +986,63 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000030517578, y: -0.000045776367}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &292540475
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 292540476}
+  - component: {fileID: 292540477}
+  m_Layer: 5
+  m_Name: ExitDialogue2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &292540476
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 292540475}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1810529103}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &292540477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 292540475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Ibofang
+    OtherName: 
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 0
+    exitingCity: 1
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 0}
+    sentences:
+    - Here we go again.
+    OtherSentences: []
 --- !u!1 &344030571
 GameObject:
   m_ObjectHideFlags: 0
@@ -901,6 +1090,63 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!1 &352828882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 352828883}
+  - component: {fileID: 352828884}
+  m_Layer: 5
+  m_Name: StultusSecond7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &352828883
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 352828882}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &352828884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 352828882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Ibofang
+    OtherName: 
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 0
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 1862446765}
+    sentences:
+    - "Now \u2013Where is our next destination? What news do you have?"
+    OtherSentences: []
 --- !u!1 &357897082
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,7 +1235,10 @@ MonoBehaviour:
     Name: Lianne
     OtherName: Narrator
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 792694038}
     sentences:
     - I do.
@@ -1045,7 +1294,10 @@ MonoBehaviour:
     Name: Vita
     OtherName: Narrator
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1043483219}
     sentences:
     - Get lost, Stultus.
@@ -1100,7 +1352,10 @@ MonoBehaviour:
     Name: Ibofang
     OtherName: Narrator
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 614295178}
     sentences:
     - Me neither, old friend.
@@ -1340,6 +1595,8 @@ RectTransform:
   - {fileID: 357897083}
   - {fileID: 277387530}
   - {fileID: 114394753}
+  - {fileID: 1810529103}
+  - {fileID: 1673000093}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1397,7 +1654,10 @@ MonoBehaviour:
     Name: Narrator
     OtherName: 
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 0
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1698972021}
     sentences:
     - She laughs lightheartedly.
@@ -1845,6 +2105,63 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 595737612}
+--- !u!1 &602279299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 602279300}
+  - component: {fileID: 602279301}
+  m_Layer: 5
+  m_Name: StultusSecond3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &602279300
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 602279299}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &602279301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 602279299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Stultus
+    OtherName: 
+    DialogueToSkipTo: StultusSecond3Bow
+    SkipAction: Bow
+    AnotherSpeaker: 0
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 655933641}
+    sentences:
+    - Bow down to me and I will tell you.
+    OtherSentences: []
 --- !u!1 &614295178
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,7 +2211,10 @@ MonoBehaviour:
     Name: Ibofang
     OtherName: Mors
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1115314965}
     sentences:
     - "Once mor\u2026"
@@ -1969,6 +2289,67 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 614910536}
+--- !u!1 &617595219
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 617595220}
+  - component: {fileID: 617595221}
+  m_Layer: 5
+  m_Name: ExitDialogue1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &617595220
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 617595219}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1810529103}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &617595221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 617595219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Narrator
+    OtherName: Vita
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 292540475}
+    sentences:
+    - You follow the map like the slave you make yourself to be. Your party encounters
+      no obstacles along the way.
+    - At the arrival, the sight of the destination is what was expected.
+    - Dead people everywhere and in the midst of them - the madnes.
+    OtherSentences:
+    - "I\u2019ve missed it."
 --- !u!1 &626088547
 GameObject:
   m_ObjectHideFlags: 0
@@ -2074,6 +2455,69 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &655933641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 655933642}
+  - component: {fileID: 655933643}
+  m_Layer: 5
+  m_Name: StultusSecond4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &655933642
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 655933641}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &655933643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 655933641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Ibofang
+    OtherName: Stultus
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 1570077200}
+    sentences:
+    - I will not bow. You were once created for the purpose of amusing us.
+    - You have absolutely no authoritative personality traits, yet you were made with
+      the urge to command and be respected.
+    - On top of that, she actually put you in charge of people. It was hilarious at
+      first.
+    OtherSentences:
+    - "Do you think I don\u2019t know that? Listen to my crackling voice. How can
+      anyone lead with such a voice? It\u2019s bullshit."
 --- !u!1 &685252419 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1258653166078304, guid: 6f35ccc00f4dd5c4dac1c8a185a741fc,
@@ -2607,7 +3051,10 @@ MonoBehaviour:
     Name: Ibofang
     OtherName: Narrator
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1092646866}
     sentences:
     - For I am the first of men - I will eradicate the enemy for you, my queen.
@@ -3076,7 +3523,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300002, guid: f1a70e8c2d4c8dd4dba6c8739fc66397, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 07994e049fa6b0e43b339106b70e3f05, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -3139,7 +3586,10 @@ MonoBehaviour:
     Name: Narrator
     OtherName: Ibofang
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 0}
     sentences:
     - You roll your eyes.
@@ -3249,7 +3699,10 @@ MonoBehaviour:
     Name: Lianne
     OtherName: Ibofang
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 362950814}
     sentences:
     - No more. At ease, Ibofang.
@@ -3420,7 +3873,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -56.300003, y: 33}
+  m_AnchoredPosition: {x: -56.300003, y: 11.099998}
   m_SizeDelta: {x: 109, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1032739310
@@ -3756,7 +4209,10 @@ MonoBehaviour:
     Name: Vita
     OtherName: Mors
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 2002629258}
     sentences:
     - "I have an idea. Let\u2019s not do that."
@@ -3886,13 +4342,16 @@ MonoBehaviour:
     Name: Lianne
     OtherName: Narrator
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1978107243}
     sentences:
     - "Oh, and Ibofang\u2026"
     OtherSentences:
-    - You turn back, to meet her with eyes that have seen it all. Fully open, yet
-      half-closed, full of wisdom and tormented with boredom.
+    - 'You turn back, to meet her with eyes that have seen it all. '
+    - Fully open, yet half-closed, full of wisdom and tormented with boredom.
     - They meet two of the same.
 --- !u!1 &1115314965
 GameObject:
@@ -3943,7 +4402,10 @@ MonoBehaviour:
     Name: Ibofang
     OtherName: Mors
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 920468762}
     sentences:
     - "Yes. We\u2019ll go east. We\u2019ll stop the frontline scouts and report back
@@ -4151,7 +4613,10 @@ MonoBehaviour:
     Name: Narrator
     OtherName: Vita
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1508878402}
     sentences:
     - The victory was just the first of many. Crestfallen heroes return to the city
@@ -4194,7 +4659,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -154.00006, y: 32.999985}
+  m_AnchoredPosition: {x: -154.00006, y: 56.7}
   m_SizeDelta: {x: 109, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!82 &1180152205
@@ -4479,7 +4944,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1182029701}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -4488,8 +4953,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -185.9, y: -8.099976}
-  m_SizeDelta: {x: 70.4, y: 69.5}
+  m_AnchoredPosition: {x: -156.7, y: 0.047177}
+  m_SizeDelta: {x: 110.6, y: 109.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1182029703
 MonoBehaviour:
@@ -4709,7 +5174,10 @@ MonoBehaviour:
     Name: Ibofang
     OtherName: Mors
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 367723900}
     sentences:
     - More or less.
@@ -4765,14 +5233,18 @@ MonoBehaviour:
     Name: Ibofang
     OtherName: Narrator
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
-    NextDialogue: {fileID: 0}
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 1431676437}
     sentences:
-    - "Ibofang: Wait here. I\u2019ll go in alone."
+    - "Wait here. I\u2019ll go in alone."
     OtherSentences:
-    - "You push a squeaking door aside and enter. Inside you are greeted by Tenuis,
-      Stultus\u2019 minion, who takes you to his master."
-    - 'Stultus is in his chamber reading a book, looking bored. '
+    - You push a squeaking door aside and enter.
+    - "Inside you are greeted by Tenuis, Stultus\u2019 minion, who takes you to his
+      master. "
+    - Stultus is in his chamber reading a book, looking bored.
     - He turns to you immediately when you enter and accidently knocks the book off
       the table.
 --- !u!1 &1264420933
@@ -4818,7 +5290,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1264420933}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
@@ -5088,9 +5560,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e067fc2415f5188428fc745b6ac392c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CM: {fileID: 0}
   nameText: {fileID: 121183165}
   dialogueText: {fileID: 2038606084}
   animator: {fileID: 904475918}
+--- !u!1 &1431676437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1431676438}
+  - component: {fileID: 1431676439}
+  m_Layer: 5
+  m_Name: StultusSecond2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1431676438
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1431676437}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1431676439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1431676437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Stultus
+    OtherName: Ibofang
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 602279299}
+    sentences:
+    - I am glad you left your barbarian friends outside.
+    OtherSentences:
+    - Mhm. What news do you carry?
 --- !u!1 &1445200690
 GameObject:
   m_ObjectHideFlags: 0
@@ -5241,7 +5772,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1446335435}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -5268,6 +5799,125 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1446335435}
+--- !u!1 &1483640754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1483640755}
+  - component: {fileID: 1483640756}
+  m_Layer: 5
+  m_Name: StultusSecond6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1483640755
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1483640754}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1483640756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1483640754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Ibofang
+    OtherName: Stultus
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 352828882}
+    sentences:
+    - Change comes with time. You can talk to Vita about this matter.
+    - "She has come out of her character in a relatively short time. I\u2019m still
+      not fully aware."
+    OtherSentences:
+    - I will talk with her.
+--- !u!1 &1484960980
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1484960981}
+  - component: {fileID: 1484960982}
+  m_Layer: 5
+  m_Name: StultusSecond10
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1484960981
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1484960980}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1484960982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1484960980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Ibofang
+    OtherName: Stultus
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 1593082222}
+    sentences:
+    - "Ganga? Why didn\u2019t she tell me this? I need to see Lianne."
+    OtherSentences:
+    - "She doesn\u2019t believe it. She doesn\u2019t see me anymore. I think she will
+      not see you either."
 --- !u!1 &1490560073
 GameObject:
   m_ObjectHideFlags: 0
@@ -5291,7 +5941,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1490560073}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -5300,8 +5950,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -185.9, y: -8.099991}
-  m_SizeDelta: {x: 70.4, y: 69.5}
+  m_AnchoredPosition: {x: -156.7, y: 0.047177}
+  m_SizeDelta: {x: 110.6, y: 109.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1490560075
 MonoBehaviour:
@@ -5385,7 +6035,10 @@ MonoBehaviour:
     Name: Stultus
     OtherName: Mors
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1989186282}
     sentences:
     - Hello my lovely, lovely warriors.
@@ -5440,7 +6093,10 @@ MonoBehaviour:
     Name: Narrator
     OtherName: Mors
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1250025270}
     sentences:
     - You do not get far.
@@ -5496,12 +6152,76 @@ MonoBehaviour:
     Name: Narrator
     OtherName: Ibofang
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1983731101}
     sentences:
     - You sigh loudly.
     OtherSentences:
     - What do you want, Stultus?
+--- !u!1 &1570077200
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1570077201}
+  - component: {fileID: 1570077202}
+  m_Layer: 5
+  m_Name: StultusSecond5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1570077201
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1570077200}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1570077202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1570077200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Ibofang
+    OtherName: Stultus
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 1483640754}
+    sentences:
+    - "It\u2019s not just your voice. We do care about you, but you are awful in every
+      way and nobody wants to be around you."
+    - "You even torture the weakest of them. It\u2019s like\u2026 You\u2019ve made
+      it so easy to hate you."
+    OtherSentences:
+    - "What can I do? It\u2019s my nature."
 --- !u!1 &1579170282
 GameObject:
   m_ObjectHideFlags: 0
@@ -5609,7 +6329,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1579170282}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -5636,6 +6356,70 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1579170282}
+--- !u!1 &1580955823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1580955824}
+  - component: {fileID: 1580955825}
+  m_Layer: 5
+  m_Name: StultusSecond9
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1580955824
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1580955823}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1580955825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1580955823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Ibofang
+    OtherName: Stultus
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 1484960980}
+    sentences:
+    - What are you talking about?
+    OtherSentences:
+    - I remember when an acquaintance of mine told me this long time ago.
+    - "I laughed and couldn\u2019t take it seriously. He told me: \u201CTrust me!
+      It\u2019s true.\u201D and I slapped him across the face."
+    - "Real gods don\u2019t die\u2026"
+    - '...'
+    - "The rumor has been pretty much been confirmed by now. I\u2019ve heard it so
+      many times. Ganga is dead."
 --- !u!1 &1590611025
 GameObject:
   m_ObjectHideFlags: 0
@@ -5671,7 +6455,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -154, y: 32.999985}
+  m_AnchoredPosition: {x: -171.2, y: 11.099998}
   m_SizeDelta: {x: 109, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!82 &1590611027
@@ -5824,6 +6608,65 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1590611025}
+--- !u!1 &1593082222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1593082223}
+  - component: {fileID: 1593082224}
+  m_Layer: 5
+  m_Name: StultusSecond11
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1593082223
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1593082222}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1593082224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1593082222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Narrator
+    OtherName: Stultus
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 0}
+    sentences:
+    - You do not wait for a moment. While you are running outside you hear a faint
+      yell behind you.
+    OtherSentences:
+    - "Stop! Don\u2019t go to her. Defend Iam Cadere! Defend meee..!"
 --- !u!1 &1600029987
 GameObject:
   m_ObjectHideFlags: 0
@@ -5983,17 +6826,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1622467947}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 904475917}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -185.90001, y: -8.100021}
-  m_SizeDelta: {x: 70.4, y: 69.5}
+  m_AnchoredPosition: {x: -156.7, y: 0.047177}
+  m_SizeDelta: {x: 110.6, y: 109.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1622467949
 MonoBehaviour:
@@ -6051,7 +6894,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1639587163}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -6060,8 +6903,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -185.9, y: -8.099991}
-  m_SizeDelta: {x: 70.4, y: 69.5}
+  m_AnchoredPosition: {x: -156.7, y: 0.047177}
+  m_SizeDelta: {x: 110.6, y: 109.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1639587165
 MonoBehaviour:
@@ -6196,7 +7039,7 @@ GameObject:
   - component: {fileID: 1645775419}
   - component: {fileID: 1645775418}
   m_Layer: 5
-  m_Name: Text
+  m_Name: SkipButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6284,7 +7127,7 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1652383280}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -6293,8 +7136,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -185.9, y: -8.099991}
-  m_SizeDelta: {x: 70.4, y: 69.5}
+  m_AnchoredPosition: {x: -156.7, y: 0.047177}
+  m_SizeDelta: {x: 110.6, y: 109.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1652383282
 MonoBehaviour:
@@ -6329,6 +7172,40 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1652383280}
+--- !u!1 &1673000092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1673000093}
+  m_Layer: 5
+  m_Name: SecondDialogueLianne
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1673000093
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1673000092}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 250083739}
+  m_Father: {fileID: 427180677}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1688152940
 GameObject:
   m_ObjectHideFlags: 0
@@ -6378,7 +7255,10 @@ MonoBehaviour:
     Name: Ibofang
     OtherName: 
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 0
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 985479896}
     sentences:
     - Announce the truth for the both of us. What is time in the face of eternity?
@@ -6432,7 +7312,10 @@ MonoBehaviour:
     Name: Lianne
     OtherName: 
     DialogueToSkipTo: Lianne6
+    SkipAction: Skip
     AnotherSpeaker: 0
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1688152940}
     sentences:
     - Their frontline is marked to the map on the table. You can take it with you.
@@ -6626,6 +7509,100 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1770790297}
+--- !u!1 &1810529102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1810529103}
+  m_Layer: 5
+  m_Name: ExitDialogue
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1810529103
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1810529102}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 617595220}
+  - {fileID: 292540476}
+  m_Father: {fileID: 427180677}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1862446765
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1862446766}
+  - component: {fileID: 1862446767}
+  m_Layer: 5
+  m_Name: StultusSecond8
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1862446766
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1862446765}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 114394753}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1862446767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1862446765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fa237456f9155e45b959361dcbe14ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue:
+    Name: Narrator
+    OtherName: Stultus
+    DialogueToSkipTo: 
+    SkipAction: 
+    AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
+    NextDialogue: {fileID: 1580955823}
+    sentences:
+    - He laughs.
+    OtherSentences:
+    - "We need you to go here and kill the second wave of madness\u2026"
+    - God is dead.
 --- !u!1 &1864475060
 GameObject:
   m_ObjectHideFlags: 0
@@ -6691,6 +7668,7 @@ GameObject:
   - component: {fileID: 1876734279}
   - component: {fileID: 1876734281}
   - component: {fileID: 1876734280}
+  - component: {fileID: 1876734282}
   m_Layer: 5
   m_Name: BlackscreenDialogue
   m_TagString: Untagged
@@ -6749,6 +7727,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1876734278}
+--- !u!95 &1876734282
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1876734278}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 97d6a53f34ae39648a0031c1b51efaed, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1883488179
 GameObject:
   m_ObjectHideFlags: 0
@@ -6855,8 +7850,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -185.9, y: -8.1}
-  m_SizeDelta: {x: 70.4, y: 69.5}
+  m_AnchoredPosition: {x: -156.7, y: 0.047177}
+  m_SizeDelta: {x: 110.6, y: 109.19}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1885080213
 MonoBehaviour:
@@ -6994,7 +7989,10 @@ MonoBehaviour:
     Name: Lianne
     OtherName: Narrator
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1513326464}
     sentences:
     - Try not to kill all the onlookers.
@@ -7049,7 +8047,10 @@ MonoBehaviour:
     Name: Stultus
     OtherName: Ibofang
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 259265694}
     sentences:
     - "It has come to my knowledge that you\u2019ve contacted her directly. I can\u2019t
@@ -7107,7 +8108,10 @@ MonoBehaviour:
     Name: Lianne
     OtherName: Ibofang
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 427427344}
     sentences:
     - I am glad there is still something in you, of what you once were. Of what was
@@ -7163,7 +8167,10 @@ MonoBehaviour:
     Name: Narrator
     OtherName: Stultus
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 1
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 1525807579}
     sentences:
     - 'Mors laughs. Giggling, Stultus looks at him and clarifies:'
@@ -7218,7 +8225,10 @@ MonoBehaviour:
     Name: Vita
     OtherName: 
     DialogueToSkipTo: 
+    SkipAction: 
     AnotherSpeaker: 0
+    exitingCity: 0
+    AdvanceGameState: 0
     NextDialogue: {fileID: 0}
     sentences:
     - We could just leave. The enemy is easy to locate.
@@ -7331,8 +8341,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 52, y: -0.0000038594}
-  m_SizeDelta: {x: -204.4, y: -135.3}
+  m_AnchoredPosition: {x: 78.600006, y: -10.700001}
+  m_SizeDelta: {x: -258.8, y: -122.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2038606084
 MonoBehaviour:

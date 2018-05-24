@@ -8,7 +8,10 @@ public class Dialogue {
 	public string Name;
     public string OtherName;
     public string DialogueToSkipTo;
+    public string SkipAction;
     public bool AnotherSpeaker;
+    public bool exitingCity;
+    public bool AdvanceGameState;
     public GameObject NextDialogue;
 
 	[TextArea(3, 10)]
