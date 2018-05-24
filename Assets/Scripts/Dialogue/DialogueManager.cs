@@ -27,6 +27,11 @@ public class DialogueManager : MonoBehaviour {
     private GameObject skipDebugButton;
     private Text skipButtonText;
 
+    private GameObject yesButton;
+    private GameObject noButton;
+    private GameObject continueButton;
+    private string Action;
+
     private Image ibofangIcon;
     private Image lianneIcon;
 
@@ -46,9 +51,16 @@ public class DialogueManager : MonoBehaviour {
         lianneIcon = GameObject.Find("LianneIcon").GetComponent<Image>();
         ibofangIcon = GameObject.Find("IbofangIcon").GetComponent<Image>();
         skipButton = GameObject.Find("SkipButton");
+        yesButton = GameObject.Find("YesButtonDialogue");
+        continueButton = GameObject.Find("ContinueButtonDialogue");
+        noButton = GameObject.Find("NoButtonDialogue");
         skipDebugButton = GameObject.Find("SkipDialogueDebug");
         skipButtonText = GameObject.Find("SkipButtonText").GetComponent<Text>();
         skipButton.SetActive(false);
+        yesButton.SetActive(false);
+        noButton.SetActive(false);
+        continueButton.SetActive(true);
+
         skipDebugButton.SetActive(false);
     }
 
@@ -72,7 +84,7 @@ public class DialogueManager : MonoBehaviour {
         }
 
         AdvancingPlot = dialogue.AdvanceGameState;
-        skipButtonText.text = dialogue.SkipAction;
+        Action = dialogue.SkipAction;
         exiting = dialogue.exitingCity;
         nameText.text = dialogue.Name;
         firstName = dialogue.Name;
@@ -101,12 +113,22 @@ public class DialogueManager : MonoBehaviour {
 
 	public void DisplayNextSentence ()
 	{
-        if (skipToThis != "")
+        if (skipToThis != "" && Action == "")
         {
             skipButton.SetActive(true);
+            continueButton.SetActive(true);
+        }
+        else if (Action != "")
+        {
+            continueButton.SetActive(false);
+            yesButton.SetActive(true);
+            noButton.SetActive(true);
         }
         else
         {
+            continueButton.SetActive(true);
+            yesButton.SetActive(false);
+            noButton.SetActive(false);
             skipButton.SetActive(false);
         }
 		if (sentences.Count == 0)
@@ -188,8 +210,7 @@ public class DialogueManager : MonoBehaviour {
         }
         if (GC.GameState == 50)
         {
-            GameObject.Find("GameStartAnimation").SetActive(false);
-            GameObject.Find("GameStartAnimation").SetActive(true);
+            GameObject.Find("GameStartAnimation").GetComponent<Animator>().SetTrigger("GameOver");
         }
 
 

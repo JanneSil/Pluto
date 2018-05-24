@@ -187,6 +187,7 @@ public class BattleManager : MonoBehaviour
             {
                 gameOver = true;
                 InfoText.text = "You Win!";
+                InfoText.color = Color.green;
                 endTurnButton.SetActive(false);
                 GameObject.Find("GameOver").gameObject.GetComponent<AudioSource>().Play();
                 musicStart = 0;
@@ -196,6 +197,7 @@ public class BattleManager : MonoBehaviour
             {
                 gameOver = true;
                 InfoText.text = "You Lose!";
+                InfoText.color = Color.red;
                 endTurnButton.SetActive(false);
                 GameObject.Find("GameOver").gameObject.GetComponent<AudioSource>().Play();
                 musicStart = 0;

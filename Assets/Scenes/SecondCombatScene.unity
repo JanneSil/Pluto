@@ -108,6 +108,31 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &12771928 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1477478008896040, guid: 72b49fc8ccb38c944a8301b8e05b50d8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1874982861}
+--- !u!223 &12771930
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 12771928}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!224 &14931243 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224111376374271882, guid: 771ad5024d5b4154ab669ee82f8c8586,
@@ -563,6 +588,31 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 43874537}
+--- !u!1 &50131845 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1492963032051728, guid: 771ad5024d5b4154ab669ee82f8c8586,
+    type: 2}
+  m_PrefabInternal: {fileID: 715523872}
+--- !u!223 &50131847
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 50131845}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &82349940
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,6 +905,31 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 112921977}
+--- !u!1 &119531156 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1492963032051728, guid: 771ad5024d5b4154ab669ee82f8c8586,
+    type: 2}
+  m_PrefabInternal: {fileID: 1912175239}
+--- !u!223 &119531158
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 119531156}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &123928003
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,6 +940,7 @@ GameObject:
   - component: {fileID: 123928004}
   - component: {fileID: 123928006}
   - component: {fileID: 123928005}
+  - component: {fileID: 123928007}
   m_Layer: 5
   m_Name: EnemyDPS0
   m_TagString: Untagged
@@ -927,6 +1003,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 123928003}
+--- !u!223 &123928007
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 123928003}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!4 &131881421 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4681849928138154, guid: fdc5d56e5b2d3c6409d25edcadf2f4fa,
@@ -2963,6 +3059,31 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &303195937 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1657519368806614, guid: b3d537909739e8748b9dc57d821f9f60,
+    type: 2}
+  m_PrefabInternal: {fileID: 905548646}
+--- !u!223 &303195939
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 303195937}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &305394435
 GameObject:
   m_ObjectHideFlags: 0
@@ -4195,6 +4316,31 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!1 &392214780 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1657519368806614, guid: b3d537909739e8748b9dc57d821f9f60,
+    type: 2}
+  m_PrefabInternal: {fileID: 1060316365}
+--- !u!223 &392214782
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 392214780}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &395346249
 GameObject:
   m_ObjectHideFlags: 0
@@ -4485,6 +4631,31 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &413434707 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1024859947543694, guid: dbe1284f8035942488f3fbce9b89aabd,
+    type: 2}
+  m_PrefabInternal: {fileID: 355667289}
+--- !u!223 &413434709
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 413434707}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1001 &413794605
 Prefab:
   m_ObjectHideFlags: 0
@@ -4761,6 +4932,31 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 415034045}
+--- !u!1 &424472196 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1492963032051728, guid: 771ad5024d5b4154ab669ee82f8c8586,
+    type: 2}
+  m_PrefabInternal: {fileID: 501605827}
+--- !u!223 &424472198
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 424472196}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &432820247
 GameObject:
   m_ObjectHideFlags: 0
@@ -5813,6 +6009,31 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 771ad5024d5b4154ab669ee82f8c8586, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &513193231 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1024859947543694, guid: dbe1284f8035942488f3fbce9b89aabd,
+    type: 2}
+  m_PrefabInternal: {fileID: 296553467}
+--- !u!223 &513193233
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 513193231}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &513281148
 GameObject:
   m_ObjectHideFlags: 0
@@ -6459,6 +6680,31 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+--- !u!1 &554348183 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1024859947543694, guid: dbe1284f8035942488f3fbce9b89aabd,
+    type: 2}
+  m_PrefabInternal: {fileID: 661823208}
+--- !u!223 &554348185
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 554348183}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &558647493
 GameObject:
   m_ObjectHideFlags: 0
@@ -7359,6 +7605,31 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!1 &652713237 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1492963032051728, guid: 771ad5024d5b4154ab669ee82f8c8586,
+    type: 2}
+  m_PrefabInternal: {fileID: 187208169}
+--- !u!223 &652713239
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 652713237}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &656724933
 GameObject:
   m_ObjectHideFlags: 0
@@ -9252,6 +9523,31 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
+--- !u!1 &806984892 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1492963032051728, guid: 771ad5024d5b4154ab669ee82f8c8586,
+    type: 2}
+  m_PrefabInternal: {fileID: 174586519}
+--- !u!223 &806984894
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 806984892}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &812415118
 GameObject:
   m_ObjectHideFlags: 0
@@ -9383,6 +9679,7 @@ GameObject:
   - component: {fileID: 822167721}
   - component: {fileID: 822167723}
   - component: {fileID: 822167722}
+  - component: {fileID: 822167724}
   m_Layer: 5
   m_Name: Mors
   m_TagString: Untagged
@@ -9446,6 +9743,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 822167720}
+--- !u!223 &822167724
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 822167720}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &822640020
 GameObject:
   m_ObjectHideFlags: 0
@@ -9456,6 +9773,7 @@ GameObject:
   - component: {fileID: 822640021}
   - component: {fileID: 822640023}
   - component: {fileID: 822640022}
+  - component: {fileID: 822640024}
   m_Layer: 5
   m_Name: Ibofang
   m_TagString: Untagged
@@ -9519,6 +9837,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 822640020}
+--- !u!223 &822640024
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 822640020}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &823266562
 GameObject:
   m_ObjectHideFlags: 0
@@ -12124,6 +12462,31 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1022227279}
+--- !u!1 &1022285099 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1024859947543694, guid: dbe1284f8035942488f3fbce9b89aabd,
+    type: 2}
+  m_PrefabInternal: {fileID: 183708295}
+--- !u!223 &1022285101
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1022285099}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1028454217
 GameObject:
   m_ObjectHideFlags: 0
@@ -12931,6 +13294,31 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1064938732}
+--- !u!1 &1065931059 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1024859947543694, guid: dbe1284f8035942488f3fbce9b89aabd,
+    type: 2}
+  m_PrefabInternal: {fileID: 1649262893}
+--- !u!223 &1065931061
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1065931059}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1081768401
 GameObject:
   m_ObjectHideFlags: 0
@@ -13193,6 +13581,7 @@ GameObject:
   - component: {fileID: 1098156900}
   - component: {fileID: 1098156902}
   - component: {fileID: 1098156901}
+  - component: {fileID: 1098156903}
   m_Layer: 5
   m_Name: EnemyDPS1
   m_TagString: Untagged
@@ -13255,6 +13644,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1098156899}
+--- !u!223 &1098156903
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1098156899}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &1102858594
 GameObject:
   m_ObjectHideFlags: 0
@@ -13855,6 +14264,56 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1143634444}
+--- !u!1 &1157855537 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1477478008896040, guid: 72b49fc8ccb38c944a8301b8e05b50d8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1006938814}
+--- !u!223 &1157855539
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1157855537}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!1 &1163035846 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1477478008896040, guid: 72b49fc8ccb38c944a8301b8e05b50d8,
+    type: 2}
+  m_PrefabInternal: {fileID: 195620116}
+--- !u!223 &1163035848
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1163035846}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1001 &1167023723
 Prefab:
   m_ObjectHideFlags: 0
@@ -15058,6 +15517,7 @@ GameObject:
   - component: {fileID: 1273920300}
   - component: {fileID: 1273920302}
   - component: {fileID: 1273920301}
+  - component: {fileID: 1273920303}
   m_Layer: 5
   m_Name: EnemyDPS5
   m_TagString: Untagged
@@ -15120,6 +15580,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1273920299}
+--- !u!223 &1273920303
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1273920299}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &1295370113
 GameObject:
   m_ObjectHideFlags: 0
@@ -16137,6 +16617,31 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1399163120}
+--- !u!1 &1404327948 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1024859947543694, guid: dbe1284f8035942488f3fbce9b89aabd,
+    type: 2}
+  m_PrefabInternal: {fileID: 949930938}
+--- !u!223 &1404327950
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1404327948}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1408424176
 GameObject:
   m_ObjectHideFlags: 0
@@ -17285,6 +17790,7 @@ GameObject:
   - component: {fileID: 1511391483}
   - component: {fileID: 1511391485}
   - component: {fileID: 1511391484}
+  - component: {fileID: 1511391486}
   m_Layer: 5
   m_Name: EnemyDPS3
   m_TagString: Untagged
@@ -17347,6 +17853,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1511391482}
+--- !u!223 &1511391486
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1511391482}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &1515992616
 GameObject:
   m_ObjectHideFlags: 0
@@ -17590,7 +18116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 162, y: -70}
+  m_AnchoredPosition: {x: 162, y: -68.399994}
   m_SizeDelta: {x: 364.75, y: 195.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1531867060
@@ -18210,6 +18736,7 @@ GameObject:
   - component: {fileID: 1592272157}
   - component: {fileID: 1592272159}
   - component: {fileID: 1592272158}
+  - component: {fileID: 1592272160}
   m_Layer: 5
   m_Name: Vita
   m_TagString: Untagged
@@ -18273,6 +18800,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1592272156}
+--- !u!223 &1592272160
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1592272156}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!224 &1601332376 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224891399913729010, guid: dbe1284f8035942488f3fbce9b89aabd,
@@ -19535,6 +20082,7 @@ GameObject:
   - component: {fileID: 1707257240}
   - component: {fileID: 1707257242}
   - component: {fileID: 1707257241}
+  - component: {fileID: 1707257243}
   m_Layer: 5
   m_Name: EnemyDPS2
   m_TagString: Untagged
@@ -19597,6 +20145,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1707257239}
+--- !u!223 &1707257243
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1707257239}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &1708946365
 GameObject:
   m_ObjectHideFlags: 0
@@ -20272,6 +20840,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!1 &1765370626 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1492963032051728, guid: 771ad5024d5b4154ab669ee82f8c8586,
+    type: 2}
+  m_PrefabInternal: {fileID: 413794605}
+--- !u!223 &1765370628
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1765370626}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1773713311
 GameObject:
   m_ObjectHideFlags: 0
@@ -21533,7 +22126,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 167, y: -76}
+  m_AnchoredPosition: {x: 167, y: -71.600006}
   m_SizeDelta: {x: 364.75, y: 195.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1891056600
@@ -22702,7 +23295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 163.60007, y: -71.3}
+  m_AnchoredPosition: {x: 163.60007, y: -70.5}
   m_SizeDelta: {x: 364.75, y: 195.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2018404050
@@ -22953,6 +23546,7 @@ GameObject:
   - component: {fileID: 2046252273}
   - component: {fileID: 2046252275}
   - component: {fileID: 2046252274}
+  - component: {fileID: 2046252276}
   m_Layer: 5
   m_Name: EnemyDPS4
   m_TagString: Untagged
@@ -23015,6 +23609,26 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2046252272}
+--- !u!223 &2046252276
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2046252272}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 1
+  m_TargetDisplay: 0
 --- !u!1 &2067812725
 GameObject:
   m_ObjectHideFlags: 0
@@ -23816,6 +24430,31 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2117505254}
+--- !u!1 &2126115640 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1657519368806614, guid: b3d537909739e8748b9dc57d821f9f60,
+    type: 2}
+  m_PrefabInternal: {fileID: 1944902387}
+--- !u!223 &2126115642
+Canvas:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2126115640}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &2128182507
 GameObject:
   m_ObjectHideFlags: 0
