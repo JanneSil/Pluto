@@ -30,6 +30,8 @@ public class DisplayInfo : MonoBehaviour {
     private Color greenOtherColor = Color.green;
     private Color grayColor = Color.gray;
     private Color redColor = Color.red;
+    private Color newColor = new Color32(130, 52, 52, 255);
+
 
     // Use this for initialization
     void Start () {
@@ -67,6 +69,7 @@ public class DisplayInfo : MonoBehaviour {
                             if (r.gameObject.name == "Target")
                             {
                                 r.enabled = false;
+                                r.color = Color.red;
                             }
                             
                         }
@@ -83,6 +86,7 @@ public class DisplayInfo : MonoBehaviour {
                             if (r.gameObject.name == "Target")
                             {
                                 r.enabled = true;
+                                r.color = Color.red;
                             }
 
                         }
@@ -104,7 +108,7 @@ public class DisplayInfo : MonoBehaviour {
                             if (r.gameObject.name == "Target")
                             {
                                 r.enabled = false;
-                                r.color = Color.black;
+                                r.color = Color.red;
                             }
 
                         }
@@ -314,9 +318,9 @@ public class DisplayInfo : MonoBehaviour {
                             {
                                 r.enabled = true;
                             }
-                            if (tempGameObjectThree != BM.SelectedCharacter && r.gameObject.name != "bloodParticle")
+                            if (tempGameObjectThree != BM.SelectedCharacter && r.gameObject.name != "bloodParticle" && r.gameObject.name != "FX_Shadow_01")
                             {
-                                r.color = color;
+                                r.color = newColor;
                             }
                             
                         }

@@ -213,6 +213,10 @@ public class BattleManager : MonoBehaviour
             else
             {
                 gameOver = false;
+                if (GC.GameState == 20)
+                {
+                    GC.GameState += 10;
+                }
                 GC.GameState += 10;
                 GC.FadeToLevel(0);
             }

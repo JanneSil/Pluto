@@ -68,6 +68,10 @@ public class CityManager : MonoBehaviour
         //mapUI = GameObject.Find("MapUI");
         //mapUI.SetActive(false);
 
+        musicStart = 0f;
+        musicFade = 2f;
+        startingMusic = false;
+
         citySelectionFatDude = GameObject.Find("City_Selection_Fatdude").GetComponent<SpriteRenderer>();
         citySelectionLianne = GameObject.Find("City_Selection_Lianne").GetComponent<SpriteRenderer>();
         citySelectionIbofang = GameObject.Find("City_Selection_ibo").GetComponent<SpriteRenderer>();
@@ -90,6 +94,7 @@ public class CityManager : MonoBehaviour
             blackScreen.enabled = true;
             blackScreenDialogue.enabled = true;
         }
+        Debug.Log("GameState is: " + GC.GameState);
 
     }
 
@@ -114,18 +119,49 @@ public class CityManager : MonoBehaviour
             }
         }
 
-        if (!startingMusic && GC.GameState == 20)
+        if (!startingMusic)
         {
-            if (musicStart < 1)
+            if (GC.GameState == 20)
             {
-                musicStart += Time.deltaTime / musicFade;
+                if (musicStart < 1)
+                {
+                    musicStart += Time.deltaTime / musicFade;
+                }
+                else
+                {
+                    GameObject.Find("Stultus1").GetComponent<DialogueTrigger>().TriggerDialogue();
+                    startingMusic = true;
+                }
             }
-            else
+
+            else if (GC.GameState == 40)
             {
-                GameObject.Find("Stultus1").GetComponent<DialogueTrigger>().TriggerDialogue();
-                startingMusic = true;
+                if (musicStart < 1)
+                {
+                    musicStart += Time.deltaTime / musicFade;
+                }
+                else
+                {
+                    GameObject.Find("DialogueAfterCombat1").GetComponent<DialogueTrigger>().TriggerDialogue();
+                    startingMusic = true;
+                }
+            }
+
+            else if (GC.GameState == 50)
+            {
+                if (musicStart < 1)
+                {
+                    musicStart += Time.deltaTime / musicFade;
+                }
+                else
+                {
+                    GameObject.Find("DialogueAfterCombat2").GetComponent<DialogueTrigger>().TriggerDialogue();
+                    startingMusic = true;
+                }
             }
         }
+
+
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -281,11 +317,19 @@ public class CityManager : MonoBehaviour
             leavingCity = false;
             GC.FadeToLevel(1);
         }
-        else
+        if (leavingCity && GC.GameState > 10 && GC.GameState < 40)
         {
             leavingCity = false;
             GC.FadeToLevel(2);
-
+        }
+        if (leavingCity && GC.GameState == 40)
+        {
+            leavingCity = false;
+            GC.FadeToLevel(3);
+        }
+        else
+        {
+            Debug.Log("Not Leaving");
         }
 
     }
@@ -307,6 +351,10 @@ public class CityManager : MonoBehaviour
                 blackScreenDialogue.color = Color.black;
                 DT = GameObject.Find("ExitDialogue1").GetComponent<DialogueTrigger>();
                 DT.TriggerDialogue();
+            }
+            else
+            {
+                DialogueUpdate();
             }
         }
         else

@@ -186,6 +186,12 @@ public class DialogueManager : MonoBehaviour {
             GameObject.Find("Ambient").GetComponent<AudioSource>().Play();
             
         }
+        if (GC.GameState == 50)
+        {
+            GameObject.Find("GameStartAnimation").SetActive(false);
+            GameObject.Find("GameStartAnimation").SetActive(true);
+        }
+
 
         if (exiting)
         {

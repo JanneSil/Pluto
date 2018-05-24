@@ -100,6 +100,8 @@ public class Character : MonoBehaviour
     private Image ActionPoint3;
     private Image ActionPoint4;
 
+    private Color newColor = new Color32(130, 52, 52, 255);
+
     //Unity functions
     void Start()
     {
@@ -415,13 +417,13 @@ public class Character : MonoBehaviour
             r.enabled = true;
             if (Player)
             {
-                if (r.gameObject.name == "bloodParticle")
+                if (r.gameObject.name == "bloodParticle" || r.gameObject.name != "FX_Shadow_01")
                 {
                     
                 }
                 else
                 {
-                    r.color = Color.green;
+                    r.color = newColor;
                 }
             }
             
