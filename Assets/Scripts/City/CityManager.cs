@@ -94,7 +94,11 @@ public class CityManager : MonoBehaviour
             blackScreen.enabled = true;
             blackScreenDialogue.enabled = true;
         }
-        Debug.Log("GameState is: " + GC.GameState);
+        else
+        {
+            GameObject.Find("Music").GetComponent<AudioSource>().Play();
+            GameObject.Find("Ambient").GetComponent<AudioSource>().Play();
+        }
 
     }
 
@@ -329,7 +333,7 @@ public class CityManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Not Leaving");
+            
         }
 
     }
