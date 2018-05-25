@@ -54,24 +54,24 @@ public class DialogueManager : MonoBehaviour {
         yesButton = GameObject.Find("YesButtonDialogue");
         continueButton = GameObject.Find("ContinueButtonDialogue");
         noButton = GameObject.Find("NoButtonDialogue");
-        skipDebugButton = GameObject.Find("SkipDialogueDebug");
+        //skipDebugButton = GameObject.Find("SkipDialogueDebug");
         skipButtonText = GameObject.Find("SkipButtonText").GetComponent<Text>();
         skipButton.SetActive(false);
         yesButton.SetActive(false);
         noButton.SetActive(false);
         continueButton.SetActive(true);
 
-        skipDebugButton.SetActive(false);
+        //skipDebugButton.SetActive(false);
     }
 
 	public void StartDialogue (Dialogue dialogue)
 	{
         animator.SetBool("IsOpen", true);
-        if (skipDebugButton == null)
-        {
-            skipDebugButton = GameObject.Find("SkipDialogueDebug");
-        }
-        skipDebugButton.SetActive(true);
+        //if (skipDebugButton == null)
+        //{
+        //    skipDebugButton = GameObject.Find("SkipDialogueDebug");
+        //}
+        //skipDebugButton.SetActive(true);
 
         OtherSpeaker = dialogue.AnotherSpeaker;
         if (dialogue.NextDialogue != null)
@@ -191,7 +191,7 @@ public class DialogueManager : MonoBehaviour {
             GameObject.Find(otherName + "Icon").GetComponent<Image>().enabled = false;
         }
 
-        skipDebugButton.SetActive(false);
+        //skipDebugButton.SetActive(false);
         animator.SetBool("IsOpen", false);
         blackScreenDialogue.color = Color.clear;
         blackScreenDialogue.gameObject.SetActive(false);

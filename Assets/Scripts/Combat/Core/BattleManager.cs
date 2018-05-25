@@ -1261,10 +1261,13 @@ public class BattleManager : MonoBehaviour
 
         for (int i = 0; i < ActionList.Count; ++i)
         {
-            GameObject currentObject = GameObject.Find("TurnOrderPos" + (i + 2));
-            Image currentPortrait = GameObject.Find("Portrait" + ActionList[i].Agent.GetComponent<Character>().Name).GetComponent<Image>();
-            currentPortrait.enabled = true;
-            currentPortrait.transform.position = currentObject.transform.position;
+            if (ActionList[i].Agent != null)
+            {
+                GameObject currentObject = GameObject.Find("TurnOrderPos" + (i + 2));
+                Image currentPortrait = GameObject.Find("Portrait" + ActionList[i].Agent.GetComponent<Character>().Name).GetComponent<Image>();
+                currentPortrait.enabled = true;
+                currentPortrait.transform.position = currentObject.transform.position;
+            }
         }
 
     }
@@ -1538,8 +1541,12 @@ public class BattleManager : MonoBehaviour
                             }
                         }
                         CA.CameraReset();
-                        Image thisPortrait = GameObject.Find("Portrait" + ActionList[nextActionIndex].Agent.GetComponent<Character>().Name).GetComponent<Image>();
-                        thisPortrait.enabled = false;
+                        if (ActionList[nextActionIndex].Agent != null)
+                        {
+                            Image thisPortrait = GameObject.Find("Portrait" + ActionList[nextActionIndex].Agent.GetComponent<Character>().Name).GetComponent<Image>();
+                            thisPortrait.enabled = false;
+                        }
+
                         //GameObject currentObject;
                         //GameObject currentTempPortrait;
 
@@ -1563,8 +1570,8 @@ public class BattleManager : MonoBehaviour
 
                     if (ActionList[nextActionIndex].Agent == null)
                     {
-                        Image thisPortrait = GameObject.Find("Portrait" + ActionList[nextActionIndex].Agent.GetComponent<Character>().Name).GetComponent<Image>();
-                        thisPortrait.enabled = false;
+                       // Image thisPortrait = GameObject.Find("Portrait" + ActionList[nextActionIndex].Agent.GetComponent<Character>().Name).GetComponent<Image>();
+                        //thisPortrait.enabled = false;
                         actionDelayRemaining = 0f;
                         cameraWait = 0f;
                     }
