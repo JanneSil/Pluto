@@ -891,6 +891,7 @@ public class BattleManager : MonoBehaviour
                 EnemyLanes[i] = Instantiate(EnemyLanes[i], EnemyLanePos[i], transform.rotation) as GameObject;
                 EnemyLanes[i].GetComponent<Character>().LanePos = i;
                 EnemyLanes[i].GetComponent<Character>().Player = false;
+                EnemyLanes[i].GetComponent<Character>().Speed = Random.Range(40, 50);
                 components = EnemyLanes[i].GetComponentsInChildren<SpriteMeshInstance>();
 
                 foreach (SpriteMeshInstance spritemesh in components)
@@ -908,6 +909,7 @@ public class BattleManager : MonoBehaviour
                 PlayerLanes[i] = Instantiate(PlayerLanes[i], PlayerLanePos[i], transform.rotation) as GameObject;
                 PlayerLanes[i].GetComponent<Character>().LanePos = i;
                 PlayerLanes[i].GetComponent<Character>().Player = true;
+                PlayerLanes[i].GetComponent<Character>().Speed = Random.Range(40, 50);
                 components = PlayerLanes[i].transform.Find("Normal").GetComponentsInChildren<SpriteMeshInstance>();
 
                 foreach (SpriteMeshInstance spritemesh in components)
@@ -964,6 +966,7 @@ public class BattleManager : MonoBehaviour
                 PlayerLanes[i].GetComponent<Character>().UsingSkill = false;
                 PlayerLanes[i].GetComponent<Character>().SkillBeingUsed = "";
                 PlayerLanes[i].GetComponent<Character>().SwitchingPlaces = false;
+                PlayerLanes[i].GetComponent<Character>().Speed = Random.Range(40, 50);
 
                 PlayerLanes[i].GetComponent<Character>().AvailableStamina = PlayerLanes[i].GetComponent<Character>().StaminaPoints;
             }
@@ -990,6 +993,7 @@ public class BattleManager : MonoBehaviour
                 PlayerTankLanes[i].GetComponent<Character>().Moving = false;
                 PlayerTankLanes[i].GetComponent<Character>().Resting = false;
                 PlayerTankLanes[i].GetComponent<Character>().SwitchingPlaces = false;
+                PlayerTankLanes[i].GetComponent<Character>().Speed = Random.Range(40, 50);
 
                 PlayerTankLanes[i].GetComponent<Character>().AvailableStamina = PlayerTankLanes[i].GetComponent<Character>().StaminaPoints;
 
@@ -1041,6 +1045,7 @@ public class BattleManager : MonoBehaviour
                     EnemyLanes[i].GetComponent<Animator>().SetBool("RaiseGuard", false);
                     EnemyLanes[i].GetComponent<Character>().Moving = false;
                     EnemyLanes[i].GetComponent<Character>().Resting = false;
+                    EnemyLanes[i].GetComponent<Character>().Speed = Random.Range(40, 50);
 
                     EnemyLanes[i].GetComponent<Character>().AvailableStamina = EnemyLanes[i].GetComponent<Character>().StaminaPoints;
                 }

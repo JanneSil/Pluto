@@ -170,7 +170,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -303, y: -729.4999}
+  m_AnchoredPosition: {x: -303, y: -723}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &15077913
@@ -2543,7 +2543,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1201, y: 733.9999}
+  m_AnchoredPosition: {x: 1197, y: 718}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &273028446
@@ -2688,7 +2688,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -303, y: 140}
+  m_AnchoredPosition: {x: -303, y: 150}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &281474156
@@ -4188,6 +4188,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1022227279}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &390505740
@@ -5333,7 +5344,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -303, y: -154}
+  m_AnchoredPosition: {x: -303, y: -142}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &458868946
@@ -7267,7 +7278,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1201, y: 139.99998}
+  m_AnchoredPosition: {x: 1197, y: 132}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &623104056
@@ -7471,6 +7482,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 8300000, guid: 7cb95ad0bf11b0c44a207d36c0887dab,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1855737209}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8957,7 +8979,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1201, y: -435.00012}
+  m_AnchoredPosition: {x: 1197, y: -443}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &765317049
@@ -9395,6 +9417,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1773713311}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &803716581
@@ -9686,7 +9719,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &822167721
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11073,7 +11106,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -849, y: -179.00006}
+  m_AnchoredPosition: {x: 0.000015258789, y: -323}
   m_SizeDelta: {x: 288, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &914530621
@@ -11116,7 +11149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11988,6 +12021,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1019171229}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1010905199
@@ -12148,7 +12192,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -303, y: -435}
+  m_AnchoredPosition: {x: -303, y: -433}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1014134121
@@ -12318,7 +12362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a8a4c0f07fe0b4eb58d67395b821d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetX: 130
+  offsetX: 190
   offsetY: -100
 --- !u!114 &1019171233
 MonoBehaviour:
@@ -12333,7 +12377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -12407,7 +12451,7 @@ MonoBehaviour:
   m_Script: {fileID: 1573420865, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
 --- !u!114 &1022227282
@@ -12436,7 +12480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -14220,7 +14264,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 163.59985, y: 26.900002}
+  m_AnchoredPosition: {x: 163.59985, y: 24.099998}
   m_SizeDelta: {x: 364.75, y: 195.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1143634447
@@ -16581,7 +16625,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1201, y: 436.99957}
+  m_AnchoredPosition: {x: 1197, y: 424}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1399163122
@@ -16890,7 +16934,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -107}
+  m_AnchoredPosition: {x: 0, y: -40.399994}
   m_SizeDelta: {x: 230, y: 77}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1442458643
@@ -17108,7 +17152,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1201, y: -729.5001}
+  m_AnchoredPosition: {x: 1197, y: -735}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1456737440
@@ -17176,7 +17220,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -303, y: 437}
+  m_AnchoredPosition: {x: -303, y: 443}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1466788008
@@ -20627,7 +20671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1201, y: -154.00009}
+  m_AnchoredPosition: {x: 1197, y: -160}
   m_SizeDelta: {x: 1074, y: 299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1747118713
@@ -20914,7 +20958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offsetX: 40
-  offsetY: -60
+  offsetY: -75
 --- !u!114 &1773713314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20928,7 +20972,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -21200,7 +21244,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.9338235, g: 0.9338235, b: 0.9338235, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -21500,7 +21544,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -509, y: -318}
+  m_AnchoredPosition: {x: -130, y: -546}
   m_SizeDelta: {x: 288, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1855737211
@@ -21514,8 +21558,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a8a4c0f07fe0b4eb58d67395b821d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetX: -100
-  offsetY: 60
+  offsetX: 0
+  offsetY: 200
 --- !u!114 &1855737212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21529,7 +21573,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -21958,6 +22002,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 8300000, guid: 7cb95ad0bf11b0c44a207d36c0887dab,
             type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 914530619}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -23295,7 +23350,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 163.60007, y: -70.5}
+  m_AnchoredPosition: {x: 163.60007, y: -71.2}
   m_SizeDelta: {x: 364.75, y: 195.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2018404050

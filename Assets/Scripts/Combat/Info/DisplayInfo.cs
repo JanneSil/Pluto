@@ -30,7 +30,8 @@ public class DisplayInfo : MonoBehaviour {
     private Color greenOtherColor = Color.green;
     private Color grayColor = Color.gray;
     private Color redColor = Color.red;
-    private Color newColor = new Color32(130, 52, 52, 255);
+    private Color newColor = new Color32(110, 167, 87, 255);
+    private Color newEnemyColor = new Color32(176, 44, 44, 255);
 
 
     // Use this for initialization
@@ -69,7 +70,7 @@ public class DisplayInfo : MonoBehaviour {
                             if (r.gameObject.name == "Target")
                             {
                                 r.enabled = false;
-                                r.color = Color.red;
+                                r.color = newEnemyColor;
                             }
                             
                         }
@@ -86,7 +87,7 @@ public class DisplayInfo : MonoBehaviour {
                             if (r.gameObject.name == "Target")
                             {
                                 r.enabled = true;
-                                r.color = Color.red;
+                                r.color = newEnemyColor;
                             }
 
                         }
@@ -108,7 +109,7 @@ public class DisplayInfo : MonoBehaviour {
                             if (r.gameObject.name == "Target")
                             {
                                 r.enabled = false;
-                                r.color = Color.red;
+                                r.color = newEnemyColor;
                             }
 
                         }

@@ -100,7 +100,8 @@ public class Character : MonoBehaviour
     private Image ActionPoint3;
     private Image ActionPoint4;
 
-    private Color newColor = new Color32(130, 52, 52, 255);
+    private Color newColor = new Color32(110, 167, 87, 255);
+    private Color newEnemyColor = new Color32(132, 59, 59, 255);
 
     //Unity functions
     void Start()
