@@ -879,6 +879,23 @@ MonoBehaviour:
     - I need to see Parvati.
     - Only way to find a dead god is to talk to alive one.
     OtherSentences: []
+--- !u!1 &244658227 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1049792436287962, guid: 6f35ccc00f4dd5c4dac1c8a185a741fc,
+    type: 2}
+  m_PrefabInternal: {fileID: 809103093}
+--- !u!65 &244658229
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 244658227}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20.01011, y: 11.291204, z: 6.0383973}
+  m_Center: {x: -0.16080673, y: 0.107197315, z: 5}
 --- !u!1 &250083738
 GameObject:
   m_ObjectHideFlags: 0
@@ -1336,6 +1353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 344030572}
   - component: {fileID: 344030573}
+  - component: {fileID: 344030574}
   m_Layer: 0
   m_Name: GameStartAnimation
   m_TagString: Untagged
@@ -1374,6 +1392,17 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &344030574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 344030571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b06d4006563544746882ff94b84d21f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &352828882
 GameObject:
   m_ObjectHideFlags: 0
@@ -3488,7 +3517,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -2.8, y: -23.2}
+  m_AnchoredPosition: {x: -2.8000002, y: -23.2}
   m_SizeDelta: {x: 112.3, y: 47}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &731707087
@@ -3810,6 +3839,22 @@ Prefab:
     - target: {fileID: 4633144003695518, guid: 6f35ccc00f4dd5c4dac1c8a185a741fc, type: 2}
       propertyPath: m_LocalPosition.z
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395841952501358, guid: 6f35ccc00f4dd5c4dac1c8a185a741fc, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778337102710020, guid: 6f35ccc00f4dd5c4dac1c8a185a741fc, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1732866752580142, guid: 6f35ccc00f4dd5c4dac1c8a185a741fc, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1841041921802586, guid: 6f35ccc00f4dd5c4dac1c8a185a741fc, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6f35ccc00f4dd5c4dac1c8a185a741fc, type: 2}
@@ -4697,23 +4742,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1026381979 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1833912734484760, guid: 6f35ccc00f4dd5c4dac1c8a185a741fc,
-    type: 2}
-  m_PrefabInternal: {fileID: 809103093}
---- !u!65 &1026381982
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1026381979}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 19.2, y: 10.8, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1032739308
 GameObject:
   m_ObjectHideFlags: 0

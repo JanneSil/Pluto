@@ -87,6 +87,7 @@ public class BattleManager : MonoBehaviour
     private bool removeMovement;
     private bool doOnceActionHighlight;
     private bool gameResultDone;
+    private bool battleLost;
     public GameObject IbofangTarget1;
     public GameObject IbofangTarget2;
     public GameObject IbofangTarget3;
@@ -96,6 +97,9 @@ public class BattleManager : MonoBehaviour
 
     private Vector3 attackOffset = new Vector3(2,0,0);
     private Vector3 attackTankOffset = new Vector3(4, 0, 0);
+
+    private Color newAllyColor = new Color32(110, 167, 87, 255);
+    private Color newEnemyColor = new Color32(132, 59, 59, 255);
 
 
     //UI buttons
@@ -113,7 +117,7 @@ public class BattleManager : MonoBehaviour
 
     //UI other
     private float musicStart = 0f;
-    private float musicFade = 5f;
+    private float musicFade = 3f;
     private bool startingMusic;
     private bool gameOverBool;
 
@@ -186,21 +190,23 @@ public class BattleManager : MonoBehaviour
             if (EnemyLanes[0] == null && EnemyLanes[1] == null && EnemyLanes[2] == null && EnemyLanes[3] == null && EnemyLanes[4] == null && EnemyLanes[5] == null)
             {
                 gameOver = true;
-                InfoText.text = "You Win!";
-                InfoText.color = Color.green;
+                //InfoText.text = "You Win!";
+                //InfoText.color = Color.green;
                 endTurnButton.SetActive(false);
-                GameObject.Find("GameOver").gameObject.GetComponent<AudioSource>().Play();
+               //GameObject.Find("GameOver").gameObject.GetComponent<AudioSource>().Play();
                 musicStart = 0;
+                battleLost = false;
 
             }
             if (PlayerLanes[0] == null && PlayerLanes[1] == null && PlayerLanes[2] == null && PlayerLanes[3] == null && PlayerLanes[4] == null && PlayerLanes[5] == null)
             {
                 gameOver = true;
-                InfoText.text = "You Lose!";
-                InfoText.color = Color.red;
+                //InfoText.text = "You Lose!";
+                //InfoText.color = Color.red;
                 endTurnButton.SetActive(false);
-                GameObject.Find("GameOver").gameObject.GetComponent<AudioSource>().Play();
+                //GameObject.Find("GameOver").gameObject.GetComponent<AudioSource>().Play();
                 musicStart = 0;
+                battleLost = true;
             }
         }
 
@@ -220,7 +226,14 @@ public class BattleManager : MonoBehaviour
                     GC.GameState += 10;
                 }
                 GC.GameState += 10;
-                GC.FadeToLevel(0);
+                if (battleLost)
+                {
+                    GC.FadeToLevel(4);
+                }
+                else
+                {
+                    GC.FadeToLevel(0);
+                }
             }
         }
 
@@ -1271,7 +1284,7 @@ public class BattleManager : MonoBehaviour
                         {
                             if (r.gameObject.name == "Target")
                             {
-                                r.color = Color.green;
+                                r.color = newAllyColor;
                                 r.enabled = true;
                             }
 
@@ -1280,7 +1293,7 @@ public class BattleManager : MonoBehaviour
                         {
                             if (r.gameObject.name == "Target")
                             {
-                                r.color = Color.red;
+                                r.color = newEnemyColor;
                                 r.enabled = true;
                             }
 
@@ -1413,6 +1426,25 @@ public class BattleManager : MonoBehaviour
                             else
                             {
                                 CA.MoveAttack(ActionList[nextActionIndex].Agent, ActionList[nextActionIndex].Target, ActionDelay * 0.9f, attackOffset);
+                            }
+                        }
+                        foreach (SpriteRenderer r in ActionList[nextActionIndex].Agent.GetComponentsInChildren<SpriteRenderer>())
+                        {
+                            if (r.gameObject.name == "Target")
+                            {
+                                r.enabled = false;
+                            }
+
+                        }
+                        if (ActionList[nextActionIndex].Target != null)
+                        {
+                            foreach (SpriteRenderer r in ActionList[nextActionIndex].Target.GetComponentsInChildren<SpriteRenderer>())
+                            {
+                                if (r.gameObject.name == "Target")
+                                {
+                                    r.enabled = false;
+                                }
+
                             }
                         }
                         characterMoved = true;

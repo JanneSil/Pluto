@@ -121,6 +121,14 @@ public class Character : MonoBehaviour
         {
             if (r.gameObject.name == "Target")
             {
+                if (Player)
+                {
+                    r.color = newColor;
+                }
+                else
+                {
+                    r.color = newEnemyColor;
+                }
                 r.enabled = false;
             }
         }
