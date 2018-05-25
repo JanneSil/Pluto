@@ -26,8 +26,9 @@ public class DisplayInfo : MonoBehaviour {
     private int dexterity;
     public Vector3 offset;
 
-    private Color greenColor = Color.green;
-    private Color greenOtherColor = Color.green;
+    private Color greenColor = new Color32(165, 144, 118, 255);
+    private Color greenOtherColor = new Color32(165, 144, 118, 255);
+    private Color orangeColor = new Color32(255, 153, 60, 255);
     private Color grayColor = Color.gray;
     private Color redColor = Color.red;
     private Color newColor = new Color32(110, 167, 87, 255);
@@ -37,15 +38,15 @@ public class DisplayInfo : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
-        greenColor.a = 0.40f;
-        grayColor.a = 0.40f;
-        redColor.a = 0.40f;
-        greenOtherColor.a = 0.60f;
+        greenColor.a = 0.30f;
+        //grayColor.a = 0.40f;
+        //redColor.a = 0.40f;
+        greenOtherColor.a = 0.40f;
         BM = GameObject.Find("BattleManager").GetComponent<BattleManager>();
         hoverInfo = GameObject.Find("HoverInfo");
         infoText = hoverInfo.GetComponentInChildren<Text>();
         color = Color.green;
-        color.a = 0.5f;
+        //color.a = 0.5f;
         hoverInfo.SetActive(false);
 
     }

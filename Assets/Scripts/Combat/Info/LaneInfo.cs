@@ -16,7 +16,7 @@ public class LaneInfo : MonoBehaviour {
     private SpriteRenderer laneColor;
     private BattleManager BM;
 
-    private Color greenColor = Color.green;
+    private Color greenColor = new Color32(165, 144, 118, 255);
     private Color grayColor = Color.gray;
     private Color redColor = Color.red;
 
